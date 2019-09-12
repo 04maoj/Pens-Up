@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 public class Login_button : MonoBehaviour
 {
     [SerializeField] GameObject password;
     [SerializeField] GameObject user_name;
     [SerializeField] GameObject warming_text;
-    // Start is called before the first frame update
     StreamReader myReader;
     void Start()
     {
@@ -16,12 +16,10 @@ public class Login_button : MonoBehaviour
         myReader = new StreamReader(path);
         warming_text.SetActive(false);
     }
-
-    // Update is called once per frame
     public bool check_Passwor()
     {
-        string user = user_name.GetComponent<UnityEngine.UI.Text>().text;
-        string pass = password.GetComponent<UnityEngine.UI.Text>().text;
+        string user = user_name.GetComponent<InputField>().text;
+        string pass = password.GetComponent<InputField>().text;
         string line = myReader.ReadLine();
         while(line != null) {
             string[] temp = line.Split(' ');
@@ -42,11 +40,16 @@ public class Login_button : MonoBehaviour
         if(check_Passwor())
         {
             SceneLoader manager = FindObjectOfType<SceneLoader>();
-            manager.LoadScence(4);
+            manager.LoadScence(5);
         }
         else
         {
             warming_text.SetActive(true);
         }
+    }
+    public void Register()
+    {
+        SceneLoader manager = FindObjectOfType<SceneLoader>();
+        manager.LoadScence(3);
     }
 }
