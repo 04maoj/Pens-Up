@@ -22,9 +22,16 @@ public class Alphabate_manager : MonoBehaviour
         {
             Debug.Log("Suucess");
             finished = true;
+            LoadFinish();
             return;
         }
         if (childrens.Contains(index))
             childrens.Remove(index);
+    }
+
+    //to be implmented get the info from TrackManagement and store the stroke data in some form of inputs.
+    void LoadFinish()
+    {
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Track_manager : MonoBehaviour
 {
@@ -8,9 +9,11 @@ public class Track_manager : MonoBehaviour
     public GameObject current;
     Vector3 start;
     Plane objPlane;
+    List<List<Tuple<float, float>>> strokes;
     private void Start()
     {
         objPlane = new Plane(Camera.main.transform.forward * -1, this.transform.position);
+        strokes = new List<List<Tuple<float, float>>>();
     }
     void Update()
     {   
@@ -41,5 +44,18 @@ public class Track_manager : MonoBehaviour
                 Destroy(current);
             }
         }
+    }
+    public void Insert_Strok(List<Tuple<float, float>> input)
+    {
+        strokes.Add(input);
+    }
+
+    public List<List<Tuple<float, float>>> GiveStrokes()
+    {
+        return strokes;
+    }
+    public void RemoveStrokes()
+    {
+        strokes.Clear();
     }
 }
