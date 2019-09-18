@@ -85,4 +85,19 @@ public class Track_manager : MonoBehaviour
     {
         strokes.Clear();
     }
+
+    public void Replay(){
+        string path = "Assets/Standards/" + stroke_to_record;
+        string line = "";
+        string[] temp = new string[2];
+        float[] coordinate = new float[2];
+        StreamReader sr = new StreamReader(path);
+        line = sr.ReadLine();
+        while (line != null){
+            temp = line.Split(' ');
+            for (int i = 0; i < temp.Length; i++){
+                coordinate[i] = float.Parse(temp[i]);
+            }
+        }
+    }
 }
