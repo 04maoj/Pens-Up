@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using System.IO;
 public class Track_manager : MonoBehaviour
 {
+    [SerializeField] bool record_mode = false;
+    [SerializeField] string stroke_to_record;
     public GameObject prefabs ;
     public GameObject current;
     Vector3 start;
     Plane objPlane;
     List<List<Tuple<float, float>>> strokes;
-    private void Start()
-    {
+    Stack<int> order;
+    float total_diviation = 0;
+    int total_deviation = 0;
+   
+     private void Start() {
         objPlane = new Plane(Camera.main.transform.forward * -1, this.transform.position);
         strokes = new List<List<Tuple<float, float>>>();
     }
@@ -48,8 +53,30 @@ public class Track_manager : MonoBehaviour
     public void Insert_Strok(List<Tuple<float, float>> input)
     {
         strokes.Add(input);
+        if(record_mode) {
+            string path = "Assets/Standards/" + stroke_to_record;
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                for(int i = 0; i < input.Count; i ++) {
+                    sw.WriteLine(input[i].Item1+ " " + input[i].Item2);
+                }
+                Debug.Log("Done");
+            }
+        }
+        else
+        {
+            Assessment tester = GetComponent<Assessment>();
+            tester.Load_Standard(stroke_to_record);
+            total_diviation += tester.compare_Deviation(input);
+            Debug.Log(total_diviation);
+        }
     }
 
+    public void Clear_All()
+    {
+        RemoveStrokes();
+        total_diviation = 0;
+    }
     public List<List<Tuple<float, float>>> GiveStrokes()
     {
         return strokes;
