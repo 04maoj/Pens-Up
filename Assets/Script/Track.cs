@@ -66,6 +66,6 @@ public class Track : MonoBehaviour
                 manger.Insert_Strok(corrdinates);
             }
         }
-
+        
     }
 }

@@ -6,6 +6,7 @@ using System.IO;
 public class Track_manager : MonoBehaviour
 {
     [SerializeField] bool record_mode = false;
+    // public bool replayMode = false;
     [SerializeField] string stroke_to_record;
     public GameObject prefabs ;
     public GameObject current;
@@ -13,6 +14,7 @@ public class Track_manager : MonoBehaviour
     Plane objPlane;
     List<List<Tuple<float, float>>> strokes;
     Stack<int> order;
+    private float seperateValue = 20f;
     float total_diviation = 0;
     int total_deviation = 0;
    
@@ -55,13 +57,23 @@ public class Track_manager : MonoBehaviour
         strokes.Add(input);
         if(record_mode) {
             string path = "Assets/Standards/" + stroke_to_record;
-            using (StreamWriter sw = File.AppendText(path))
-            {
-                for(int i = 0; i < input.Count; i ++) {
-                    sw.WriteLine(input[i].Item1+ " " + input[i].Item2);
-                }
-                Debug.Log("Done");
+            // if(File.Exists(path)){
+            //     File.Delete(path);
+            // }
+            StreamWriter sw = File.AppendText(path);
+            for (int i = 0; i < input.Count; i ++) {
+                sw.WriteLine(input[i].Item1+ " " + input[i].Item2);
             }
+            // Seperate strokes.
+            // sw.WriteLine("0 0");
+            sw.Close();
+            Debug.Log("Done");
+            // String[] lines = new String[input.Count];
+            // for(int i = 0; i < input.Count; i++){
+            //     lines[i] = input[i].Item1+ " " + input[i].Item2;
+            // }
+            // File.WriteAllLines(path, lines);
+            // Debug.Log("Stroke Recorded.");
         }
         else
         {
@@ -86,18 +98,35 @@ public class Track_manager : MonoBehaviour
         strokes.Clear();
     }
 
-    public void Replay(){
-        string path = "Assets/Standards/" + stroke_to_record;
-        string line = "";
-        string[] temp = new string[2];
-        float[] coordinate = new float[2];
-        StreamReader sr = new StreamReader(path);
-        line = sr.ReadLine();
-        while (line != null){
-            temp = line.Split(' ');
-            for (int i = 0; i < temp.Length; i++){
-                coordinate[i] = float.Parse(temp[i]);
-            }
-        }
-    }
+    // public List<List<Tuple<float, float>>> GetStrokes(){
+    //     string path = "Assets/Standards/" + stroke_to_record;
+    //     string line = "";
+    //     string[] temp = new string[2];
+    //     Tuple<float, float> coordinate = null;
+    //     List<List<Tuple<float, float>>> paints = new List<List<Tuple<float, float>>>();
+    //     List<Tuple<float, float>> paint = new List<Tuple<float, float>>();
+    //     StreamReader sr = new StreamReader(path);
+    //     line = sr.ReadLine();
+    //     float preX = -1f;
+    //     float preY = -1f;
+    //     float currentX = 0f;
+    //     float currentY = 0f;
+    //     while (line != null){
+    //         temp = line.Split(' ');
+    //         currentX = float.Parse(temp[0]);
+    //         currentY = float.Parse(temp[1]);
+    //         // New stroke
+    //         if (Math.Abs(currentX - preX) > seperateValue || Math.Abs(currentY - preY) > seperateValue){
+    //             paints.Add(paint);
+    //             paint = new List<Tuple<float, float>>();
+    //         }
+    //         coordinate = new Tuple<float, float>(currentX, currentY);
+    //         paint.Add(coordinate);
+    //         preX = currentX;
+    //         preY = currentY;
+    //     }
+    //     paints.Add(paint);
+    //     sr.Close();
+    //     return paints;
+    // }
 }
