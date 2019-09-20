@@ -6,6 +6,8 @@ public class Track : MonoBehaviour
 {
     private Plane objPlane;
     private bool eneded = false;
+    private int stroke_number;
+    private string alphbate;
     private Track_manager manger;
     private List<Tuple<float,float>> corrdinates;
     Ray Generate_Ray(Vector3 touchPosit) {
@@ -23,6 +25,15 @@ public class Track : MonoBehaviour
         objPlane = new Plane(Camera.main.transform.forward * -1, transform.position);
         eneded = false;
         corrdinates = new List<Tuple<float, float>>();
+        stroke_number = -1;
+    }
+    public int Get_Stroke_Number()
+    {
+        return stroke_number;
+    }
+    public string Get_Current_Alphabate()
+    {
+        return alphbate;
     }
     void Update()
     {   
@@ -56,7 +67,34 @@ public class Track : MonoBehaviour
                     if (test_hit.collider != null)
                     {
                         if (test_hit.collider.GetComponent<Hit_Box>() != null)
-                            test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
+                        {
+                            Tuple<List<int>,string> val= test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
+                            //No stroke at the moment.
+                            if (stroke_number == -1 && val.Item1.Count > 1)
+                            {
+                                //stroke_number = val.Item1;
+                                alphbate = val.Item2;
+                            }
+                            else if (stroke_number == -1)
+                            {
+                                stroke_number = val.Item1[0];
+                                alphbate = val.Item2;
+                            }
+                            else
+                            {
+                                bool possible = false;
+                                for(int i  = 0; i < val.Item1.Count; i ++)
+                                {
+                                    if (stroke_number == val.Item1[i])
+                                        possible = true;
+                                }
+                                if(!possible)
+                                {
+                                    Debug.Log("Not in the same stroke!");
+                                    Destroy(gameObject);
+                                }
+                            }
+                        }
                     }
                 }
             }

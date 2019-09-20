@@ -46,9 +46,12 @@ public class Track_manager : MonoBehaviour
         }
         else if((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
         {
-            if(Vector3.Distance(current.transform.position,start) < 0.1)
-            {
-                Destroy(current);
+            if(current != null) {
+
+                if (Vector3.Distance(current.transform.position, start) < 0.1)
+                {
+                    Destroy(current);
+                }
             }
         }
     }
@@ -78,7 +81,13 @@ public class Track_manager : MonoBehaviour
         else
         {
             Assessment tester = GetComponent<Assessment>();
-            tester.Load_Standard(stroke_to_record);
+            if(current.GetComponent<Track>().Get_Stroke_Number() == -1)
+            {
+                Debug.Log("Negative Marks");
+                return;
+            }
+            Debug.Log(current.GetComponent<Track>().Get_Current_Alphabate() + current.GetComponent<Track>().Get_Stroke_Number());
+            tester.Load_Standard(current.GetComponent<Track>().Get_Current_Alphabate() + current.GetComponent<Track>().Get_Stroke_Number());
             total_diviation += tester.compare_Deviation(input);
             Debug.Log(total_diviation);
         }
