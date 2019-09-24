@@ -7,16 +7,17 @@ public class Track : MonoBehaviour
     private Plane objPlane;
     private bool eneded = false;
     private int stroke_number;
-    private string alphbate;
+    private Alphabate_manager alphbate;
     private Track_manager manger;
     private List<Tuple<float,float>> corrdinates;
+    private float init_x;
+    private float init_y;
     Ray Generate_Ray(Vector3 touchPosit) {
         Vector3 mousePosFar = new Vector3(touchPosit.x, touchPosit.y, Camera.main.farClipPlane);
         Vector3 mousePosNear = new Vector3(touchPosit.x, touchPosit.y, Camera.main.nearClipPlane);
         Vector3 mousePosF = Camera.main.ScreenToWorldPoint(mousePosFar);
         Vector3 mousePosN = Camera.main.ScreenToWorldPoint(mousePosNear);
         return new Ray(mousePosN, mousePosF - mousePosN);
-        
     }
 
     private void Start()
@@ -31,7 +32,7 @@ public class Track : MonoBehaviour
     {
         return stroke_number;
     }
-    public string Get_Current_Alphabate()
+    public Alphabate_manager Get_Current_Alphabate()
     {
         return alphbate;
     }
@@ -44,6 +45,8 @@ public class Track : MonoBehaviour
                 //lets only include the corrdinates if it is 1 unit > than the last stored one.
                 if(corrdinates.Count == 0)
                 {
+                    init_x = Input.mousePosition.x;
+                    init_y = Input.mousePosition.y;
                     corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x, Input.mousePosition.y));
                 }
                 else
@@ -53,7 +56,7 @@ public class Track : MonoBehaviour
                     float diff_y = Input.mousePosition.y - corrdinates[corrdinates.Count - 1].Item2;
                     diff_y *= diff_y;
                     if(Math.Sqrt(diff_x + diff_y) >= 1)
-                        corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x, Input.mousePosition.y));
+                        corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x - init_x, Input.mousePosition.y - init_y));
                 }
 
                 Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -68,11 +71,9 @@ public class Track : MonoBehaviour
                     {
                         if (test_hit.collider.GetComponent<Hit_Box>() != null)
                         {
-                            Tuple<List<int>,string> val= test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
-                            //No stroke at the moment.
+                            Tuple<List<int>, Alphabate_manager> val= test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
                             if (stroke_number == -1 && val.Item1.Count > 1)
                             {
-                                //stroke_number = val.Item1;
                                 alphbate = val.Item2;
                             }
                             else if (stroke_number == -1)
@@ -90,18 +91,22 @@ public class Track : MonoBehaviour
                                 }
                                 if(!possible)
                                 {
-                                    Debug.Log("Not in the same stroke!");
+                                    manger.Not_Same();
                                     Destroy(gameObject);
                                 }
                             }
+                        } else if(test_hit.collider.tag == "Boarders") {
+                            manger.HitBoarders();
                         }
+
                     }
                 }
             }
             else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 eneded = true;
-                manger.Insert_Strok(corrdinates);
+                manger.Insert_Strok(corrdinates,alphbate);
+
             }
         }
         

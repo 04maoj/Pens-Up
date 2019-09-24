@@ -7,17 +7,12 @@ public class Alphabate_manager : MonoBehaviour
     [SerializeField] int stroke_number;
     [SerializeField] int total_score;
     [SerializeField] string strokeName;
-
-
     [SerializeField] int double_write_penalities = 3;
-
     private HashSet<int> childrens;
     private HashSet<int> visite_stroke;
     private Stack<int> traverse_order;
-
-
     private bool finished;
-   
+    int expected_stroke;
      private void Start()
     {
         total_score = 0;
@@ -29,6 +24,7 @@ public class Alphabate_manager : MonoBehaviour
         {
             childrens.Add(i);
         }
+        expected_stroke = 0;
     }
     public string Get_Strok_Name()
     {
@@ -39,10 +35,6 @@ public class Alphabate_manager : MonoBehaviour
         if (childrens.Contains(index))
         {
             childrens.Remove(index);
-            //if(visite_stroke.Contains(stroke))
-            //{
-            //    double_write_penalities -= 1;
-            //}
             traverse_order.Push(index);
         }
         if (childrens.Count == 0 && !finished)
@@ -51,6 +43,18 @@ public class Alphabate_manager : MonoBehaviour
             finished = true;
             return;
         }
+    }
+    public bool finish()
+    {
+        return finished;
+    }
+    public bool Increment_Stroke(int stroke) 
+    {
+        if(stroke == expected_stroke) {
+            expected_stroke++;
+            return true;
+        }
+        return false;
     }
 
 }

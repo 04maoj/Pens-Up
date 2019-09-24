@@ -6,8 +6,12 @@ using System.IO;
 public class Track_manager : MonoBehaviour
 {
     [SerializeField] bool record_mode = false;
+    [SerializeField] GameObject Error_Incorrect_Stroke_Order = null;
+    [SerializeField] GameObject Error_Not_Same_Stroke = null;
+    [SerializeField] GameObject Error_Write_On_Character = null;
+    [SerializeField] GameObject Error_Finished= null;
     // public bool replayMode = false;
-    [SerializeField] string stroke_to_record;
+    [SerializeField] string stroke_to_record= null;
     public GameObject prefabs ;
     public GameObject current;
     Vector3 start;
@@ -17,10 +21,12 @@ public class Track_manager : MonoBehaviour
     private float seperateValue = 20f;
     float total_diviation = 0;
     int total_deviation = 0;
-   
-     private void Start() {
+    private Assessment tester;
+    private void Start() {
+        Set_Error_Inactive();
         objPlane = new Plane(Camera.main.transform.forward * -1, this.transform.position);
         strokes = new List<List<Tuple<float, float>>>();
+        tester = GetComponent<Assessment>();
     }
     void Update()
     {   
@@ -55,17 +61,20 @@ public class Track_manager : MonoBehaviour
             }
         }
     }
-    public void Insert_Strok(List<Tuple<float, float>> input)
+    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate)
     {
-        strokes.Add(input);
+        //strokes.Add(input);
         if(record_mode) {
             string path = "Assets/Standards/" + stroke_to_record;
             // if(File.Exists(path)){
             //     File.Delete(path);
             // }
             StreamWriter sw = File.AppendText(path);
+
+            float start_y = input[0].Item1;
+            float start_x = input[0].Item2;
             for (int i = 0; i < input.Count; i ++) {
-                sw.WriteLine(input[i].Item1+ " " + input[i].Item2);
+                sw.WriteLine((input[i].Item1 - start_y )+ " " + (input[i].Item2- start_x));
             }
             // Seperate strokes.
             // sw.WriteLine("0 0");
@@ -80,19 +89,36 @@ public class Track_manager : MonoBehaviour
         }
         else
         {
-            Assessment tester = GetComponent<Assessment>();
-            if(current.GetComponent<Track>().Get_Stroke_Number() == -1)
-            {
-                Debug.Log("Negative Marks");
+            if(current.GetComponent<Track>().Get_Stroke_Number() == -1) {
+                Set_Error_Inactive();
+                Error_Write_On_Character.SetActive(true);
+                Destroy(current);
                 return;
             }
-            Debug.Log(current.GetComponent<Track>().Get_Current_Alphabate() + current.GetComponent<Track>().Get_Stroke_Number());
-            tester.Load_Standard(current.GetComponent<Track>().Get_Current_Alphabate() + current.GetComponent<Track>().Get_Stroke_Number());
-            total_diviation += tester.compare_Deviation(input);
-            Debug.Log(total_diviation);
+            if(!alphabate.Increment_Stroke(current.GetComponent<Track>().Get_Stroke_Number()))
+            {
+                Set_Error_Inactive();
+                Error_Incorrect_Stroke_Order.SetActive(true);
+                Destroy(current);
+                return;
+            }
+            if (alphabate.finish())
+            {
+                Set_Error_Inactive();
+                Error_Finished.SetActive(true);
+            }
+            tester.Load_Standard(current.GetComponent<Track>().Get_Current_Alphabate().Get_Strok_Name() + current.GetComponent<Track>().Get_Stroke_Number());
+            tester.compare_Deviation(input);
+            tester.Average();
         }
     }
-
+    public void Set_Error_Inactive()
+    {
+        Error_Incorrect_Stroke_Order.SetActive(false);
+        Error_Not_Same_Stroke.SetActive(false);
+        Error_Write_On_Character.SetActive(false);
+        Error_Finished.SetActive(false);
+    }
     public void Clear_All()
     {
         RemoveStrokes();
@@ -106,7 +132,15 @@ public class Track_manager : MonoBehaviour
     {
         strokes.Clear();
     }
-
+    public void Not_Same()
+    {
+        Set_Error_Inactive();
+        Error_Not_Same_Stroke.SetActive(true);
+    }
+    public void HitBoarders()
+    {
+        tester.Add_Board();
+    }
     // public List<List<Tuple<float, float>>> GetStrokes(){
     //     string path = "Assets/Standards/" + stroke_to_record;
     //     string line = "";

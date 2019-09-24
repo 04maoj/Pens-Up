@@ -9,9 +9,9 @@ public class Assessment : MonoBehaviour
     private List<Tuple<float, float>> current_standard;
     //Return a list for a sample stroke
     private float infinity = 10000000000;
-
-
-
+    private float total = 0;
+    private float count = 0;
+    private bool hit_board = false;
 
     public void Load_Standard(string input_name) {
         current_standard = new List<Tuple<float, float>>();
@@ -34,7 +34,7 @@ public class Assessment : MonoBehaviour
 
     //DTW
     //Return best matched distance 
-    public float compare_Deviation(List<Tuple<float, float>> to_compare) {
+    public void compare_Deviation(List<Tuple<float, float>> to_compare) {
         int n = current_standard.Count;
         int m = to_compare.Count;
         float[,] opt = new float[n+1,m+1];
@@ -57,8 +57,25 @@ public class Assessment : MonoBehaviour
                 opt[i, j] = cost + Math.Min(opt[i , j], opt[i-1,j-1]);
             }
         }
-        return opt[n, m];
+        total +=opt[n, m];
+        count++;
     }
 
-
+    public int Average()
+    {
+        float average = total / count;
+        if(average > 7000)
+        {
+            return 1;
+        } else if(average > 4000)
+        {
+            return 2;
+        }
+        return 3;
+    }
+    public void Add_Board()
+    {
+        hit_board = true;
+        Debug.Log(hit_board);
+    }
 }
