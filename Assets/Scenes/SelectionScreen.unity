@@ -282,7 +282,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 13.299988, y: -12.699997}
+  m_AnchoredPosition: {x: 13.299988, y: -12.700012}
   m_SizeDelta: {x: 25.92, y: 24.53}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &422904738
@@ -336,6 +336,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &422904739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,6 +356,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: e2daabe5fbe424579953dce8b929e98e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -464,6 +468,7 @@ GameObject:
   - component: {fileID: 916981898}
   - component: {fileID: 916981900}
   - component: {fileID: 916981899}
+  - component: {fileID: 916981901}
   m_Layer: 5
   m_Name: I am a student
   m_TagString: Untagged
@@ -508,6 +513,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: aa4722b2967fd4b2fb78d52925fced4b, type: 3}
     m_FontSize: 15
@@ -530,6 +537,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916981897}
   m_CullTransparentMesh: 0
+--- !u!114 &916981901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916981897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f5da5e37a404a8987c9e7208f85954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  next: 1
 --- !u!1001 &1401213183
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -618,6 +638,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: cd3868668d06f4cbbb7c0b89f95918e6,
         type: 3}
+    - target: {fileID: 4573287605469656729, guid: db67f740124854b00ab17ff0000b05a3,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8529796327637909860, guid: db67f740124854b00ab17ff0000b05a3,
         type: 3}
       propertyPath: m_Size.x
@@ -752,6 +777,7 @@ GameObject:
   - component: {fileID: 1941371763}
   - component: {fileID: 1941371765}
   - component: {fileID: 1941371764}
+  - component: {fileID: 1941371766}
   m_Layer: 5
   m_Name: I am a teacher
   m_TagString: Untagged
@@ -796,6 +822,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: aa4722b2967fd4b2fb78d52925fced4b, type: 3}
     m_FontSize: 15
@@ -818,6 +846,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941371762}
   m_CullTransparentMesh: 0
+--- !u!114 &1941371766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941371762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f5da5e37a404a8987c9e7208f85954, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  next: 2
 --- !u!1001 &3253652935167293875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -924,6 +965,11 @@ PrefabInstance:
     - target: {fileID: 4573287605469656729, guid: db67f740124854b00ab17ff0000b05a3,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573287605469656729, guid: db67f740124854b00ab17ff0000b05a3,
+        type: 3}
+      propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8529796327637909860, guid: db67f740124854b00ab17ff0000b05a3,
