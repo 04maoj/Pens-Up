@@ -18,7 +18,7 @@ public class Replay : MonoBehaviour
     Vector3 currentPosition;
     int index = -1;
     // X-axis offset of the character
-    public float offSetX = 140;
+    public float offSetX = 140f;
     // Y-axis offset of the character
     public float offSetY = -47.65f;
     // Z-axis offset of the drawing space
@@ -123,7 +123,7 @@ public class Replay : MonoBehaviour
                 index = i;
                 currentPosition = stroke[i];
                 Debug.Log("Index: " + index + " Pos: " + currentPosition);
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.1f);
                 lineRe.SetPosition(i, currentPosition);
                 
                 // StartCoroutine(WaitAndDraw(lineRe, i, stroke[i]));
