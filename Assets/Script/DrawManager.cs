@@ -19,29 +19,9 @@ public class DrawManager : MonoBehaviour
     List<List<Tuple<float, float>>> list;
     
     private void Start(){
-        // if(replayMode){
-        //     trackmg = FindObjectOfType<Track_manager>();
-        //     List<List<Tuple<float, float>>> coordinates = trackmg.GetStrokes();
-        //     DrawBot(coordinates);
-        // }
+        
         
     }
-
-    // Update is called once per frame
-    // void Update()
-    // {
-    //     // if(replayMode){
-    //         Debug.Log("RESET");
-    //         // replayMode = false;
-    //         // trackmg = FindObjectOfType<Track_manager>();
-    //         Debug.Log("TRACK_MANAGER");
-    //         coordinates = GetStrokes(character);
-    //         Debug.Log("LIST");
-    //         DrawBot(coordinates);
-    //         Debug.Log("DRAW");
-            
-    //     // }
-    // }
 
     public void DrawBot(List<List<Tuple<float, float>>> coordinates){
         // List<Vector3> coordinate3D = new List<Vector3>();
@@ -109,7 +89,7 @@ public class DrawManager : MonoBehaviour
     
     // IEnumerator WaitAndDraw(LineRenderer lr, int i, Vector3 points){
         Debug.Log(Time.time);
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(0.5f);
         Debug.Log(Time.time);
         // lineRe.SetPosition(index, currentPosition);
         // lr.SetPosition(i, points);
@@ -131,22 +111,36 @@ public class DrawManager : MonoBehaviour
         float currentX = 0f;
         float currentY = 0f;
         while (line != null){
+            // if (line.Equals("0 0")){
+            //     line = sr.ReadLine();
+            //     continue;
+            // }
             temp = line.Split(' ');
+            if (float.Parse(temp[0]) == 0 && float.Parse(temp[1]) == 0){
+                line = sr.ReadLine();
+                continue;
+            }
             currentX = float.Parse(temp[0]);
             currentY = float.Parse(temp[1]);
             // Debug.Log("PreX: " + preX + " PreY: " + preY + " CX: " + currentX + " CY: " + currentY);
             // Check if new stroke
             // Debug.Log("DiffX: " + Math.Abs(currentX - preX) + " DiffY: " + Math.Abs(currentY - preY));
             
+            
             if (Math.Abs(currentX - preX) > seperateValue || Math.Abs(currentY - preY) > seperateValue){
-                paints.Add(paint);
-                paint = new List<Tuple<float, float>>();
+                if (counter != 0){
+                    paints.Add(paint);
+                    paint = new List<Tuple<float, float>>();
+                }
+                // line = sr.ReadLine();
+                // continue;
             }
             coordinate = new Tuple<float, float>(currentX, currentY);
             paint.Add(coordinate);
             preX = currentX;
             preY = currentY;
             line = sr.ReadLine();
+            counter++;
         }
         paints.Add(paint);
         sr.Close();
@@ -154,15 +148,55 @@ public class DrawManager : MonoBehaviour
         return paints;
     }
 
+    // public List<List<Tuple<float, float>>> GetStrokes(String letter){
+    //     string path = "Assets/Standards/" + letter;
+    //     string line = "";
+    //     string[] temp = new string[2];
+    //     Tuple<float, float> coordinate = null;
+    //     List<List<Tuple<float, float>>> paints = new List<List<Tuple<float, float>>>();
+    //     List<Tuple<float, float>> paint = null;
+    //     StreamReader sr = new StreamReader(path);
+    //     line = sr.ReadLine();
+    //     float preX = -1f;
+    //     float preY = -1f;
+    //     preX = float.Parse(line.Split(' ')[0]);
+    //     preY = float.Parse(line.Split(' ')[1]);
+    //     float currentX = 0f;
+    //     float currentY = 0f;
+    //     while (line != null){
+    //         temp = line.Split(' ');
+    //         currentX = float.Parse(temp[0]);
+    //         currentY = float.Parse(temp[1]);
+    //         // Debug.Log("PreX: " + preX + " PreY: " + preY + " CX: " + currentX + " CY: " + currentY);
+    //         // Check if new stroke
+    //         // Debug.Log("DiffX: " + Math.Abs(currentX - preX) + " DiffY: " + Math.Abs(currentY - preY));
+            
+    //         if (currentX == 0 && currentY == 0){
+    //         // if (Math.Abs(currentX - preX) > seperateValue || Math.Abs(currentY - preY) > seperateValue){
+    //             if (counter != 0){
+    //                 paints.Add(paint);
+    //             }
+    //             paint = new List<Tuple<float, float>>();
+    //             line = sr.ReadLine();
+    //             counter++;
+    //             continue;
+                
+    //         }
+    //         // paints.Add(paint);
+    //         coordinate = new Tuple<float, float>(currentX, currentY);
+    //         paint.Add(coordinate);
+    //         preX = currentX;
+    //         preY = currentY;
+    //         counter++;
+    //         line = sr.ReadLine();
+    //     }
+    //     paints.Add(paint);
+    //     sr.Close();
+    //     // Debug.Log("Stroke #: " + paints.Count);
+    //     return paints;
+    // }
+
     public void setCharacter(String chara){
         this.character = chara;
     }
-
-    // public void setCounter(int count){
-    //     this.counter = count;
-    // }
-
-    // public int getCounter(){
-    //     return this.counter;
-    // }
 }

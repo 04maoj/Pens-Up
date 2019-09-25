@@ -12,13 +12,12 @@ public class Track_manager : MonoBehaviour
     [SerializeField] GameObject Error_Finished= null;
     // public bool replayMode = false;
     [SerializeField] string stroke_to_record= null;
-    public GameObject prefabs ;
+    public GameObject prefabs;
     public GameObject current;
     Vector3 start;
     Plane objPlane;
     List<List<Tuple<float, float>>> strokes;
     Stack<int> order;
-    private float seperateValue = 20f;
     float total_diviation = 0;
     int total_deviation = 0;
     private Assessment tester;
@@ -66,9 +65,6 @@ public class Track_manager : MonoBehaviour
         //strokes.Add(input);
         if(record_mode) {
             string path = "Assets/Standards/" + stroke_to_record;
-            // if(File.Exists(path)){
-            //     File.Delete(path);
-            // }
             StreamWriter sw = File.AppendText(path);
 
             float start_y = input[0].Item1;
@@ -76,16 +72,8 @@ public class Track_manager : MonoBehaviour
             for (int i = 0; i < input.Count; i ++) {
                 sw.WriteLine((input[i].Item1 - start_y )+ " " + (input[i].Item2- start_x));
             }
-            // Seperate strokes.
-            // sw.WriteLine("0 0");
             sw.Close();
             Debug.Log("Done");
-            // String[] lines = new String[input.Count];
-            // for(int i = 0; i < input.Count; i++){
-            //     lines[i] = input[i].Item1+ " " + input[i].Item2;
-            // }
-            // File.WriteAllLines(path, lines);
-            // Debug.Log("Stroke Recorded.");
         }
         else
         {

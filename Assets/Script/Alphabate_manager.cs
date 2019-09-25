@@ -20,7 +20,7 @@ public class Alphabate_manager : MonoBehaviour
         childrens = new HashSet<int>();
         visite_stroke = new HashSet<int>();
         traverse_order = new Stack<int>();
-        for (int i =  0; i < transform.childCount; i ++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             childrens.Add(i);
         }
