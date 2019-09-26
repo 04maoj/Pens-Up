@@ -629,11 +629,29 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CodeMonkey\Assets.cs" />
+    <Compile Include="Assets\CodeMonkey\CMDebug.cs" />
+    <Compile Include="Assets\CodeMonkey\MonoBehaviours\CameraFollow.cs" />
+    <Compile Include="Assets\CodeMonkey\MonoBehaviours\CameraFollowSetup.cs" />
+    <Compile Include="Assets\CodeMonkey\MonoBehaviours\ComponentActions.cs" />
+    <Compile Include="Assets\CodeMonkey\MonoBehaviours\PositionRendererSorter.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\Button_Sprite.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\Button_UI.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\FunctionPeriodic.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\FunctionTimer.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\FunctionUpdater.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\UI_Bar.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\UI_BarMultiple.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\UI_Sprite.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\UI_TextComplex.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\UtilsClass.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\World_Bar.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\World_Mesh.cs" />
+    <Compile Include="Assets\CodeMonkey\Utils\World_Sprite.cs" />
     <Compile Include="Assets\Script\Alphabate_manager.cs" />
     <Compile Include="Assets\Script\Assessment.cs" />
     <Compile Include="Assets\Script\DrawManager.cs" />
     <Compile Include="Assets\Script\Drop_Down_scrip.cs" />
-    <Compile Include="Assets\Script\Graph_Line.cs" />
     <Compile Include="Assets\Script\Hit_Box.cs" />
     <Compile Include="Assets\Script\Keyboard.cs" />
     <Compile Include="Assets\Script\Login_button.cs" />
@@ -645,8 +663,11 @@
     <Compile Include="Assets\Script\SceneLoader.cs" />
     <Compile Include="Assets\Script\Track.cs" />
     <Compile Include="Assets\Script\Track_manager.cs" />
+    <Compile Include="Assets\Script\Window_Graph.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\CodeMonkey\README.txt" />
+    <None Include="Assets\Local_DataBase\Students\Student_Password.txt" />
     <None Include="Assets\Local_DataBase\Teachers\Teacher_Password.txt" />
     <None Include="Assets\Plugins\GitHub\Editor\credits.txt" />
     <None Include="Assets\Plugins\GitHub\Editor\eula.txt" />

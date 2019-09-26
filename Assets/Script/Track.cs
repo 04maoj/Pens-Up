@@ -12,6 +12,7 @@ public class Track : MonoBehaviour
     private List<Tuple<float,float>> corrdinates;
     private float init_x;
     private float init_y;
+    public List<int> to_be_delete;
     Ray Generate_Ray(Vector3 touchPosit) {
         Vector3 mousePosFar = new Vector3(touchPosit.x, touchPosit.y, Camera.main.farClipPlane);
         Vector3 mousePosNear = new Vector3(touchPosit.x, touchPosit.y, Camera.main.nearClipPlane);
@@ -23,6 +24,7 @@ public class Track : MonoBehaviour
     private void Start()
     {
         manger = FindObjectOfType<Track_manager>();
+        to_be_delete = new List<int>();
         objPlane = new Plane(Camera.main.transform.forward * -1, transform.position);
         eneded = false;
         corrdinates = new List<Tuple<float, float>>();
@@ -71,15 +73,17 @@ public class Track : MonoBehaviour
                     {
                         if (test_hit.collider.GetComponent<Hit_Box>() != null)
                         {
-                            Tuple<List<int>, Alphabate_manager> val= test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
+                            Tuple<List<int>, Tuple<Alphabate_manager, int>> val = test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
                             if (stroke_number == -1 && val.Item1.Count > 1)
                             {
-                                alphbate = val.Item2;
+                                alphbate = val.Item2.Item1;
+                                to_be_delete.Add(val.Item2.Item2);
                             }
                             else if (stroke_number == -1)
                             {
                                 stroke_number = val.Item1[0];
-                                alphbate = val.Item2;
+                                alphbate = val.Item2.Item1;
+                                to_be_delete.Add(val.Item2.Item2);
                             }
                             else
                             {
@@ -93,8 +97,14 @@ public class Track : MonoBehaviour
                                 {
                                     manger.Not_Same();
                                     Destroy(gameObject);
+                                    to_be_delete.Clear();
+                                }
+                                else
+                                {
+                                    to_be_delete.Add(val.Item2.Item2);
                                 }
                             }
+
                         } else if(test_hit.collider.tag == "Boarders") {
                             manger.HitBoarders();
                         }
@@ -105,8 +115,7 @@ public class Track : MonoBehaviour
             else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 eneded = true;
-                manger.Insert_Strok(corrdinates,alphbate);
-
+                manger.Insert_Strok(corrdinates,alphbate, to_be_delete);
             }
         }
         

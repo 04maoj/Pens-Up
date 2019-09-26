@@ -8,7 +8,7 @@ public class Alphabate_manager : MonoBehaviour
     [SerializeField] int total_score;
     [SerializeField] string strokeName;
     [SerializeField] int double_write_penalities = 3;
-    private HashSet<int> childrens;
+    HashSet<int> childrens;
     private HashSet<int> visite_stroke;
     private Stack<int> traverse_order;
     private bool finished;
@@ -39,7 +39,9 @@ public class Alphabate_manager : MonoBehaviour
         }
         if (childrens.Count == 0 && !finished)
         {
+
             FindObjectOfType<Scence_Manager>().Decrement_total_Character();
+            FindObjectOfType<Track_manager>().Finished_one();
             finished = true;
             return;
         }

@@ -76,6 +76,5 @@ public class Assessment : MonoBehaviour
     public void Add_Board()
     {
         hit_board = true;
-        Debug.Log(hit_board);
     }
 }

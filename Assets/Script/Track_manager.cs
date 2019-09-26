@@ -60,7 +60,7 @@ public class Track_manager : MonoBehaviour
             }
         }
     }
-    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate)
+    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate, List<int> to_be_delete)
     {
         //strokes.Add(input);
         if(record_mode) {
@@ -90,10 +90,9 @@ public class Track_manager : MonoBehaviour
                 Destroy(current);
                 return;
             }
-            if (alphabate.finish())
+            for(int i = 0; i < to_be_delete.Count; i ++)
             {
-                Set_Error_Inactive();
-                Error_Finished.SetActive(true);
+                alphabate.remove_Hit(to_be_delete[i]); 
             }
             tester.Load_Standard(current.GetComponent<Track>().Get_Current_Alphabate().Get_Strok_Name() + current.GetComponent<Track>().Get_Stroke_Number());
             tester.compare_Deviation(input);
@@ -129,6 +128,11 @@ public class Track_manager : MonoBehaviour
     {
         tester.Add_Board();
     }
+    public void Finished_one() {
+        Set_Error_Inactive();
+        Error_Finished.SetActive(true);
+    }
+
     // public List<List<Tuple<float, float>>> GetStrokes(){
     //     string path = "Assets/Standards/" + stroke_to_record;
     //     string line = "";
