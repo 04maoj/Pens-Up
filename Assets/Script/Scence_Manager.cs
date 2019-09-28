@@ -20,5 +20,19 @@ public class Scence_Manager : MonoBehaviour
             Debug.Log("Lesson finish");
         }
     }
+    public void EraseAll()
+    {
+        Track[] tracks = FindObjectsOfType<Track>();
+        for(int i = 0; i < tracks.Length; i ++)
+        {
+            Destroy(tracks[i].gameObject);
+        }
+        Alphabate_manager[] alphabates = FindObjectsOfType<Alphabate_manager>();
+        for(int i = 0; i < alphabates.Length; i ++)
+        {
+            alphabates[i].Reset();
+
+        }
+    }
 
 }

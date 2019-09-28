@@ -15,16 +15,7 @@ public class Alphabate_manager : MonoBehaviour
     int expected_stroke;
      private void Start()
     {
-        total_score = 0;
-        finished = false;
-        childrens = new HashSet<int>();
-        visite_stroke = new HashSet<int>();
-        traverse_order = new Stack<int>();
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            childrens.Add(i);
-        }
-        expected_stroke = 0;
+        Reset();
     }
     public string Get_Strok_Name()
     {
@@ -58,5 +49,17 @@ public class Alphabate_manager : MonoBehaviour
         }
         return false;
     }
-
+    public void Reset()
+    {
+        total_score = 0;
+        finished = false;
+        childrens = new HashSet<int>();
+        visite_stroke = new HashSet<int>();
+        traverse_order = new Stack<int>();
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            childrens.Add(i);
+        }
+        expected_stroke = 0;
+    }
 }
