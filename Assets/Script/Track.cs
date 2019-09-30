@@ -6,7 +6,7 @@ public class Track : MonoBehaviour
 {
     private Plane objPlane;
     private bool eneded = false;
-    private int stroke_number;
+    public int stroke_number;
     private Alphabate_manager alphbate;
     private Track_manager manger;
     private List<Tuple<float,float>> corrdinates;
@@ -115,7 +115,7 @@ public class Track : MonoBehaviour
             else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 eneded = true;
-                manger.Insert_Strok(corrdinates,alphbate, to_be_delete);
+                manger.Insert_Strok(corrdinates,alphbate, to_be_delete, stroke_number);
             }
         }
         

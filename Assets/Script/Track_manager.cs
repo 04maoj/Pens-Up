@@ -9,11 +9,13 @@ public class Track_manager : MonoBehaviour
     [SerializeField] GameObject Error_Incorrect_Stroke_Order = null;
     [SerializeField] GameObject Error_Not_Same_Stroke = null;
     [SerializeField] GameObject Error_Write_On_Character = null;
+    [SerializeField] GameObject Error_Sequence = null;
     [SerializeField] GameObject Error_Finished= null;
     // public bool replayMode = false;
     [SerializeField] string stroke_to_record= null;
     public GameObject prefabs;
     public GameObject current;
+    private bool hit_board;
     Vector3 start;
     Plane objPlane;
     List<List<Tuple<float, float>>> strokes;
@@ -25,7 +27,6 @@ public class Track_manager : MonoBehaviour
         Set_Error_Inactive();
         objPlane = new Plane(Camera.main.transform.forward * -1, this.transform.position);
         strokes = new List<List<Tuple<float, float>>>();
-        tester = GetComponent<Assessment>();
     }
     void Update()
     {   
@@ -60,7 +61,7 @@ public class Track_manager : MonoBehaviour
             }
         }
     }
-    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate, List<int> to_be_delete)
+    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate, List<int> to_be_delete,int stroke_number)
     {
         //strokes.Add(input);
         if(record_mode) {
@@ -77,26 +78,42 @@ public class Track_manager : MonoBehaviour
         }
         else
         {
-            if(current.GetComponent<Track>().Get_Stroke_Number() == -1) {
+            if(alphabate == null)
+            {
+                Destroy(current);
+            }
+            tester = alphabate.Get_Assessment();
+            if (current.GetComponent<Track>().Get_Stroke_Number() == -1) {
                 Set_Error_Inactive();
                 Error_Write_On_Character.SetActive(true);
                 Destroy(current);
                 return;
             }
-            if(!alphabate.Increment_Stroke(current.GetComponent<Track>().Get_Stroke_Number()))
+            bool success = alphabate.remove_Hit(to_be_delete, stroke_number);
+            if (!success)
             {
                 Set_Error_Inactive();
-                Error_Incorrect_Stroke_Order.SetActive(true);
+                Error_Sequence.SetActive(true);
+                tester.IncorrectOrder();
                 Destroy(current);
                 return;
             }
-            for(int i = 0; i < to_be_delete.Count; i ++)
+            if (!alphabate.Increment_Stroke(current.GetComponent<Track>().Get_Stroke_Number()))
             {
-                alphabate.remove_Hit(to_be_delete[i]); 
+                Set_Error_Inactive();
+                Error_Incorrect_Stroke_Order.SetActive(true);
+                tester.Add_Incorrect_Stroke();
+                Destroy(current);
+                return;
             }
+            if (alphabate.finish())
+                Finished_one();
             tester.Load_Standard(current.GetComponent<Track>().Get_Current_Alphabate().Get_Strok_Name() + current.GetComponent<Track>().Get_Stroke_Number());
             tester.compare_Deviation(input);
+            if (hit_board)
+                tester.Add_Board();
             tester.Average();
+            hit_board = false;
         }
     }
     public void Set_Error_Inactive()
@@ -105,6 +122,7 @@ public class Track_manager : MonoBehaviour
         Error_Not_Same_Stroke.SetActive(false);
         Error_Write_On_Character.SetActive(false);
         Error_Finished.SetActive(false);
+        Error_Sequence.SetActive(false);
     }
     public void Clear_All()
     {
@@ -126,7 +144,7 @@ public class Track_manager : MonoBehaviour
     }
     public void HitBoarders()
     {
-        tester.Add_Board();
+        hit_board = true;
     }
     public void Finished_one() {
         Set_Error_Inactive();

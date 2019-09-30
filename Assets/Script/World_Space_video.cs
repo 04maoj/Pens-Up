@@ -12,7 +12,7 @@ public class World_Space_video : MonoBehaviour
     public void Awake()
     {   
         myVideo.loopPointReached += CheckOver;
-        endButton.SetActive(false);
+        endButton.SetActive(true);
         other_UI.SetActive(false);
     }
     public void PlayPause()

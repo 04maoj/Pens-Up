@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Alphabate_manager : MonoBehaviour
 {
+    //preset
     [SerializeField] int stroke_number;
     [SerializeField] int total_score;
     [SerializeField] string strokeName;
@@ -11,6 +12,7 @@ public class Alphabate_manager : MonoBehaviour
     HashSet<int> childrens;
     private HashSet<int> visite_stroke;
     private Stack<int> traverse_order;
+    private List<int>[] strokes_and_hit_box;
     private bool finished;
     int expected_stroke;
      private void Start()
@@ -21,21 +23,53 @@ public class Alphabate_manager : MonoBehaviour
     {
         return strokeName;
     }
-    public void remove_Hit(int index)
+    public bool remove_Hit(List<int> to_be_delete, int stroke_number)
     {
-        if (childrens.Contains(index))
+        traverse_order.Clear();
+        for(int i = 0; i < to_be_delete.Count; i ++)
         {
-            childrens.Remove(index);
-            traverse_order.Push(index);
+            if (childrens.Contains(to_be_delete[i]))
+            {
+                Debug.Log(to_be_delete[i]);
+                childrens.Remove(to_be_delete[i]);
+                traverse_order.Push(to_be_delete[i]);
+            }
         }
+        if (traverse_order.Count == 0)
+            return false;
+        for(int i = strokes_and_hit_box[stroke_number].Count- 1; i> -1; i--)
+        {
+            //if (traverse_order.Count == 0)
+            //{
+            //    Debug.Log("here");
+            //    for (int j = 0; j < to_be_delete.Count; j++)
+            //    {
+            //        childrens.Add(to_be_delete[j]);
+            //    }
+            //    return false;
+            //}
+
+            int u = traverse_order.Pop();
+            Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
+            if(u != strokes_and_hit_box[stroke_number][i])
+            {
+                for(int j = 0; j < to_be_delete.Count; j ++)
+                {
+                    childrens.Add(to_be_delete[j]);
+                }
+                return false;
+            }
+        }
+
         if (childrens.Count == 0 && !finished)
         {
 
             FindObjectOfType<Scence_Manager>().Decrement_total_Character();
             FindObjectOfType<Track_manager>().Finished_one();
             finished = true;
-            return;
+            return true;
         }
+        return true;
     }
     public bool finish()
     {
@@ -55,11 +89,25 @@ public class Alphabate_manager : MonoBehaviour
         finished = false;
         childrens = new HashSet<int>();
         visite_stroke = new HashSet<int>();
+        strokes_and_hit_box = new List<int>[stroke_number];
         traverse_order = new Stack<int>();
         for (int i = 0; i < transform.childCount; i++)
         {
             childrens.Add(i);
         }
         expected_stroke = 0;
+        if(strokeName == "A")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5 };
+            strokes_and_hit_box[1] = new List<int> { 6, 7, 8, 9, 10 };
+            strokes_and_hit_box[2] = new List<int> { 11, 12};
+        } else if(strokeName == "a") {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5,6,7,8,9,10,11};
+        }
+
+    }
+    public Assessment Get_Assessment()
+    {
+        return gameObject.GetComponent<Assessment>();
     }
 }

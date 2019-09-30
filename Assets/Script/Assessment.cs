@@ -12,6 +12,8 @@ public class Assessment : MonoBehaviour
     private float total = 0;
     private float count = 0;
     private bool hit_board = false;
+    private int incorrect_stroke_sequence = 0;
+    private int incorrect_order = 0;
 
     public void Load_Standard(string input_name) {
         current_standard = new List<Tuple<float, float>>();
@@ -30,8 +32,6 @@ public class Assessment : MonoBehaviour
         }
         return;
     }
-
-
     //DTW
     //Return best matched distance 
     public void compare_Deviation(List<Tuple<float, float>> to_compare) {
@@ -76,5 +76,13 @@ public class Assessment : MonoBehaviour
     public void Add_Board()
     {
         hit_board = true;
+    }
+    public void Add_Incorrect_Stroke()
+    {
+        incorrect_stroke_sequence++;
+    }
+    public void IncorrectOrder()
+    {
+        incorrect_order++;
     }
 }
