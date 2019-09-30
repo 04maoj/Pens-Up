@@ -10,7 +10,10 @@ public class Scence_Manager : MonoBehaviour
     public UI_Manager ui_manager;
     public World_Space_video my_players;
     public GameObject videos;
+    public GameObject left;
+    public GameObject right;
     private bool[] played_tut_list;
+    private int current = 0;
     void Start()
     {
         played_tut_list = new bool[videos.transform.childCount + 1];
@@ -22,6 +25,8 @@ public class Scence_Manager : MonoBehaviour
         total_character = FindObjectsOfType<Alphabate_manager>().Length;
         //SwitchTut(0);
         my_players.gameObject.SetActive(true);
+        left.SetActive(false);
+        right.SetActive(true);
         GameObject current_player = videos.transform.GetChild(0).gameObject;
         current_player.SetActive(true);
         my_players.myVideo = current_player.GetComponent<VideoPlayer>();
@@ -29,17 +34,27 @@ public class Scence_Manager : MonoBehaviour
     }
     public void SwitchTut(int index)
     {
-        if(!played_tut_list[index])
+        current += index;
+        EraseAll();
+        if (current > 0)
+            left.SetActive(true);
+        else
+            left.SetActive(false);
+        if (current < ui_manager.courses.Count - 1)
+            right.SetActive(true);
+        else
+            right.SetActive(false);
+        if (!played_tut_list[current])
         {
             my_players.gameObject.SetActive(true);
-            GameObject current_player = videos.transform.GetChild(index).gameObject;
+            GameObject current_player = videos.transform.GetChild(current).gameObject;
             current_player.SetActive(true);
             my_players.myVideo = current_player.GetComponent<VideoPlayer>();
             my_players.PlayPause();
-            played_tut_list[index] = true;
+            played_tut_list[current] = true;
 
         }
-        ui_manager.Get_Course(index);
+        ui_manager.Get_Course(current);
     }
     public void Decrement_total_Character()
     {
@@ -63,5 +78,4 @@ public class Scence_Manager : MonoBehaviour
             alphabates[i].Reset();
         }
     }
-    
 }

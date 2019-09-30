@@ -5,14 +5,18 @@ using UnityEngine;
 public class Sliders : MonoBehaviour
 {
     // Start is called before the first frame update
-    int current = 0;
+    public bool left;
     private void OnMouseDown()
     {
-        current += 1;
+        int current = 0;
+        if (left)
+            current -= 1;
+        else
+            current += 1;
         FindObjectOfType<Scence_Manager>().SwitchTut(current);
     }
-    public void Update_course(int to)
-    {
-        current = to;
-    }
+    //public void Update_course(int to)
+    //{
+    //    current = to;
+    //}
 }

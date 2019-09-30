@@ -39,16 +39,6 @@ public class Alphabate_manager : MonoBehaviour
             return false;
         for(int i = strokes_and_hit_box[stroke_number].Count- 1; i> -1; i--)
         {
-            //if (traverse_order.Count == 0)
-            //{
-            //    Debug.Log("here");
-            //    for (int j = 0; j < to_be_delete.Count; j++)
-            //    {
-            //        childrens.Add(to_be_delete[j]);
-            //    }
-            //    return false;
-            //}
-
             int u = traverse_order.Pop();
             Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
             if(u != strokes_and_hit_box[stroke_number][i])
@@ -102,7 +92,7 @@ public class Alphabate_manager : MonoBehaviour
             strokes_and_hit_box[1] = new List<int> { 6, 7, 8, 9, 10 };
             strokes_and_hit_box[2] = new List<int> { 11, 12};
         } else if(strokeName == "a") {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5,6,7,8,9,10,11};
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5};
         }
 
     }
