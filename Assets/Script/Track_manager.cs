@@ -63,7 +63,6 @@ public class Track_manager : MonoBehaviour
     }
     public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate, List<int> to_be_delete,int stroke_number)
     {
-        //strokes.Add(input);
         if(record_mode) {
             string path = "Assets/Standards/" + stroke_to_record;
             StreamWriter sw = File.AppendText(path);
@@ -112,7 +111,6 @@ public class Track_manager : MonoBehaviour
             tester.compare_Deviation(input);
             if (hit_board)
                 tester.Add_Board();
-            tester.Average();
             hit_board = false;
         }
     }

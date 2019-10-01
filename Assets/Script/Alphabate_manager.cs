@@ -30,7 +30,6 @@ public class Alphabate_manager : MonoBehaviour
         {
             if (childrens.Contains(to_be_delete[i]))
             {
-                Debug.Log(to_be_delete[i]);
                 childrens.Remove(to_be_delete[i]);
                 traverse_order.Push(to_be_delete[i]);
             }
@@ -39,10 +38,15 @@ public class Alphabate_manager : MonoBehaviour
             return false;
         for(int i = strokes_and_hit_box[stroke_number].Count- 1; i> -1; i--)
         {
+            if(traverse_order.Count == 0)
+            {
+                break;
+            }
             int u = traverse_order.Pop();
             Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
             if(u != strokes_and_hit_box[stroke_number][i])
             {
+                //Debug.Log(u);
                 for(int j = 0; j < to_be_delete.Count; j ++)
                 {
                     childrens.Add(to_be_delete[j]);
@@ -93,6 +97,11 @@ public class Alphabate_manager : MonoBehaviour
             strokes_and_hit_box[2] = new List<int> { 11, 12};
         } else if(strokeName == "a") {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5};
+        } else if(strokeName == "B")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
+            strokes_and_hit_box[1] = new List<int> { 0, 5, 6, 7, 8,9 };
+            strokes_and_hit_box[2] = new List<int> { 9,10, 11, 12,13};
         }
 
     }

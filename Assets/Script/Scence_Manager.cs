@@ -13,9 +13,11 @@ public class Scence_Manager : MonoBehaviour
     public GameObject left;
     public GameObject right;
     private bool[] played_tut_list;
+    public GameObject finished_screen;
     private int current = 0;
     void Start()
     {
+        finished_screen.SetActive(false);
         played_tut_list = new bool[videos.transform.childCount + 1];
         for (int i = 0; i < videos.transform.childCount; i ++)
         {
@@ -77,5 +79,10 @@ public class Scence_Manager : MonoBehaviour
         {
             alphabates[i].Reset();
         }
+    }
+    public void FinishCourse()
+    {
+        finished_screen.SetActive(true);
+        finished_screen.GetComponentInChildren< Assessment_manager>().UpdateStatus();
     }
 }

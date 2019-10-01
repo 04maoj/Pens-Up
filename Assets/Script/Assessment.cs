@@ -60,8 +60,12 @@ public class Assessment : MonoBehaviour
         total +=opt[n, m];
         count++;
     }
+    public int GetTotalScore()
+    {
+        return Average_deviation() + Average_hit_board() + Average_Incorect_stroke() + Average_Sequence();
+    }
 
-    public int Average()
+    public int Average_deviation() 
     {
         float average = total / count;
         if(average > 7000)
@@ -72,6 +76,32 @@ public class Assessment : MonoBehaviour
             return 2;
         }
         return 3;
+    }
+    public int Average_hit_board()
+    {
+        if (hit_board)
+            return 0;
+        return 1;
+    }
+    public int Average_Incorect_stroke()
+    {
+        if(incorrect_order > 2)
+        {
+            return 0;
+        }
+        if(incorrect_order == 1)
+             return 1;
+        return 2;
+    }
+    public int Average_Sequence()
+    {
+        if (incorrect_stroke_sequence > 2)
+        {
+            return 0;
+        }
+        if (incorrect_stroke_sequence == 1)
+            return 1;
+        return 2;
     }
     public void Add_Board()
     {
