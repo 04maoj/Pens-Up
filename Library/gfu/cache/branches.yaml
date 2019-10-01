@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cacheType: 2
-  lastUpdatedAtString: 2019-10-02T00:56:44.366+10:00
+  lastUpdatedAtString: 2019-10-02T01:16:41.008+10:00
   initializedAtString: 2019-10-02T00:56:44.320+10:00
-  localBranches: []
+  localBranches:
+  - name: master
+    tracking: origin/master
   remoteBranches:
   - name: origin/HEAD
     tracking: '[None]'
@@ -30,8 +32,14 @@ MonoBehaviour:
     function: 0
     token: 
   localConfigBranches:
-    keys: []
-    values: []
+    keys:
+    - master
+    values:
+    - name: master
+      remote:
+        name: origin
+        url: https://github.com/04maoj/Pens-Up.git
+      trackingBranch: master
   remoteConfigBranches:
     keys:
     - origin
