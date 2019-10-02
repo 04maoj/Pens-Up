@@ -61,7 +61,6 @@ public class Scence_Manager : MonoBehaviour
     public void Decrement_total_Character()
     {
         total_character--;
-        Debug.Log(total_character);
         if(total_character <= 0)
         {
             Debug.Log("Lesson finish");
@@ -84,5 +83,6 @@ public class Scence_Manager : MonoBehaviour
     {
         finished_screen.SetActive(true);
         finished_screen.GetComponentInChildren< Assessment_manager>().UpdateStatus();
+        FindObjectOfType<Track_manager>().gameObject.SetActive(false);
     }
 }

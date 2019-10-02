@@ -40,10 +40,14 @@ public class Alphabate_manager : MonoBehaviour
         {
             if(traverse_order.Count == 0)
             {
-                break;
+                for (int j = 0; j < to_be_delete.Count; j++)
+                {
+                    childrens.Add(to_be_delete[j]);
+                }
+                return false;
             }
             int u = traverse_order.Pop();
-            Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
+            //Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
             if(u != strokes_and_hit_box[stroke_number][i])
             {
                 //Debug.Log(u);
@@ -100,9 +104,19 @@ public class Alphabate_manager : MonoBehaviour
         } else if(strokeName == "B")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
-            strokes_and_hit_box[1] = new List<int> { 0, 5, 6, 7, 8,9 };
-            strokes_and_hit_box[2] = new List<int> { 9,10, 11, 12,13};
+            strokes_and_hit_box[1] = new List<int> {0, 5, 6, 7, 8,9,2 };
+            strokes_and_hit_box[2] = new List<int> {2, 9,10, 11, 12,13,4};
+        } else if(strokeName == "C")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0,1,2,3,4,5,6,7 };
+        } else if(strokeName  == "c")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4};
+        } else if(strokeName == "b") {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3};
+            strokes_and_hit_box[1] = new List<int> { 1, 4 , 5 , 6 , 7 , 8,3 };
         }
+
 
     }
     public Assessment Get_Assessment()
