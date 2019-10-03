@@ -29,7 +29,6 @@ public class Alphabate_manager : MonoBehaviour
         List<int> get_back = new List<int>();
         foreach (int to_dete in to_be_delete)
         {
-            Debug.Log(to_dete);
             if (childrens.Contains(to_dete))
             {
                 childrens.Remove(to_dete);
@@ -69,6 +68,12 @@ public class Alphabate_manager : MonoBehaviour
             FindObjectOfType<Track_manager>().Finished_one();
             finished = true;
             return true;
+        } else {
+            Debug.Log(childrens.Count);
+            for(int i = 0; i < childrens.Count; i ++) {
+                Debug.Log("They aer " + childrens[i]);
+             }
+            
         }
         return true;
     }
@@ -102,10 +107,10 @@ public class Alphabate_manager : MonoBehaviour
         if(strokeName == "A")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5 };
-            strokes_and_hit_box[1] = new List<int> { 6, 7, 8, 9, 10 };
+            strokes_and_hit_box[1] = new List<int> {0, 6, 7, 8, 9, 10 };
             strokes_and_hit_box[2] = new List<int> { 3,11, 12,8};
         } else if(strokeName == "a") {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5};
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4};
         } else if(strokeName == "B")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };

@@ -11,10 +11,13 @@ public class Assessment : MonoBehaviour
     private float infinity = 10000000000;
     private float total = 0;
     private float count = 0;
+    // hit board 就是如果你碰到了边界
     private bool hit_board = false;
+    //这个是如果你横变成横竖了
     private int incorrect_stroke_sequence = 0;
+    //这个是上往下变成下往上了
     private int incorrect_order = 0;
-
+    //还有一个是deviation
     public void Load_Standard(string input_name) {
         current_standard = new List<Tuple<float, float>>();
         string path = "Assets/Standards/" + input_name;

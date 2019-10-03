@@ -9,10 +9,15 @@ public class Login_button : MonoBehaviour
     [SerializeField] GameObject password;
     [SerializeField] GameObject user_name;
     [SerializeField] GameObject warming_text;
+    public bool student = false;
     StreamReader myReader;
     void Start()
     {
         string path = "Assets/Local_DataBase/Teachers/Teacher_Password.txt";
+        if (student)
+        {
+            path= "Assets/Local_DataBase/Students/Student_Password.txt";
+        }
         myReader = new StreamReader(path);
         warming_text.SetActive(false);
     }
@@ -39,8 +44,10 @@ public class Login_button : MonoBehaviour
     {
         if(check_Passwor())
         {
+            Debug.Log("Yes");
+            FindObjectOfType<User_Info>().Update_user_name(user_name.GetComponent<InputField>().text,student);
             SceneLoader manager = FindObjectOfType<SceneLoader>();
-            manager.LoadScence(5);
+            manager.LoadScence(7);
         }
         else
         {

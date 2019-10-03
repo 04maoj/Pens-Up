@@ -25,7 +25,6 @@ public class Scence_Manager : MonoBehaviour
         }
         played_tut_list[0] = true;
         total_character = FindObjectsOfType<Alphabate_manager>().Length;
-        //SwitchTut(0);
         my_players.gameObject.SetActive(true);
         left.SetActive(false);
         right.SetActive(true);

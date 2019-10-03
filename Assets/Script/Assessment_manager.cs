@@ -9,6 +9,7 @@ public class Assessment_manager : MonoBehaviour
     public List<GameObject> active_stars;
     public List<GameObject> inactive_stars;
     public GameObject Issue_rank;
+    private User_Info my_info;
     private char current_worst = '*';
     private int current_worst_score =1000000000;
     private double average_sequence = 0;
@@ -17,9 +18,10 @@ public class Assessment_manager : MonoBehaviour
     private double average_order =0;
     private double total_score = 0;
 
-    private void Start()
+    private void Awake()
     {
-        UpdateStatus();
+        my_info = FindObjectOfType<User_Info>();
+        //UpdateStatus();
     }
 
     public void UpdateStatus()
@@ -37,11 +39,18 @@ public class Assessment_manager : MonoBehaviour
                 current_worst = all_pratice[i].gameObject.name[0];
                 current_worst_score = all_pratice[i].GetTotalScore();
             }
+
             total_score += all_pratice[i].GetTotalScore();
+            List<int> scores = new List<int>();
+            scores.Add(all_pratice[i].Average_Sequence());
             average_sequence += all_pratice[i].Average_Sequence();
+            scores.Add(all_pratice[i].Average_hit_board());
             average_hit_board += all_pratice[i].Average_hit_board();
+            scores.Add(all_pratice[i].Average_deviation());
             average_deviation += all_pratice[i].Average_deviation();
+            scores.Add(all_pratice[i].Average_Incorect_stroke());
             average_order += all_pratice[i].Average_Incorect_stroke();
+            my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores);
         }
         List<Tuple<double, string>> problemList = new List<Tuple<double, string>>();
         average_sequence /= all_pratice.Length;
