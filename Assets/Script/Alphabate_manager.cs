@@ -9,7 +9,7 @@ public class Alphabate_manager : MonoBehaviour
     [SerializeField] int total_score;
     [SerializeField] string strokeName;
     [SerializeField] int double_write_penalities = 3;
-    HashSet<int> childrens;
+    List<int> childrens;
     private HashSet<int> visite_stroke;
     private Stack<int> traverse_order;
     private List<int>[] strokes_and_hit_box;
@@ -23,15 +23,18 @@ public class Alphabate_manager : MonoBehaviour
     {
         return strokeName;
     }
-    public bool remove_Hit(List<int> to_be_delete, int stroke_number)
+    public bool remove_Hit(HashSet<int> to_be_delete, int stroke_number)
     {
         traverse_order.Clear();
-        for(int i = 0; i < to_be_delete.Count; i ++)
+        List<int> get_back = new List<int>();
+        foreach (int to_dete in to_be_delete)
         {
-            if (childrens.Contains(to_be_delete[i]))
+            Debug.Log(to_dete);
+            if (childrens.Contains(to_dete))
             {
-                childrens.Remove(to_be_delete[i]);
-                traverse_order.Push(to_be_delete[i]);
+                childrens.Remove(to_dete);
+                traverse_order.Push(to_dete);
+                get_back.Add(to_dete);
             }
         }
         if (traverse_order.Count == 0)
@@ -40,20 +43,20 @@ public class Alphabate_manager : MonoBehaviour
         {
             if(traverse_order.Count == 0)
             {
-                for (int j = 0; j < to_be_delete.Count; j++)
+                for(int j = 0; j < get_back.Count; j ++)
                 {
-                    childrens.Add(to_be_delete[j]);
+                    childrens.Add(get_back[j]);
                 }
                 return false;
             }
             int u = traverse_order.Pop();
-            //Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
+            Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
             if(u != strokes_and_hit_box[stroke_number][i])
             {
                 //Debug.Log(u);
-                for(int j = 0; j < to_be_delete.Count; j ++)
+                for (int j = 0; j < get_back.Count; j++)
                 {
-                    childrens.Add(to_be_delete[j]);
+                    childrens.Add(get_back[j]);
                 }
                 return false;
             }
@@ -85,20 +88,22 @@ public class Alphabate_manager : MonoBehaviour
     {
         total_score = 0;
         finished = false;
-        childrens = new HashSet<int>();
+        childrens = new List<int>();
         visite_stroke = new HashSet<int>();
         strokes_and_hit_box = new List<int>[stroke_number];
         traverse_order = new Stack<int>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            childrens.Add(i);
+            for(int j = 0; j < transform.GetChild(i).GetComponent<Hit_Box>().stroke_number.Count;j++) {
+                childrens.Add(transform.GetChild(i).GetComponent<Hit_Box>().index);
+            }
         }
         expected_stroke = 0;
         if(strokeName == "A")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5 };
             strokes_and_hit_box[1] = new List<int> { 6, 7, 8, 9, 10 };
-            strokes_and_hit_box[2] = new List<int> { 11, 12};
+            strokes_and_hit_box[2] = new List<int> { 3,11, 12,8};
         } else if(strokeName == "a") {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5};
         } else if(strokeName == "B")

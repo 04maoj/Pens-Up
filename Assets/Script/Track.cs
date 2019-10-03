@@ -12,7 +12,7 @@ public class Track : MonoBehaviour
     private List<Tuple<float,float>> corrdinates;
     private float init_x;
     private float init_y;
-    public List<int> to_be_delete;
+    public HashSet<int> to_be_delete;
     Ray Generate_Ray(Vector3 touchPosit) {
         Vector3 mousePosFar = new Vector3(touchPosit.x, touchPosit.y, Camera.main.farClipPlane);
         Vector3 mousePosNear = new Vector3(touchPosit.x, touchPosit.y, Camera.main.nearClipPlane);
@@ -24,7 +24,7 @@ public class Track : MonoBehaviour
     private void Start()
     {
         manger = FindObjectOfType<Track_manager>();
-        to_be_delete = new List<int>();
+        to_be_delete = new HashSet<int>();
         objPlane = new Plane(Camera.main.transform.forward * -1, transform.position);
         eneded = false;
         corrdinates = new List<Tuple<float, float>>();

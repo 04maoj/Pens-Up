@@ -11,6 +11,7 @@ public class Register : MonoBehaviour
     [SerializeField] public GameObject password;
     [SerializeField] public GameObject user_name;
     [SerializeField] public GameObject success_text;
+    [SerializeField] public Dropdown teacher_list;
     public void registerAttemp()
     {
         status = drop.value;
@@ -32,6 +33,10 @@ public class Register : MonoBehaviour
             sw.WriteLine(user + " " + pass);
             StartCoroutine("Back_To_Home");
         }
+    }
+    private void Load_teacher_list()
+    {
+
     }
     public IEnumerator Back_To_Home()
     {
