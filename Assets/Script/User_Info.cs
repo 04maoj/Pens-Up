@@ -7,7 +7,7 @@ public class User_Info : MonoBehaviour
 {
     // Start is called before the first frame update
     public string user_name = "Bob_the_Builder";
-    public string named ="Bob the Builder";
+    public string named = "Bob the Builder";
     public string teacher = "Alice the creater";
     private void Awake()
     {
@@ -31,7 +31,7 @@ public class User_Info : MonoBehaviour
         named = myReader.ReadLine();
         if(students)
         {
-            teacher= myReader.ReadLine();
+            teacher = myReader.ReadLine();
         }
     }
     public string Get_Name()
