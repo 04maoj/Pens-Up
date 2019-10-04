@@ -50,42 +50,6 @@ public class Replay : MonoBehaviour
         
     }
 
-    // public void DrawBot(List<List<Tuple<float, float>>> coordinates){
-    //     int count = 0;
-    //     foreach (List<Tuple<float, float>> eachStroke in coordinates){
-    //         clone = (GameObject)Instantiate(target,target.transform.position,Quaternion.identity);
-    //         lineRe = clone.GetComponent<LineRenderer>();
-    //         lineRe.startColor = Color.red;
-    //         lineRe.endColor = Color.blue;
-    //         lineRe.startWidth = 2f;
-    //         lineRe.endWidth = 2f;
-    //         count = eachStroke.Count;
-    //         // vectorList = new List<Vector3>();
-    //         // List<Vector3> stroke = new List<Vector3>();
-    //         stroke = new List<Vector3>();
-    //         foreach (Tuple<float, float> point in eachStroke){
-    //             // Vector3 pointCoordinate = new Vector3(point.Item1, point.Item2, clone.transform.position.z);
-    //             Vector3 pointCoordinate = new Vector3(point.Item1 + offSetX, point.Item2 + offSetY, offSetZ);
-    //             Debug.Log("XYZ: " + pointCoordinate);
-    //             stroke.Add(pointCoordinate);
-    //         }
-    //         lineRe.positionCount = count;
-
-    //         // Debug.Log("lineRe_Count: " + lineRe.positionCount);
-    //         currentPosition = new Vector3();
-
-    //         for (int i = 0; i < lineRe.positionCount; i++){
-    //             index = i;
-    //             currentPosition = stroke[i];
-    //             // Debug.Log("Index: " + index + " Pos: " + currentPosition);
-    //             StartCoroutine(WaitAndPaint());
-    //             // lineRe.SetPosition(i, currentPosition);
-                
-    //             // StartCoroutine(WaitAndDraw(lineRe, i, stroke[i]));
-                
-    //         }
-    //     }
-    // }
 
     IEnumerator WaitAndPaint(){
     
@@ -110,8 +74,8 @@ public class Replay : MonoBehaviour
             // List<Vector3> stroke = new List<Vector3>();
             stroke = new List<Vector3>();
             foreach (Tuple<float, float> point in eachStroke){
-                // Vector3 pointCoordinate = new Vector3(point.Item1, point.Item2, clone.transform.position.z);
-                Vector3 pointCoordinate = new Vector3((point.Item1 + offSetX) / scale, (point.Item2 + offSetY) / scale, offSetZ);
+                Vector3 pointCoordinate = new Vector3(point.Item1, point.Item2, clone.transform.position.z);
+                //Vector3 pointCoordinate = new Vector3((point.Item1 + offSetX) / scale, (point.Item2 + offSetY) / scale, offSetZ);
                 Debug.Log("XYZ: " + pointCoordinate);
                 stroke.Add(pointCoordinate);
             }

@@ -67,10 +67,16 @@ public class Track_manager : MonoBehaviour
             string path = "Assets/Standards/" + stroke_to_record;
             StreamWriter sw = File.AppendText(path);
 
-            float start_y = input[0].Item1;
-            float start_x = input[0].Item2;
-            for (int i = 0; i < input.Count; i ++) {
-                sw.WriteLine((input[i].Item1 - start_y )+ " " + (input[i].Item2- start_x));
+            float start_x = input[0].Item1;
+            float start_y = input[0].Item2;
+
+            // Modified
+            sw.WriteLine(start_x + " " + start_y);
+            
+            for (int i = 1; i < input.Count; i ++) {
+                // Modified
+                //sw.WriteLine((input[i].Item1 - start_x) + " " + (input[i].Item2 - start_y));
+                sw.WriteLine((input[i].Item1) + " " + (input[i].Item2));
             }
             sw.Close();
             Debug.Log("Done");
