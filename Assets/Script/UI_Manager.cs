@@ -31,6 +31,10 @@ public class UI_Manager : MonoBehaviour
     public void Get_Course(int index)
     {
         //courses[index].gameObject.SetActive(true);
+        if(courses[index].gameObject.GetComponent<Profile_Init>() != null)
+        {
+            courses[index].gameObject.GetComponent<Profile_Init>().Update_Status();
+        }
         courses[current_active].DOAnchorPos(new Vector2(-1000, 0), 0.25f);
         courses[index].DOAnchorPos(Vector2.zero, 0.25f);
         //courses[current_active].gameObject.SetActive(false);

@@ -13,16 +13,23 @@ public class Login_button : MonoBehaviour
     StreamReader myReader;
     void Start()
     {
-        string path = "Assets/Local_DataBase/Teachers/Teacher_Password.txt";
-        if (student)
-        {
-            path= "Assets/Local_DataBase/Students/Student_Password.txt";
-        }
-        myReader = new StreamReader(path);
-        warming_text.SetActive(false);
+        //string path = "Assets/Local_DataBase/Teachers/Teacher_Password.txt";
+        //if (student)
+        //{
+        //    path= "Assets/Local_DataBase/Students/Student_Password.txt";
+        //}
+        //myReader = new StreamReader(path);
+        //warming_text.SetActive(false);
     }
     public bool check_Passwor()
     {
+        string path = "Assets/Local_DataBase/Teachers/Teacher_Password.txt";
+        if (student)
+        {
+            path = "Assets/Local_DataBase/Students/Student_Password.txt";
+        }
+        myReader = new StreamReader(path);
+        warming_text.SetActive(false);
         string user = user_name.GetComponent<InputField>().text;
         string pass = password.GetComponent<InputField>().text;
         string line = myReader.ReadLine();
