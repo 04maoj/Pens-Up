@@ -6,6 +6,7 @@ using System;
 public class Assessment_manager : MonoBehaviour
 {
     // Start is called before the first frame update
+    public string course_title;
     public List<GameObject> active_stars;
     public List<GameObject> inactive_stars;
     public GameObject Issue_rank;
@@ -50,7 +51,7 @@ public class Assessment_manager : MonoBehaviour
             average_deviation += all_pratice[i].Average_deviation();
             scores.Add(all_pratice[i].Average_Incorect_stroke());
             average_order += all_pratice[i].Average_Incorect_stroke();
-            my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores);
+            my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores,course_title);
         }
         List<Tuple<double, string>> problemList = new List<Tuple<double, string>>();
         average_sequence /= all_pratice.Length;
