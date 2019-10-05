@@ -54,6 +54,7 @@ public class Alphabate_manager : MonoBehaviour
                     return 1;
             }
             int u = traverse_order.Pop();
+            Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
             if(u != strokes_and_hit_box[stroke_number][i])
             {
                 //Debug.Log(u);
@@ -146,8 +147,29 @@ public class Alphabate_manager : MonoBehaviour
         } else if(strokeName == "n") {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
             strokes_and_hit_box[1] = new List<int> { 0,3,4,5,6 };
+            connections_points = new List<int> { 0 };
+        } else if(strokeName == "t")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
+            strokes_and_hit_box[1] = new List<int> { 4, 1, 5, 6 , 7 , 8 };
+        } else if(strokeName == "p")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2,3,4 };
+            strokes_and_hit_box[1] = new List<int> { 0,5,6,7,2};
+            connections_points = new List<int> { 0,2};
         }
-
+        else if (strokeName == "l")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
+        }
+        else if (strokeName == "e")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 ,5,6};
+        }
+        else if(strokeName == "u")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5};
+        }
 
     }
     public Assessment Get_Assessment()

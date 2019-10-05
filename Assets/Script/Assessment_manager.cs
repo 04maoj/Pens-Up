@@ -10,6 +10,10 @@ public class Assessment_manager : MonoBehaviour
     public List<GameObject> active_stars;
     public List<GameObject> inactive_stars;
     public GameObject Issue_rank;
+    public TextMesh worst;
+
+
+
     private User_Info my_info;
     private char current_worst = '*';
     private int current_worst_score =1000000000;
@@ -19,7 +23,6 @@ public class Assessment_manager : MonoBehaviour
     private double average_order =0;
     private double average_connection = 0;
     private double total_score = 0;
-
     private void Awake()
     {
         my_info = FindObjectOfType<User_Info>();
@@ -46,15 +49,20 @@ public class Assessment_manager : MonoBehaviour
             List<int> scores = new List<int>();
             scores.Add(all_pratice[i].Average_Sequence());
             average_sequence += all_pratice[i].Average_Sequence();
+
             scores.Add(all_pratice[i].Average_hit_board());
             average_hit_board += all_pratice[i].Average_hit_board();
+
             scores.Add(all_pratice[i].Average_deviation());
             average_deviation += all_pratice[i].Average_deviation();
+
             scores.Add(all_pratice[i].Average_Incorect_stroke());
             average_order += all_pratice[i].Average_Incorect_stroke();
-            //my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores,course_title);
-            average_connection += all_pratice[i].AverageConnections();
+
+
             scores.Add(all_pratice[i].AverageConnections());
+            average_connection += all_pratice[i].AverageConnections();
+           
             my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores, course_title);
         }
         List<Tuple<double, string>> problemList = new List<Tuple<double, string>>();
@@ -106,14 +114,17 @@ public class Assessment_manager : MonoBehaviour
         {
             transform.GetChild(i).gameObject.SetActive(false);
         }
-        if(current_worst < 'a')
-        {
-            transform.GetChild((current_worst-'A')*2).gameObject.SetActive(true);
-        }
-        else
-        {
-            transform.GetChild(((current_worst - 'a')*2)+1).gameObject.SetActive(true);
-        }
+        worst.text = current_worst + "";
+        //if(current_worst < 'a')
+        //{
+        //    worst.text = current_worst + "";
+        //    //transform.GetChild((current_worst-'A')*2).gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    worst.text = current_worst +"";
+        //    //transform.GetChild(((current_worst - 'a')*2)+1).gameObject.SetActive(true);
+        //}
         int count = 0;
         double current_min = -1;
         for(int i = 0; i < problemList.Count; i++) {
@@ -132,7 +143,6 @@ public class Assessment_manager : MonoBehaviour
                 Issue_rank.transform.GetChild(i).GetComponent<TextMesh>().text = "";
             }
         }
-
     }
 
 }
