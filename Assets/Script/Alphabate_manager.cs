@@ -13,6 +13,7 @@ public class Alphabate_manager : MonoBehaviour
     private HashSet<int> visite_stroke;
     private Stack<int> traverse_order;
     private List<int>[] strokes_and_hit_box;
+    private List<int> connections_points;
     private bool finished;
     int expected_stroke;
      private void Start()
@@ -23,7 +24,8 @@ public class Alphabate_manager : MonoBehaviour
     {
         return strokeName;
     }
-    public bool remove_Hit(HashSet<int> to_be_delete, int stroke_number)
+    //exit status 0 means fine, 1 means normal missing stoke, 2 means missing connection points
+    public int remove_Hit(HashSet<int> to_be_delete, int stroke_number)
     {
         traverse_order.Clear();
         List<int> get_back = new List<int>();
@@ -37,7 +39,7 @@ public class Alphabate_manager : MonoBehaviour
             }
         }
         if (traverse_order.Count == 0)
-            return false;
+            return 1;
         for(int i = strokes_and_hit_box[stroke_number].Count- 1; i> -1; i--)
         {
             if(traverse_order.Count == 0)
@@ -46,10 +48,12 @@ public class Alphabate_manager : MonoBehaviour
                 {
                     childrens.Add(get_back[j]);
                 }
-                return false;
+                if (connections_points.Contains(strokes_and_hit_box[stroke_number][i]) &&(i== strokes_and_hit_box[stroke_number].Count - 1 || i== 0))
+                    return 2;
+                else
+                    return 1;
             }
             int u = traverse_order.Pop();
-            Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
             if(u != strokes_and_hit_box[stroke_number][i])
             {
                 //Debug.Log(u);
@@ -57,7 +61,10 @@ public class Alphabate_manager : MonoBehaviour
                 {
                     childrens.Add(get_back[j]);
                 }
-                return false;
+                if (connections_points.Contains(strokes_and_hit_box[stroke_number][i]) && (i == strokes_and_hit_box[stroke_number].Count - 1 || i == 0))
+                    return 2;
+                else
+                    return 1;
             }
         }
 
@@ -67,7 +74,7 @@ public class Alphabate_manager : MonoBehaviour
             FindObjectOfType<Scence_Manager>().Decrement_total_Character();
             FindObjectOfType<Track_manager>().Finished_one();
             finished = true;
-            return true;
+            return 0;
         } else {
             Debug.Log(childrens.Count);
             for(int i = 0; i < childrens.Count; i ++) {
@@ -75,7 +82,7 @@ public class Alphabate_manager : MonoBehaviour
              }
             
         }
-        return true;
+        return 0;
     }
     public bool finish()
     {
@@ -97,6 +104,7 @@ public class Alphabate_manager : MonoBehaviour
         visite_stroke = new HashSet<int>();
         strokes_and_hit_box = new List<int>[stroke_number];
         traverse_order = new Stack<int>();
+        connections_points = new List<int>();
         for (int i = 0; i < transform.childCount; i++)
         {
             for(int j = 0; j < transform.GetChild(i).GetComponent<Hit_Box>().stroke_number.Count;j++) {
@@ -104,27 +112,40 @@ public class Alphabate_manager : MonoBehaviour
             }
         }
         expected_stroke = 0;
-        if(strokeName == "A")
+        if (strokeName == "A")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5 };
-            strokes_and_hit_box[1] = new List<int> {0, 6, 7, 8, 9, 10 };
-            strokes_and_hit_box[2] = new List<int> { 3,11, 12,8};
-        } else if(strokeName == "a") {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4};
-        } else if(strokeName == "B")
+            strokes_and_hit_box[1] = new List<int> { 0, 6, 7, 8, 9, 10 };
+            strokes_and_hit_box[2] = new List<int> { 3, 11, 12, 8 };
+            connections_points = new List<int> { 0, 3, 8 };
+        }
+        else if (strokeName == "a")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
-            strokes_and_hit_box[1] = new List<int> {0, 5, 6, 7, 8,9,2 };
-            strokes_and_hit_box[2] = new List<int> {2, 9,10, 11, 12,13,4};
-        } else if(strokeName == "C")
+        }
+        else if (strokeName == "B")
         {
-            strokes_and_hit_box[0] = new List<int> { 0,1,2,3,4,5,6,7 };
-        } else if(strokeName  == "c")
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
+            strokes_and_hit_box[1] = new List<int> { 0, 5, 6, 7, 8, 9, 2 };
+            strokes_and_hit_box[2] = new List<int> { 2, 9, 10, 11, 12, 13, 4 };
+            connections_points = new List<int> { 0, 2,4,9};
+        }
+        else if (strokeName == "C")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4};
-        } else if(strokeName == "b") {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3};
-            strokes_and_hit_box[1] = new List<int> { 1, 4 , 5 , 6 , 7 , 8,3 };
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7 };
+        }
+        else if (strokeName == "c")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
+        }
+        else if (strokeName == "b")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3 };
+            strokes_and_hit_box[1] = new List<int> { 1, 4, 5, 6, 7, 8, 3 };
+            connections_points = new List<int> { 1, 3 };
+        } else if(strokeName == "n") {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
+            strokes_and_hit_box[1] = new List<int> { 0,3,4,5,6 };
         }
 
 

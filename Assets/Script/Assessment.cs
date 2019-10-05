@@ -17,6 +17,8 @@ public class Assessment : MonoBehaviour
     private int incorrect_stroke_sequence = 0;
     //这个是上往下变成下往上了
     private int incorrect_order = 0;
+    //这个是没有连好线
+    private int incorrect_connections = 0;
     //还有一个是deviation
     public void Load_Standard(string input_name) {
         current_standard = new List<Tuple<float, float>>();
@@ -65,7 +67,7 @@ public class Assessment : MonoBehaviour
     }
     public int GetTotalScore()
     {
-        return Average_deviation() + Average_hit_board() + Average_Incorect_stroke() + Average_Sequence();
+        return Average_deviation() + Average_hit_board() + Average_Incorect_stroke() + Average_Sequence()+ AverageConnections();
     }
 
     public int Average_deviation() 
@@ -117,5 +119,19 @@ public class Assessment : MonoBehaviour
     public void IncorrectOrder()
     {
         incorrect_order++;
+    }
+    public void ConnectionIssues()
+    {
+        incorrect_connections++;
+    }
+    public int AverageConnections()
+    {
+        if (incorrect_connections > 2)
+        {
+            return 0;
+        }
+        if (incorrect_connections == 1)
+            return 1;
+        return 2;
     }
 }

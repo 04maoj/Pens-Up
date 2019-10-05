@@ -17,6 +17,7 @@ public class Assessment_manager : MonoBehaviour
     private double average_hit_board =0;
     private double average_deviation =0;
     private double average_order =0;
+    private double average_connection = 0;
     private double total_score = 0;
 
     private void Awake()
@@ -51,7 +52,10 @@ public class Assessment_manager : MonoBehaviour
             average_deviation += all_pratice[i].Average_deviation();
             scores.Add(all_pratice[i].Average_Incorect_stroke());
             average_order += all_pratice[i].Average_Incorect_stroke();
-            my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores,course_title);
+            //my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores,course_title);
+            average_connection += all_pratice[i].AverageConnections();
+            scores.Add(all_pratice[i].AverageConnections());
+            my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores, course_title);
         }
         List<Tuple<double, string>> problemList = new List<Tuple<double, string>>();
         average_sequence /= all_pratice.Length;
@@ -63,6 +67,8 @@ public class Assessment_manager : MonoBehaviour
         problemList.Add(new Tuple<double, string>(average_deviation/3 * 100, "Distance from correct sequence"));
         average_order /= all_pratice.Length;
         problemList.Add(new Tuple<double, string>(average_order/2 * 100, "Order sequence"));
+        average_connection /= all_pratice.Length;
+        problemList.Add(new Tuple<double, string>(average_connection / 2 * 100, "Connections sequence"));
         total_score /= all_pratice.Length;
         problemList.Sort();
         Debug.Log(total_score);
@@ -76,7 +82,7 @@ public class Assessment_manager : MonoBehaviour
             active_stars[0].SetActive(false);
             inactive_stars[0].SetActive(true);
         }
-        if (total_score >= 4)
+        if (total_score >= 5)
         {
             active_stars[1].SetActive(true);
             inactive_stars[1].SetActive(false);
@@ -111,7 +117,7 @@ public class Assessment_manager : MonoBehaviour
         int count = 0;
         double current_min = -1;
         for(int i = 0; i < problemList.Count; i++) {
-            Debug.Log(problemList[i].Item1);
+            Debug.Log(problemList[i].Item1 +"  "+ problemList[i].Item2);
             if(Math.Abs(problemList[i].Item1 - current_min) > 0.0000001 && Math.Abs(problemList[i].Item1 - 100) > 0.000000001 && problemList[i].Item1<= 100)
             {
                 count += 1;

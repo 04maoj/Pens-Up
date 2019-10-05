@@ -11,6 +11,7 @@ public class Track_manager : MonoBehaviour
     [SerializeField] GameObject Error_Write_On_Character = null;
     [SerializeField] GameObject Error_Sequence = null;
     [SerializeField] GameObject Error_Finished= null;
+    [SerializeField] GameObject Error_Connections = null;
     // public bool replayMode = false;
     [SerializeField] string stroke_to_record= null;
     public GameObject prefabs;
@@ -94,12 +95,19 @@ public class Track_manager : MonoBehaviour
                 Destroy(current);
                 return;
             }
-            bool success = alphabate.remove_Hit(to_be_delete, stroke_number);
-            if (!success)
+            int status = alphabate.remove_Hit(to_be_delete, stroke_number);
+            if (status == 1)
             {
                 Set_Error_Inactive();
                 Error_Sequence.SetActive(true);
                 tester.IncorrectOrder();
+                Destroy(current);
+                return;
+            } else if(status == 2)
+            {
+                Set_Error_Inactive();
+                Error_Connections.SetActive(true);
+                tester.ConnectionIssues();
                 Destroy(current);
                 return;
             }
@@ -127,6 +135,7 @@ public class Track_manager : MonoBehaviour
         Error_Write_On_Character.SetActive(false);
         Error_Finished.SetActive(false);
         Error_Sequence.SetActive(false);
+        Error_Connections.SetActive(false);
     }
     public void Clear_All()
     {

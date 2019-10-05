@@ -67,7 +67,7 @@ public class User_Info : MonoBehaviour
 
     //storing the score of the students for each characters.
     //each input end with a *.
-    //the order of score is sequence score, hit board score, deviation score, incorrect stroke score.
+    //the order of score is sequence score, hit board score, deviation score, incorrect stroke score, and incorrect sequence
     public void Store_Individual_Scores(string character, List<int> scores,string course_title)
     {
         string path1 = "Assets/Local_DataBase/Students/" + user_name + "/Complted_course";
