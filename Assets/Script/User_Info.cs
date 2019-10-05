@@ -9,6 +9,8 @@ public class User_Info : MonoBehaviour
     public string user_name = "Bob_the_Builder";
     public string named = "Bob the Builder";
     public string teacher = "Alice the creater";
+    public string[] students = ["Bob the Builder",""];
+    public string student = "Builder";
     private HashSet<string> complete_set;
     private void Awake()
     {
