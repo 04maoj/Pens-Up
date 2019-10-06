@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 99725158}
   - component: {fileID: 99725157}
   m_Layer: 5
-  m_Name: Background Course 2
+  m_Name: Background Course 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f5da5e37a404a8987c9e7208f85954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  next: 0
+  next: 11
   is_Box: 0
   to: 0
 --- !u!65 &99725158
@@ -566,7 +566,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 239393823}
   m_LocalRotation: {x: -0.016429257, y: 0.09078746, z: 0.0050807334, w: 0.9957218}
-  m_LocalPosition: {x: 0, y: 0, z: -1.3678093}
+  m_LocalPosition: {x: 0, y: 0, z: -1.3}
   m_LocalScale: {x: 0.008475592, y: 0.002433021, z: 0.024417037}
   m_Children: []
   m_Father: {fileID: 1454038975}
@@ -574,7 +574,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.1, y: -0.3887787}
+  m_AnchoredPosition: {x: 0.04, y: -0.389}
   m_SizeDelta: {x: 150, y: 45.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &239393825
@@ -597,7 +597,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 8b0cd4589a39f403cbfebfb0eb8bbc8a, type: 3}
-    m_FontSize: 25
+    m_FontSize: 18
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -608,7 +608,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Course B
+  m_Text: 'Course LInk A
 
 '
 --- !u!222 &239393826
@@ -1854,7 +1854,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 8b0cd4589a39f403cbfebfb0eb8bbc8a, type: 3}
-    m_FontSize: 25
+    m_FontSize: 18
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -1865,7 +1865,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Course TBD
+  m_Text: Course Link C
 --- !u!222 &725992590
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1928,8 +1928,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f5da5e37a404a8987c9e7208f85954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  next: 0
-  is_Box: 0
+  next: 12
+  is_Box: 1
   to: 0
 --- !u!65 &741853358
 BoxCollider:
@@ -2603,7 +2603,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1041886002}
   m_LocalRotation: {x: -0.016429257, y: 0.09078746, z: 0.0050807334, w: 0.9957218}
-  m_LocalPosition: {x: 0, y: 0, z: -4.4058814}
+  m_LocalPosition: {x: 0, y: 0, z: -4.21}
   m_LocalScale: {x: 0.008475592, y: 0.002433021, z: 0.024417037}
   m_Children: []
   m_Father: {fileID: 99725156}
@@ -2611,7 +2611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0.39761353}
+  m_AnchoredPosition: {x: -0.18, y: -0.398}
   m_SizeDelta: {x: 174.3, y: 45.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1041886004
@@ -2634,7 +2634,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 8b0cd4589a39f403cbfebfb0eb8bbc8a, type: 3}
-    m_FontSize: 25
+    m_FontSize: 18
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -2645,7 +2645,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Course C
+  m_Text: Course Link B
 --- !u!222 &1041886005
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3502,6 +3502,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483997292}
   m_CullTransparentMesh: 0
+--- !u!1001 &1534030536
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4290427794775964071, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_Name
+      value: UserInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6, type: 3}
 --- !u!1 &1539201247
 GameObject:
   m_ObjectHideFlags: 0
@@ -4608,7 +4677,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Course A
+  m_Text: Intro A-C
 --- !u!222 &2046165358
 CanvasRenderer:
   m_ObjectHideFlags: 0
