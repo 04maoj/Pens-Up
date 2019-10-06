@@ -88,6 +88,10 @@ public class Track_manager : MonoBehaviour
             {
                 Destroy(current);
             }
+            if (alphabate.Get_Assessment()==null)
+            {
+                Debug.Log(alphabate.gameObject.name);
+            }
             tester = alphabate.Get_Assessment();
             if (current.GetComponent<Track>().Get_Stroke_Number() == -1) {
                 Set_Error_Inactive();
