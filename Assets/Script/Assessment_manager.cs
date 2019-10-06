@@ -114,6 +114,8 @@ public class Assessment_manager : MonoBehaviour
         {
             transform.GetChild(i).gameObject.SetActive(false);
         }
+        worst.gameObject.SetActive(true);
+        Debug.Log(current_worst);
         worst.text = current_worst + "";
         //if(current_worst < 'a')
         //{

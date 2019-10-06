@@ -12,24 +12,28 @@ public class User_Info : MonoBehaviour
     private HashSet<string> complete_set;
     private void Awake()
     {
+        if(FindObjectsOfType<User_Info>().Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
         DontDestroyOnLoad(this);
     }
     private void Start()
     {
         string path1 = "Assets/Local_DataBase/Students/" + user_name + "/Complted_course";
         complete_set = new HashSet<string>();
-        Debug.Log(path1);
-        if (File.Exists(path1))
-        {
-            // Read a text file line by line.
-            Debug.Log("Yes");
-            string[] lines = File.ReadAllLines(path1);
-            foreach (string line in lines)
-            {
-                complete_set.Add(line);
-                Debug.Log(line);
-            }
-        }
+        //Debug.Log(path1);
+        //if (File.Exists(path1))
+        //{
+        //    // Read a text file line by line.
+        //    Debug.Log("Yes It exist");
+        //    string[] lines = File.ReadAllLines(path1);
+        //    foreach (string line in lines)
+        //    {
+        //        complete_set.Add(line);
+        //        Debug.Log(line);
+        //    }
+        //}
     }
     public void Update_user_name(string nameded, bool students)
     {
@@ -49,6 +53,18 @@ public class User_Info : MonoBehaviour
         if(students)
         {
             teacher = myReader.ReadLine();
+            string path1 = "Assets/Local_DataBase/Students/" + user_name + "/Complted_course";
+            if (File.Exists(path1))
+            {
+                // Read a text file line by line.
+                Debug.Log("Yes It exist");
+                string[] lines = File.ReadAllLines(path1);
+                foreach (string line in lines)
+                {
+                    complete_set.Add(line);
+                    Debug.Log(line);
+                }
+            }
         }
     }
     public string Get_Name()

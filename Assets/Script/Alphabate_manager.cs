@@ -169,6 +169,25 @@ public class Alphabate_manager : MonoBehaviour
         else if(strokeName == "u")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5};
+        } else if(strokeName == "y")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0,1,2,3};
+            strokes_and_hit_box[1] = new List<int> {4,5,3,6,7 };
+            connections_points = new List<int> {3 };
+        } else if(strokeName == "g")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3 ,4,5};
+            strokes_and_hit_box[1] = new List<int> { 0,6,5,7,8};
+            connections_points = new List<int> { 0,5};
+        }
+        else if (strokeName == "o")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5 };
+        } else if(strokeName == "r")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3 };
+            strokes_and_hit_box[1] = new List<int> { 0, 4 };
+            connections_points = new List<int> { 0};
         }
 
     }
