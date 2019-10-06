@@ -52,10 +52,16 @@ public class Login_button : MonoBehaviour
         if(check_Passwor())
         {
             Debug.Log("Yes");
-            FindObjectOfType<User_Info>().Update_user_name(user_name.GetComponent<InputField>().text,student);
-            SceneLoader manager = FindObjectOfType<SceneLoader>();
-            manager.LoadScence(7);
-        }
+			if(student) {
+	            FindObjectOfType<User_Info>().Update_user_name(user_name.GetComponent<InputField>().text,student);
+	            SceneLoader manager = FindObjectOfType<SceneLoader>();
+	            manager.LoadScence(7);
+				}else {
+		            FindObjectOfType<User_Info>().Update_user_name(user_name.GetComponent<InputField>().text,student);
+		            SceneLoader manager = FindObjectOfType<SceneLoader>();
+		            manager.LoadScence(11);
+				}
+        } 
         else
         {
             warming_text.SetActive(true);
