@@ -168,7 +168,7 @@ public class Alphabate_manager : MonoBehaviour
         }
         else if(strokeName == "u")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5};
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4};
         } else if(strokeName == "y")
         {
             strokes_and_hit_box[0] = new List<int> { 0,1,2,3};
