@@ -59,7 +59,7 @@ public class Login_button : MonoBehaviour
 				}else {
 		            FindObjectOfType<User_Info>().Update_user_name(user_name.GetComponent<InputField>().text,student);
 		            SceneLoader manager = FindObjectOfType<SceneLoader>();
-		            manager.LoadScence(11);
+		            manager.LoadScence(10);
 				}
         } 
         else
