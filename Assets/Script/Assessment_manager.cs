@@ -59,7 +59,6 @@ public class Assessment_manager : MonoBehaviour
             scores.Add(all_pratice[i].Average_Incorect_stroke());
             average_order += all_pratice[i].Average_Incorect_stroke();
 
-
             scores.Add(all_pratice[i].AverageConnections());
             average_connection += all_pratice[i].AverageConnections();
             my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores, course_title);
@@ -78,7 +77,7 @@ public class Assessment_manager : MonoBehaviour
         problemList.Add(new Tuple<double, string>(average_connection / 2 * 100, "Connections sequence"));
         total_score /= all_pratice.Length;
         problemList.Sort();
-        Debug.Log(total_score);
+        my_info.Store_Total_Scores(total_score, course_title);
         if (total_score >= 1)
         {
             active_stars[0].SetActive(true);

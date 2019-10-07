@@ -107,4 +107,13 @@ public class User_Info : MonoBehaviour
             }
         }
     }
+    public void Store_Total_Scores(double score, string course_title)
+    {
+        string path1 = "Assets/Local_DataBase/Students/" + user_name + "/Total_score_list";
+        using (StreamWriter writer = File.AppendText(path1))
+        {
+            writer.WriteLine(course_title + " " + score);
+        }
+
+    }
 }
