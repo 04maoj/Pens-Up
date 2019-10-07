@@ -27,7 +27,6 @@ namespace XCharts
             SerializedProperty m_Show = prop.FindPropertyRelative("m_Show");
             SerializedProperty m_Type = prop.FindPropertyRelative("m_Type");
             SerializedProperty m_SplitNumber = prop.FindPropertyRelative("m_SplitNumber");
-            SerializedProperty m_Interval = prop.FindPropertyRelative("m_Interval");
             SerializedProperty m_AxisLabel = prop.FindPropertyRelative("m_AxisLabel");
             SerializedProperty m_ShowSplitLine = prop.FindPropertyRelative("m_ShowSplitLine");
             SerializedProperty m_SplitLineType = prop.FindPropertyRelative("m_SplitLineType");
@@ -74,8 +73,6 @@ namespace XCharts
                     }
                 }
                 EditorGUI.PropertyField(drawRect, m_SplitNumber);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_Interval);
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (m_ShowSplitLine.boolValue)
                 {
@@ -143,7 +140,7 @@ namespace XCharts
                 SerializedProperty m_AxisLabel = prop.FindPropertyRelative("m_AxisLabel");
                 SerializedProperty m_SplitArea = prop.FindPropertyRelative("m_SplitArea");
                 float height = 0;
-                height += 11 * EditorGUIUtility.singleLineHeight + 10 * EditorGUIUtility.standardVerticalSpacing;
+                height += 10 * EditorGUIUtility.singleLineHeight + 9 * EditorGUIUtility.standardVerticalSpacing;
                 Axis.AxisType type = (Axis.AxisType)m_Type.enumValueIndex;
                 if (type == Axis.AxisType.Category)
                 {

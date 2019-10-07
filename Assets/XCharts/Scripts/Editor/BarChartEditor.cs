@@ -9,10 +9,13 @@ namespace XCharts
     [CustomEditor(typeof(BarChart), false)]
     public class BarChartEditor : CoordinateChartEditor
     {
+        protected SerializedProperty m_Bar;
+
         protected override void OnEnable()
         {
             base.OnEnable();
             m_Target = (BarChart)target;
+            m_Bar = serializedObject.FindProperty("m_Bar");
         }
 
         protected override void OnEndInspectorGUI()
@@ -22,6 +25,7 @@ namespace XCharts
             {
                 return;
             }
+            EditorGUILayout.PropertyField(m_Bar, true);
         }
     }
 }

@@ -92,8 +92,8 @@ namespace XCharts
         /// <param name="xAxisIndex">which xAxis should category add to</param>
         public void AddXAxisData(string category, int xAxisIndex = 0)
         {
-            m_XAxises[xAxisIndex].AddData(category);
-            m_XAxisChanged = true;
+            m_XAxises[xAxisIndex].AddData(category, m_MaxCacheDataNumber);
+            OnXAxisChanged();
         }
 
         /// <summary>
@@ -104,8 +104,8 @@ namespace XCharts
         /// <param name="yAxisIndex">which yAxis should category add to</param>
         public void AddYAxisData(string category, int yAxisIndex = 0)
         {
-            m_YAxises[yAxisIndex].AddData(category);
-            m_YAxisChanged = true;
+            m_YAxises[yAxisIndex].AddData(category, m_MaxCacheDataNumber);
+            OnYAxisChanged();
         }
 
         /// <summary>
@@ -124,11 +124,6 @@ namespace XCharts
                 if (axis.show && !axis.IsValue()) return false;
             }
             return true;
-        }
-
-        public bool IsCategory()
-        {
-            return !IsValue();
         }
 
     }

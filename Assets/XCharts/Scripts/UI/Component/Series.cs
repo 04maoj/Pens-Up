@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System;
 
 namespace XCharts
 {
@@ -11,7 +10,6 @@ namespace XCharts
     [System.Serializable]
     public class Series : JsonDataSupport
     {
-
         [SerializeField] protected List<Serie> m_Series;
 
         /// <summary>
@@ -19,15 +17,7 @@ namespace XCharts
         /// 系列列表。
         /// </summary>
         /// <value></value>
-        [Obsolete("Use series.list instead.", true)]
         public List<Serie> series { get { return m_Series; } }
-
-        /// <summary>
-        /// the list of serie
-        /// 系列列表。
-        /// </summary>
-        /// <value></value>
-        public List<Serie> list { get { return m_Series; } }
         /// <summary>
         /// the size of serie list.
         /// 系列个数。
@@ -56,7 +46,6 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
-            AnimationStop();
             foreach (var serie in m_Series)
             {
                 serie.ClearData();
@@ -90,16 +79,7 @@ namespace XCharts
         {
             for (int i = 0; i < m_Series.Count; i++)
             {
-                bool match = false;
-                if (string.IsNullOrEmpty(name))
-                {
-                    if (string.IsNullOrEmpty(m_Series[i].name)) match = true;
-                }
-                else if (name.Equals(m_Series[i].name))
-                {
-                    match = true;
-                }
-                if (match)
+                if (name.Equals(m_Series[i].name))
                 {
                     m_Series[i].index = i;
                     return m_Series[i];
@@ -134,51 +114,6 @@ namespace XCharts
             if (index >= 0 && index < m_Series.Count)
             {
                 return m_Series[index];
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// 获得上一个同堆叠且显示的serie。
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public Serie GetLastStackSerie(int index)
-        {
-            var serie = GetSerie(index);
-            return GetLastStackSerie(serie);
-        }
-
-        /// <summary>
-        /// 同堆叠的serie是否有渐变色的。
-        /// </summary>
-        /// <param name="stack"></param>
-        /// <returns></returns>
-        public bool IsAnyGradientSerie(string stack)
-        {
-            if (string.IsNullOrEmpty(stack)) return false;
-            foreach (var serie in m_Series)
-            {
-                if (serie.show && serie.areaStyle.show && stack.Equals(serie.stack))
-                {
-                    if (serie.areaStyle.color != serie.areaStyle.toColor && serie.areaStyle.toColor != Color.clear) return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 获得上一个同堆叠且显示的serie。
-        /// </summary>
-        /// <param name="serie"></param>
-        /// <returns></returns>
-        public Serie GetLastStackSerie(Serie serie)
-        {
-            if (serie == null || string.IsNullOrEmpty(serie.stack)) return null;
-            for (int i = serie.index - 1; i >= 0; i--)
-            {
-                var temp = m_Series[i];
-                if (temp.show && serie.stack.Equals(temp.stack)) return temp;
             }
             return null;
         }
@@ -220,7 +155,6 @@ namespace XCharts
         /// </summary>
         public void RemoveAll()
         {
-            AnimationStop();
             m_Series.Clear();
         }
 
@@ -231,7 +165,7 @@ namespace XCharts
         /// <param name="type"></param>
         /// <param name="show"></param>
         /// <returns></returns>
-        public Serie AddSerie(SerieType type, string serieName, bool show = true)
+        public Serie AddSerie(string serieName, SerieType type, bool show = true)
         {
             var serie = GetSerie(serieName);
             if (serie == null)
@@ -273,13 +207,14 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
+        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddData(string serieName, float value, string dataName = null)
+        public bool AddData(string serieName, float value, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddYData(value, dataName);
+                serie.AddYData(value, dataName, maxDataNumber);
                 return true;
             }
             return false;
@@ -291,13 +226,14 @@ namespace XCharts
         /// <param name="index"></param>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
+        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddData(int index, float value, string dataName = null)
+        public bool AddData(int index, float value, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddYData(value, dataName);
+                serie.AddYData(value, dataName, maxDataNumber);
                 return true;
             }
             return false;
@@ -309,13 +245,14 @@ namespace XCharts
         /// <param name="serieName"></param>
         /// <param name="multidimensionalData"></param>
         /// <param name="dataName"></param>
+        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddData(string serieName, List<float> multidimensionalData, string dataName = null)
+        public bool AddData(string serieName, List<float> multidimensionalData, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddData(multidimensionalData, dataName);
+                serie.AddData(multidimensionalData, dataName, maxDataNumber);
                 return true;
             }
             return false;
@@ -327,13 +264,14 @@ namespace XCharts
         /// <param name="serieIndex"></param>
         /// <param name="multidimensionalData"></param>
         /// <param name="dataName"></param>
+        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
+        public bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieIndex);
             if (serie != null)
             {
-                serie.AddData(multidimensionalData, dataName);
+                serie.AddData(multidimensionalData, dataName, maxDataNumber);
                 return true;
             }
             return false;
@@ -346,13 +284,14 @@ namespace XCharts
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
+        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddXYData(string serieName, float xValue, float yValue, string dataName = null)
+        public bool AddXYData(string serieName, float xValue, float yValue, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(serieName);
             if (serie != null)
             {
-                serie.AddXYData(xValue, yValue, dataName);
+                serie.AddXYData(xValue, yValue, dataName, maxDataNumber);
                 return true;
             }
             return false;
@@ -365,13 +304,14 @@ namespace XCharts
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
+        /// <param name="maxDataNumber"></param>
         /// <returns></returns>
-        public bool AddXYData(int index, float xValue, float yValue, string dataName = null)
+        public bool AddXYData(int index, float xValue, float yValue, string dataName = null, int maxDataNumber = 0)
         {
             var serie = GetSerie(index);
             if (serie != null)
             {
-                serie.AddXYData(xValue, yValue, dataName);
+                serie.AddXYData(xValue, yValue, dataName, maxDataNumber);
                 return true;
             }
             return false;
@@ -383,9 +323,9 @@ namespace XCharts
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <param name="dataIndex"></param>
-        public void UpdateData(string serieName, int dataIndex, float value)
+        public void UpdateData(string name, float value, int dataIndex = 0)
         {
-            var serie = GetSerie(serieName);
+            var serie = GetSerie(name);
             if (serie != null)
             {
                 serie.UpdateYData(dataIndex, value);
@@ -393,44 +333,14 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 更新指定系列的数据项名称
+        /// 更新指定系列的维度Y数据
         /// </summary>
-        /// <param name="serieName"></param>
-        /// <param name="dataIndex"></param>
-        /// <param name="dataName"></param>
-        public void UpdateDataName(string serieName, int dataIndex, string dataName)
-        {
-            var serie = GetSerie(serieName);
-            if (serie != null)
-            {
-                serie.UpdateDataName(dataIndex, dataName);
-            }
-        }
-
-        /// <summary>
-        /// 更新指定系列的数据项名称
-        /// </summary>
-        /// <param name="serieIndex"></param>
-        /// <param name="dataIndex"></param>
-        /// <param name="dataName"></param>
-        public void UpdateDataName(int serieIndex, int dataIndex, string dataName)
-        {
-            var serie = GetSerie(serieIndex);
-            if (serie != null)
-            {
-                serie.UpdateDataName(dataIndex, dataName);
-            }
-        }
-
-        /// <summary>
-        /// 更新指定系列的维度Y数据项的值
-        /// </summary>
-        /// <param name="serieIndex"></param>
-        /// <param name="dataIndex"></param>
+        /// <param name="index"></param>
         /// <param name="value"></param>
-        public void UpdateData(int serieIndex, int dataIndex, float value)
+        /// <param name="dataIndex"></param>
+        public void UpdateData(int index, float value, int dataIndex = 0)
         {
-            var serie = GetSerie(serieIndex);
+            var serie = GetSerie(index);
             if (serie != null)
             {
                 serie.UpdateYData(dataIndex, value);
@@ -441,13 +351,13 @@ namespace XCharts
         /// <summary>
         /// 更新指定系列的维度X和维度Y数据
         /// </summary>
-        /// <param name="serieName"></param>
-        /// <param name="dataIndex"></param>
+        /// <param name="name"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        public void UpdateXYData(string serieName, int dataIndex, float xValue, float yValue)
+        /// <param name="dataIndex"></param>
+        public void UpdateXYData(string name, float xValue, float yValue, int dataIndex = 0)
         {
-            var serie = GetSerie(serieName);
+            var serie = GetSerie(name);
             if (serie != null)
             {
                 serie.UpdateXYData(dataIndex, xValue, yValue);
@@ -457,13 +367,13 @@ namespace XCharts
         /// <summary>
         /// 更新指定系列的维度X和维度Y数据
         /// </summary>
-        /// <param name="serieIndex"></param>
-        /// <param name="dataIndex"></param>
+        /// <param name="index"></param>
         /// <param name="xValue"></param>
         /// <param name="yValue"></param>
-        public void UpdateXYData(int serieIndex, int dataIndex, float xValue, float yValue)
+        /// <param name="dataIndex"></param>
+        public void UpdateXYData(int index, float xValue, float yValue, int dataIndex = 0)
         {
-            var serie = GetSerie(serieIndex);
+            var serie = GetSerie(index);
             if (serie != null)
             {
                 serie.UpdateXYData(dataIndex, xValue, yValue);
@@ -542,7 +452,7 @@ namespace XCharts
         /// <returns></returns>
         public bool IsUsedAxisIndex(int axisIndex)
         {
-            foreach (var serie in list)
+            foreach (var serie in series)
             {
                 if (serie.axisIndex == axisIndex) return true;
             }
@@ -568,10 +478,9 @@ namespace XCharts
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        public void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            out int minVaule, out int maxValue)
+        public void GetXMinMaxValue(DataZoom dataZoom, int axisIndex, out int minVaule, out int maxValue)
         {
-            GetMinMaxValue(dataZoom, axisIndex, isValueAxis, false, out minVaule, out maxValue);
+            GetMinMaxValue(dataZoom, axisIndex, false, out minVaule, out maxValue);
         }
 
         /// <summary>
@@ -581,20 +490,47 @@ namespace XCharts
         /// <param name="axisIndex"></param>
         /// <param name="minVaule"></param>
         /// <param name="maxValue"></param>
-        public void GetYMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis,
-            out int minVaule, out int maxValue)
+        public void GetYMinMaxValue(DataZoom dataZoom, int axisIndex, out int minVaule, out int maxValue)
         {
-            GetMinMaxValue(dataZoom, axisIndex, isValueAxis, true, out minVaule, out maxValue);
+            GetMinMaxValue(dataZoom, axisIndex, true, out minVaule, out maxValue);
         }
 
         private Dictionary<int, List<Serie>> _stackSeriesForMinMax = new Dictionary<int, List<Serie>>();
         private Dictionary<int, float> _serieTotalValueForMinMax = new Dictionary<int, float>();
-        public void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool isValueAxis, bool yValue,
-            out int minVaule, out int maxValue)
+        public void GetMinMaxValue(DataZoom dataZoom, int axisIndex, bool yValue, out int minVaule, out int maxValue)
         {
             float min = int.MaxValue;
             float max = int.MinValue;
-            if (!IsStack() || (isValueAxis && !yValue))
+            if (IsStack())
+            {
+                GetStackSeries(ref _stackSeriesForMinMax);
+                foreach (var ss in _stackSeriesForMinMax)
+                {
+                    _serieTotalValueForMinMax.Clear();
+                    for (int i = 0; i < ss.Value.Count; i++)
+                    {
+                        var serie = ss.Value[i];
+                        if (serie.axisIndex != axisIndex) continue;
+                        var showData = serie.GetDataList(dataZoom);
+                        for (int j = 0; j < showData.Count; j++)
+                        {
+                            if (!_serieTotalValueForMinMax.ContainsKey(j))
+                                _serieTotalValueForMinMax[j] = 0;
+                            _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] + (yValue ? showData[j].data[1] : showData[i].data[0]);
+                        }
+                    }
+                    float tmax = int.MinValue;
+                    float tmin = int.MaxValue;
+                    foreach (var tt in _serieTotalValueForMinMax)
+                    {
+                        if (tt.Value > tmax) tmax = tt.Value;
+                        if (tt.Value < tmin) tmin = tt.Value;
+                    }
+                    if (tmax > max) max = tmax;
+                    if (tmin < min) min = tmin;
+                }
+            }
+            else
             {
                 for (int i = 0; i < m_Series.Count; i++)
                 {
@@ -619,40 +555,10 @@ namespace XCharts
                     }
                 }
             }
-            else
-            {
-                GetStackSeries(ref _stackSeriesForMinMax);
-                foreach (var ss in _stackSeriesForMinMax)
-                {
-                    _serieTotalValueForMinMax.Clear();
-                    for (int i = 0; i < ss.Value.Count; i++)
-                    {
-                        var serie = ss.Value[i];
-                        if (serie.axisIndex != axisIndex || !IsActive(i)) continue;
-                        var showData = serie.GetDataList(dataZoom);
-                        for (int j = 0; j < showData.Count; j++)
-                        {
-                            if (!_serieTotalValueForMinMax.ContainsKey(j))
-                                _serieTotalValueForMinMax[j] = 0;
-                            _serieTotalValueForMinMax[j] = _serieTotalValueForMinMax[j] +
-                                (yValue ? showData[j].data[1] : showData[i].data[0]);
-                        }
-                    }
-                    float tmax = int.MinValue;
-                    float tmin = int.MaxValue;
-                    foreach (var tt in _serieTotalValueForMinMax)
-                    {
-                        if (tt.Value > tmax) tmax = tt.Value;
-                        if (tt.Value < tmin) tmin = tt.Value;
-                    }
-                    if (tmax > max) max = tmax;
-                    if (tmin < min) min = tmin;
-                }
-            }
             if (max == int.MinValue && min == int.MaxValue)
             {
                 minVaule = 0;
-                maxValue = 0;
+                maxValue = 90;
             }
             else
             {
@@ -681,16 +587,19 @@ namespace XCharts
             return false;
         }
 
-        public bool IsStack(string stackName, SerieType type)
+        public bool IsStack(string stackName)
         {
-            if (string.IsNullOrEmpty(stackName)) return false;
-            int count = 0;
+            _setForStack.Clear();
             foreach (var serie in m_Series)
             {
-                if (serie.show && serie.type == type)
+                if (string.IsNullOrEmpty(serie.stack)) continue;
+                if (_setForStack.Contains(serie.stack))
                 {
-                    if (stackName.Equals(serie.stack)) count++;
-                    if (count >= 2) return true;
+                    if (serie.stack.Equals(stackName)) return true;
+                }
+                else
+                {
+                    _setForStack.Add(serie.stack);
                 }
             }
             return false;
@@ -793,27 +702,18 @@ namespace XCharts
         public List<string> GetSerieNameList()
         {
             serieNameList.Clear();
-            for (int n = 0; n < m_Series.Count; n++)
+            foreach (var serie in m_Series)
             {
-                var serie = m_Series[n];
-                switch (serie.type)
+                if (!string.IsNullOrEmpty(serie.name) && !serieNameList.Contains(serie.name))
                 {
-                    case SerieType.Pie:
-                    case SerieType.Radar:
-                        for (int i = 0; i < serie.data.Count; i++)
-                        {
-                            if (string.IsNullOrEmpty(serie.data[i].name))
-                                serieNameList.Add(ChartCached.IntToStr(i));
-                            else if (!serieNameList.Contains(serie.data[i].name))
-                                serieNameList.Add(serie.data[i].name);
-                        }
-                        break;
-                    default:
-                        if (string.IsNullOrEmpty(serie.name))
-                            serieNameList.Add(ChartCached.IntToStr(n));
-                        else if (!serieNameList.Contains(serie.name))
-                            serieNameList.Add(serie.name);
-                        break;
+                    serieNameList.Add(serie.name);
+                }
+                foreach (var data in serie.data)
+                {
+                    if (!string.IsNullOrEmpty(data.name) && !serieNameList.Contains(data.name))
+                    {
+                        serieNameList.Add(data.name);
+                    }
                 }
             }
             return serieNameList;
@@ -831,63 +731,6 @@ namespace XCharts
                 serie.symbol.sizeCallback = size;
                 serie.symbol.selectedSizeCallback = selectedSize;
             }
-        }
-
-        /// <summary>
-        /// 启用或取消初始动画
-        /// </summary>
-        public void AnimationEnable(bool flag)
-        {
-            foreach (var serie in m_Series)
-            {
-                serie.animation.enable = flag;
-            }
-        }
-
-        /// <summary>
-        /// 开始初始动画
-        /// </summary>
-        public void AnimationStart()
-        {
-            foreach (var serie in m_Series)
-            {
-                if (serie.animation.enable)
-                {
-                    serie.animation.Start();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 停止初始动画
-        /// </summary>
-        public void AnimationStop()
-        {
-            foreach (var serie in m_Series)
-            {
-                if (serie.animation.enable) serie.animation.Stop();
-            }
-        }
-
-        /// <summary>
-        /// 重置初始动画
-        /// </summary>
-        public void AnimationReset()
-        {
-            foreach (var serie in m_Series)
-            {
-                if (serie.animation.enable) serie.animation.Reset();
-            }
-        }
-
-        public bool IsLegalLegendName(string name)
-        {
-            int numName = -1;
-            if (int.TryParse(name, out numName))
-            {
-                if (numName >= 0 && numName < list.Count) return false;
-            }
-            return true;
         }
 
         /// <summary>

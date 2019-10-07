@@ -9,10 +9,19 @@ namespace XCharts
     [CustomEditor(typeof(LineChart), false)]
     public class LineChartEditor : CoordinateChartEditor
     {
+        protected SerializedProperty m_Line;
+
         protected override void OnEnable()
         {
             base.OnEnable();
             m_Target = (LineChart)target;
+            m_Line = serializedObject.FindProperty("m_Line");
+        }
+
+        protected override void OnEndInspectorGUI()
+        {
+            base.OnEndInspectorGUI();
+            EditorGUILayout.PropertyField(m_Line, true);
         }
     }
 }

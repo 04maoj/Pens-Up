@@ -80,7 +80,6 @@ public class Demo : MonoBehaviour
         {
             InitModuleButton();
         }
-        if (!Application.isPlaying) m_Mark.enabled = false;
 #endif
     }
 

@@ -7,6 +7,7 @@ namespace XCharts
     [CustomPropertyDrawer(typeof(Serie), true)]
     public class SerieDrawer : PropertyDrawer
     {
+
         private Dictionary<string, bool> m_SerieModuleToggle = new Dictionary<string, bool>();
         private List<bool> m_DataFoldout = new List<bool>();
         private bool m_ShowJsonDataArea = false;
@@ -22,18 +23,7 @@ namespace XCharts
             SerializedProperty stack = prop.FindPropertyRelative("m_Stack");
             SerializedProperty m_AxisIndex = prop.FindPropertyRelative("m_AxisIndex");
             SerializedProperty m_RadarIndex = prop.FindPropertyRelative("m_RadarIndex");
-            SerializedProperty m_MinShow = prop.FindPropertyRelative("m_MinShow");
-            SerializedProperty m_MaxShow = prop.FindPropertyRelative("m_MaxShow");
-            SerializedProperty m_MaxCache = prop.FindPropertyRelative("m_MaxCache");
-
             SerializedProperty m_LineStyle = prop.FindPropertyRelative("m_LineStyle");
-            SerializedProperty m_LineArrow = prop.FindPropertyRelative("m_LineArrow");
-            SerializedProperty m_LineType = prop.FindPropertyRelative("m_LineType");
-            SerializedProperty m_SampleDist = prop.FindPropertyRelative("m_SampleDist");
-            SerializedProperty m_SampleType = prop.FindPropertyRelative("m_SampleType");
-            SerializedProperty m_SampleAverage = prop.FindPropertyRelative("m_SampleAverage");
-            SerializedProperty m_BarWidth = prop.FindPropertyRelative("m_BarWidth");
-            SerializedProperty m_BarGap = prop.FindPropertyRelative("m_BarGap");
             SerializedProperty m_AreaStyle = prop.FindPropertyRelative("m_AreaStyle");
             SerializedProperty m_Symbol = prop.FindPropertyRelative("m_Symbol");
             SerializedProperty m_RoseType = prop.FindPropertyRelative("m_RoseType");
@@ -43,10 +33,8 @@ namespace XCharts
             SerializedProperty m_Radius = prop.FindPropertyRelative("m_Radius");
             SerializedProperty m_Label = prop.FindPropertyRelative("m_Label");
             SerializedProperty m_HighlightLabel = prop.FindPropertyRelative("m_HighlightLabel");
-            SerializedProperty m_Animation = prop.FindPropertyRelative("m_Animation");
             SerializedProperty m_DataDimension = prop.FindPropertyRelative("m_ShowDataDimension");
             SerializedProperty m_ShowDataName = prop.FindPropertyRelative("m_ShowDataName");
-            SerializedProperty m_ShowDataIcon = prop.FindPropertyRelative("m_ShowDataIcon");
             SerializedProperty m_Datas = prop.FindPropertyRelative("m_Data");
 
             int index = InitToggle(prop);
@@ -83,26 +71,6 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_AxisIndex);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
-                EditorGUI.PropertyField(drawRect, m_MinShow);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_MaxShow);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_MaxCache);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
-                if (m_MinShow.intValue < 0) m_MinShow.intValue = 0;
-                if (m_MaxCache.intValue < 0) m_MaxCache.intValue = 0;
-                if (serieType == SerieType.Line)
-                {
-                    EditorGUI.PropertyField(drawRect, m_LineType);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_SampleDist);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_SampleType);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_SampleAverage);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                }
                 if (serieType == SerieType.Line
                     || serieType == SerieType.Scatter
                     || serieType == SerieType.EffectScatter
@@ -110,13 +78,6 @@ namespace XCharts
                 {
                     EditorGUI.PropertyField(drawRect, m_Symbol);
                     drawRect.y += EditorGUI.GetPropertyHeight(m_Symbol);
-                }
-                if (serieType == SerieType.Bar)
-                {
-                    EditorGUI.PropertyField(drawRect, m_BarWidth);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                    EditorGUI.PropertyField(drawRect, m_BarGap);
-                    drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
                 if (serieType == SerieType.Pie)
                 {
@@ -151,22 +112,14 @@ namespace XCharts
                     EditorGUI.PropertyField(drawRect, m_ClickOffset);
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 }
-
                 EditorGUI.PropertyField(drawRect, m_LineStyle);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_LineStyle);
-                if (serieType == SerieType.Line)
-                {
-                    EditorGUI.PropertyField(drawRect, m_LineArrow);
-                    drawRect.y += EditorGUI.GetPropertyHeight(m_LineArrow);
-                }
                 EditorGUI.PropertyField(drawRect, m_AreaStyle);
                 drawRect.y += EditorGUI.GetPropertyHeight(m_AreaStyle);
                 EditorGUI.PropertyField(drawRect, m_Label, new GUIContent("Normal Label"));
                 drawRect.y += EditorGUI.GetPropertyHeight(m_Label);
                 EditorGUI.PropertyField(drawRect, m_HighlightLabel, new GUIContent("Highlight Label"));
                 drawRect.y += EditorGUI.GetPropertyHeight(m_HighlightLabel);
-                EditorGUI.PropertyField(drawRect, m_Animation);
-                drawRect.y += EditorGUI.GetPropertyHeight(m_Animation);
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout[index] = EditorGUI.Foldout(drawRect, m_DataFoldout[index], "Data");
                 ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop, pos.width);
@@ -175,17 +128,13 @@ namespace XCharts
                 {
                     EditorGUI.indentLevel++;
 
-                    float nameWid = 40;
-                    EditorGUI.PropertyField(new Rect(drawRect.x, drawRect.y, pos.width - 2 * nameWid - 2, pos.height), m_DataDimension);
-                    var nameRect = new Rect(pos.width - 2 * nameWid + 14, drawRect.y, nameWid, pos.height);
-                    if (GUI.Button(nameRect, new GUIContent("Name")))
+                    float nameWid = 76;
+                    EditorGUI.PropertyField(new Rect(drawRect.x, drawRect.y, pos.width - nameWid - 2, pos.height), m_DataDimension);
+                    var nameRect = new Rect(pos.width - nameWid + 14, drawRect.y, nameWid, pos.height);
+                    var btnName = m_ShowDataName.boolValue ? "Hide Name" : "Show Name";
+                    if (GUI.Button(nameRect, new GUIContent(btnName)))
                     {
                         m_ShowDataName.boolValue = !m_ShowDataName.boolValue;
-                    }
-                    var iconRect = new Rect(pos.width - nameWid + 14, drawRect.y, nameWid, pos.height);
-                    if (GUI.Button(iconRect, new GUIContent("Icon")))
-                    {
-                        m_ShowDataIcon.boolValue = !m_ShowDataIcon.boolValue;
                     }
                     drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
 
@@ -197,7 +146,6 @@ namespace XCharts
                     if (m_DataDimension.intValue < 1) m_DataDimension.intValue = 1;
                     int dimension = m_DataDimension.intValue;
                     bool showName = m_ShowDataName.boolValue;
-                    bool showIcon = m_ShowDataIcon.boolValue;
                     bool showSelected = (serieType == SerieType.Pie);
                     if (listSize != m_Datas.arraySize)
                     {
@@ -211,20 +159,20 @@ namespace XCharts
                         int num = listSize > 10 ? 10 : listSize;
                         for (int i = 0; i < num; i++)
                         {
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showIcon, showSelected, i, pos.width);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showSelected, i, pos.width);
                         }
                         if (num >= 10)
                         {
                             EditorGUI.LabelField(drawRect, "...");
                             drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showIcon, showSelected, listSize - 1, pos.width);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showSelected, listSize - 1, pos.width);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < m_Datas.arraySize; i++)
                         {
-                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showIcon, showSelected, i, pos.width);
+                            DrawDataElement(ref drawRect, dimension, m_Datas, showName, showSelected, i, pos.width);
                         }
                     }
                     EditorGUI.indentLevel--;
@@ -234,7 +182,7 @@ namespace XCharts
         }
 
         private void DrawDataElement(ref Rect drawRect, int dimension, SerializedProperty m_Datas, bool showName,
-            bool showIconDetail, bool showSelected, int index, float currentWidth)
+            bool showSelected, int index, float currentWidth)
         {
             var lastX = drawRect.x;
             var lastWid = drawRect.width;
@@ -243,7 +191,6 @@ namespace XCharts
             var serieData = m_Datas.GetArrayElementAtIndex(index);
             var sereName = serieData.FindPropertyRelative("m_Name");
             var selected = serieData.FindPropertyRelative("m_Selected");
-
             var data = serieData.FindPropertyRelative("m_Data");
             var fieldCount = dimension + (showName ? 1 : 0);
 
@@ -265,6 +212,7 @@ namespace XCharts
                 {
                     EditorGUI.PropertyField(drawRect, element);
                 }
+
                 drawRect.y += EditorGUI.GetPropertyHeight(element) + EditorGUIUtility.standardVerticalSpacing;
             }
             else
@@ -291,44 +239,11 @@ namespace XCharts
                     drawRect.width = dataWid + 40;
                     EditorGUI.PropertyField(drawRect, sereName, GUIContent.none);
                 }
-
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.x = lastX;
                 drawRect.width = lastWid;
                 EditorGUIUtility.fieldWidth = lastFieldWid;
                 EditorGUIUtility.labelWidth = lastLabelWid;
-            }
-            if (showIconDetail)
-            {
-                EditorGUI.indentLevel++;
-                var m_ShowIcon = serieData.FindPropertyRelative("m_ShowIcon");
-                var m_IconImage = serieData.FindPropertyRelative("m_IconImage");
-                var m_IconColor = serieData.FindPropertyRelative("m_IconColor");
-                var m_IconWidth = serieData.FindPropertyRelative("m_IconWidth");
-                var m_IconHeight = serieData.FindPropertyRelative("m_IconHeight");
-                var m_IconOffset = serieData.FindPropertyRelative("m_IconOffset");
-                EditorGUI.PropertyField(drawRect, m_ShowIcon);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_IconImage);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_IconColor);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_IconWidth);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.PropertyField(drawRect, m_IconHeight);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
-                EditorGUI.LabelField(drawRect, "Icon Offset");
-                var startX = drawRect.x + EditorGUIUtility.labelWidth - EditorGUI.indentLevel * 15;
-                var tempWidth = (drawRect.width - startX + 72) / 2;
-                var centerXRect = new Rect(startX, drawRect.y, tempWidth, drawRect.height);
-                var centerYRect = new Rect(centerXRect.x + tempWidth - 58, drawRect.y, tempWidth, drawRect.height);
-                var x = EditorGUI.FloatField(centerXRect, m_IconOffset.vector3Value.x);
-                var y = EditorGUI.FloatField(centerYRect, m_IconOffset.vector3Value.y);
-                m_IconOffset.vector3Value = new Vector3(x, y);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-
-                EditorGUI.indentLevel--;
             }
         }
 
@@ -342,12 +257,11 @@ namespace XCharts
             }
             else
             {
-                height += 9 * EditorGUIUtility.singleLineHeight + 8 * EditorGUIUtility.standardVerticalSpacing;
+                height += 6 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineStyle"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_AreaStyle"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Label"));
                 height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_HighlightLabel"));
-                height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_Animation"));
                 SerializedProperty type = prop.FindPropertyRelative("m_Type");
                 var serieType = (SerieType)type.enumValueIndex;
                 if (serieType == SerieType.Line
@@ -362,27 +276,12 @@ namespace XCharts
                 {
                     height += 5 * EditorGUIUtility.singleLineHeight + 4 * EditorGUIUtility.standardVerticalSpacing;
                 }
-                if (serieType == SerieType.Line)
-                {
-                    height += EditorGUI.GetPropertyHeight(prop.FindPropertyRelative("m_LineArrow"));
-                    height += 4 * EditorGUIUtility.singleLineHeight + 3 * EditorGUIUtility.standardVerticalSpacing;
-                }
-                if (serieType == SerieType.Bar)
-                {
-                    height += 2 * EditorGUIUtility.singleLineHeight + 1 * EditorGUIUtility.standardVerticalSpacing;
-                }
                 if (m_DataFoldout[index])
                 {
                     SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
                     int num = m_Data.arraySize + 2;
-                    if (num > 30) num = 15;
-                    if (prop.FindPropertyRelative("m_ShowDataIcon").boolValue)
-                    {
-                        num *= 5;
-                        num += 2;
-                    }
+                    if (num > 30) num = 14;
                     height += num * EditorGUIUtility.singleLineHeight + (num - 1) * EditorGUIUtility.standardVerticalSpacing;
-
                 }
                 if (m_ShowJsonDataArea)
                 {

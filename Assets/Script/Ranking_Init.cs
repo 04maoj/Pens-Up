@@ -19,12 +19,14 @@ public class Ranking_Init : MonoBehaviour
         StreamReader myReader = new StreamReader(path);
         while(!myReader.EndOfStream) {
             string student = myReader.ReadLine();
+            // Reading the score.
             string path_1 = "Assets/Local_DataBase/Students/" + student + "/Total_score_list";
             if(!File.Exists(path_1))
             {
                 ranks.Add(new Tuple<double, string>(0, student));
                 continue;
             }
+            //use hashmap to prevent duplicates.
             Dictionary<string, int> score_list = new Dictionary<string, int>();
             StreamReader mysecondReader = new StreamReader(path_1);
             while(!mysecondReader.EndOfStream)
@@ -40,6 +42,7 @@ public class Ranking_Init : MonoBehaviour
                 }
             }
             double total_score = 0;
+            //add the score for each course. 
             foreach (var kvp in score_list)
                 total_score += score_list[kvp.Key];
             total_score /= number_course;

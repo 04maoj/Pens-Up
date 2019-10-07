@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -40,8 +39,9 @@ namespace XCharts
         [SerializeField] protected Tooltip m_Tooltip = Tooltip.defaultTooltip;
         [SerializeField] protected Series m_Series = Series.defaultSeries;
         [SerializeField] protected float m_Large = 1;
-        [SerializeField] [Range(1, 8)] protected float m_LineSmoothStyle = 2f;
-        [SerializeField] protected Action<VertexHelper> m_CustomDrawCallback;
+        [SerializeField] protected int m_MinShowDataNumber;
+        [SerializeField] protected int m_MaxShowDataNumber;
+        [SerializeField] protected int m_MaxCacheDataNumber;
 
         [NonSerialized] private Theme m_CheckTheme = 0;
         [NonSerialized] private Title m_CheckTitle = Title.defaultTitle;
@@ -52,9 +52,6 @@ namespace XCharts
         [NonSerialized] private List<string> m_CheckSerieName = new List<string>();
         [NonSerialized] private bool m_RefreshChart = false;
         [NonSerialized] private bool m_RefreshLabel = false;
-        [NonSerialized] private bool m_ReinitLabel = false;
-        [NonSerialized] private bool m_CheckAnimation = false;
-        [NonSerialized] protected List<string> m_LegendRealShowName = new List<string>();
 
         protected Vector2 chartAnchorMax { get { return rectTransform.anchorMax; } }
         protected Vector2 chartAnchorMin { get { return rectTransform.anchorMin; } }
@@ -79,8 +76,7 @@ namespace XCharts
             InitLegend();
             InitSerieLabel();
             InitTooltip();
-            m_Series.AnimationStop();
-            m_Series.AnimationStart();
+            TransferOldVersionData();
         }
 
         protected override void Start()
@@ -97,7 +93,6 @@ namespace XCharts
             CheckTooltip();
             CheckRefreshChart();
             CheckRefreshLabel();
-            CheckAnimation();
         }
 
         protected override void OnEnable()
@@ -138,6 +133,34 @@ namespace XCharts
             }
         }
 
+        private void TransferOldVersionData()
+        {
+            foreach (var serie in m_Series.series)
+            {
+                if (serie.yData.Count <= 0) continue;
+                bool needTransfer = true;
+                foreach (var sd in serie.data)
+                {
+                    foreach (var value in sd.data)
+                    {
+                        if (value != 0) needTransfer = false;
+                    }
+                }
+                if (needTransfer)
+                {
+                    serie.data.Clear();
+                    for (int i = 0; i < serie.yData.Count; i++)
+                    {
+                        float xvalue = i < serie.xData.Count ? serie.xData[i] : i;
+                        float yvalue = serie.yData[i];
+                        var serieData = new SerieData();
+                        serieData.data = new List<float>() { xvalue, yvalue };
+                        serie.data.Add(serieData);
+                    }
+                }
+            }
+        }
+
         private void InitTitle()
         {
             m_Title.OnChanged();
@@ -152,7 +175,7 @@ namespace XCharts
             var titleObject = ChartHelper.AddObject(s_TitleObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             titleObject.transform.localPosition = titlePosition;
-            ChartHelper.HideAllObject(titleObject);
+            ChartHelper.HideAllObject(titleObject, s_TitleObjectName);
 
             Text titleText = ChartHelper.AddTextObject(s_TitleObjectName, titleObject.transform,
                         m_ThemeInfo.font, m_ThemeInfo.titleTextColor, anchor, anchorMin, anchorMax, pivot,
@@ -176,6 +199,7 @@ namespace XCharts
         private void InitLegend()
         {
             m_Legend.OnChanged();
+            ChartHelper.HideAllObject(transform, s_LegendObjectName);
             TextAnchor anchor = m_Legend.location.textAnchor;
             Vector2 anchorMin = m_Legend.location.anchorMin;
             Vector2 anchorMax = m_Legend.location.anchorMax;
@@ -184,42 +208,32 @@ namespace XCharts
             var legendObject = ChartHelper.AddObject(s_LegendObjectName, transform, anchorMin, anchorMax,
                 pivot, new Vector2(chartWidth, chartHeight));
             legendObject.transform.localPosition = m_Legend.location.GetPosition(chartWidth, chartHeight);
-            
-            m_LegendRealShowName = m_Series.GetSerieNameList();
+            ChartHelper.HideAllObject(legendObject, s_LegendObjectName);
+
+            var serieNameList = m_Series.GetSerieNameList();
             List<string> datas;
-            if (m_Legend.show && m_Legend.data.Count > 0)
+            if (m_Legend.data.Count > 0)
             {
                 datas = new List<string>();
-                for (int i = 0; i < m_LegendRealShowName.Count; i++)
+                for (int i = 0; i < m_Legend.data.Count; i++)
                 {
-                    if (m_Legend.data.Contains(m_LegendRealShowName[i])) datas.Add(m_LegendRealShowName[i]);
+                    var category = m_Legend.data[i];
+                    if (serieNameList.Contains(category)) datas.Add(category);
                 }
             }
             else
             {
-                datas = m_LegendRealShowName;
-            }
-            int totalLegend = 0;
-            for (int i = 0; i < datas.Count; i++)
-            {
-                if (!m_Series.IsLegalLegendName(datas[i])) continue;
-                totalLegend++;
+                datas = serieNameList;
             }
             m_Legend.RemoveButton();
-            ChartHelper.DestoryAllChilds(legendObject.transform);
-            if (!m_Legend.show) return;
             for (int i = 0; i < datas.Count; i++)
             {
-                if (!m_Series.IsLegalLegendName(datas[i])) continue;
-                string legendName = m_Legend.GetFormatterContent(datas[i]);
-                var readIndex = m_LegendRealShowName.IndexOf(datas[i]);
-                var objName = s_LegendObjectName + "_" + i + "_" + datas[i];
-                Button btn = ChartHelper.AddButtonObject(objName, legendObject.transform,
+                string legendName = datas[i];
+                Button btn = ChartHelper.AddButtonObject(s_LegendObjectName + "_" + i + "_" + legendName, legendObject.transform,
                     m_ThemeInfo.font, m_Legend.itemFontSize, m_ThemeInfo.legendTextColor, anchor,
                     anchorMin, anchorMax, pivot, new Vector2(m_Legend.itemWidth, m_Legend.itemHeight));
-                var bgColor = IsActiveByLegend(datas[i]) ?
-                    m_ThemeInfo.GetColor(readIndex) : m_ThemeInfo.legendUnableColor;
-                m_Legend.SetButton(legendName, btn, totalLegend);
+                var bgColor = IsActiveByLegend(legendName) ? m_ThemeInfo.GetColor(i) : m_ThemeInfo.legendUnableColor;
+                m_Legend.SetButton(legendName, btn, datas.Count);
                 m_Legend.UpdateButtonColor(legendName, bgColor);
                 btn.GetComponentInChildren<Text>().text = legendName;
                 ChartHelper.ClearEventListener(btn.gameObject);
@@ -236,19 +250,12 @@ namespace XCharts
                     else
                     {
                         var btnList = m_Legend.buttonList.Values.ToArray();
-                        if (btnList.Length == 1)
+                        for (int n = 0; n < btnList.Length; n++)
                         {
-                            OnLegendButtonClick(0, selectedName, !IsActiveByLegend(selectedName));
-                        }
-                        else
-                        {
-                            for (int n = 0; n < btnList.Length; n++)
-                            {
-                                temp = btnList[n].name.Split('_');
-                                selectedName = temp[2];
-                                var index = int.Parse(temp[1]);
-                                OnLegendButtonClick(n, selectedName, index == clickedIndex ? true : false);
-                            }
+                            temp = btnList[n].name.Split('_');
+                            selectedName = temp[2];
+                            var index = int.Parse(temp[1]);
+                            OnLegendButtonClick(n, selectedName, index == clickedIndex ? true : false);
                         }
                     }
                 });
@@ -271,50 +278,37 @@ namespace XCharts
             }
             if (m_Legend.selectedMode == Legend.SelectedMode.Single)
             {
-                for (int n = 0; n < m_LegendRealShowName.Count; n++)
+                for (int n = 0; n < datas.Count; n++)
                 {
-                    OnLegendButtonClick(n, m_LegendRealShowName[n], n == 0 ? true : false);
+                    OnLegendButtonClick(n, datas[n], n == 0 ? true : false);
                 }
             }
         }
 
         private void InitSerieLabel()
         {
+            ChartHelper.HideAllObject(transform, s_SerieLabelObjectName);
             var labelObject = ChartHelper.AddObject(s_SerieLabelObjectName, transform, chartAnchorMin,
                 chartAnchorMax, chartPivot, new Vector2(chartWidth, chartHeight));
-            ChartHelper.DestoryAllChilds(labelObject.transform);
             int count = 0;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.list[i];
-                if (serie.type != SerieType.Pie && !serie.label.show) continue;
+                var serie = m_Series.series[i];
+                if (serie.type != SerieType.Pie) continue;
                 for (int j = 0; j < serie.data.Count; j++)
                 {
                     var serieData = serie.data[j];
                     var textName = s_SerieLabelObjectName + "_" + i + "_" + j + "_" + serieData.name;
-                    var color = Color.grey;
-                    if (serie.type == SerieType.Pie)
-                    {
-                        color = (serie.label.position == SerieLabel.Position.Inside) ? Color.white :
-                            (Color)m_ThemeInfo.GetColor(count);
-                    }
-                    else
-                    {
-                        color = serie.label.color != Color.clear ? serie.label.color :
-                            (Color)m_ThemeInfo.GetColor(i);
-                    }
-                    var backgroundColor = serie.label.backgroundColor;
-                    var labelObj = ChartHelper.AddSerieLabel(textName, labelObject.transform, m_ThemeInfo.font,
-                        color, backgroundColor, serie.label.fontSize, serie.label.fontStyle, serie.label.rotate,
-                        serie.label.backgroundWidth, serie.label.backgroundHeight);
-                    var isAutoSize = serie.label.backgroundWidth == 0 || serie.label.backgroundHeight == 0;
-                    serieData.InitLabel(labelObj, isAutoSize, serie.label.paddingLeftRight, serie.label.paddingTopBottom);
-                    serieData.SetLabelActive(false);
-                    serieData.SetLabelText(serieData.name);
-
-                    var iconObj = ChartHelper.AddIcon("Icon", labelObj.transform, serieData.iconWidth, serieData.iconHeight);
-                    serieData.SetIconObj(iconObj);
-                    count++;
+                    var color = (serie.label.position == SerieLabel.Position.Inside) ? Color.white :
+                        (Color)m_ThemeInfo.GetColor(count++);
+                    var anchorMin = new Vector2(0.5f, 0.5f);
+                    var anchorMax = new Vector2(0.5f, 0.5f);
+                    var pivot = new Vector2(0.5f, 0.5f);
+                    serieData.label = ChartHelper.AddTextObject(textName, labelObject.transform,
+                        m_ThemeInfo.font, color, TextAnchor.MiddleCenter, anchorMin, anchorMax, pivot,
+                        new Vector2(50, serie.label.fontSize), serie.label.fontSize);
+                    serieData.label.text = serieData.name;
+                    serieData.label.gameObject.SetActive(true);
                 }
             }
         }
@@ -327,8 +321,7 @@ namespace XCharts
             DestroyImmediate(tooltipObject.GetComponent<Image>());
             var parent = tooltipObject.transform;
             ChartHelper.HideAllObject(tooltipObject.transform);
-            GameObject content = ChartHelper.AddTooltipContent("content", parent, m_ThemeInfo.font,
-                m_Tooltip.fontSize, m_Tooltip.fontStyle);
+            GameObject content = ChartHelper.AddTooltipContent("content", parent, m_ThemeInfo.font);
             m_Tooltip.SetObj(tooltipObject);
             m_Tooltip.SetContentObj(content);
             m_Tooltip.SetContentBackgroundColor(m_ThemeInfo.tooltipBackgroundColor);
@@ -402,9 +395,9 @@ namespace XCharts
         {
             if (!m_Tooltip.show || !m_Tooltip.inited)
             {
-                if (m_Tooltip.IsActive())
+                if (m_Tooltip.dataIndex[0] != 0 || m_Tooltip.dataIndex[1] != 0)
                 {
-                    m_Tooltip.ClearValue();
+                    m_Tooltip.dataIndex[0] = m_Tooltip.dataIndex[1] = -1;
                     m_Tooltip.SetActive(false);
                     RefreshChart();
                 }
@@ -420,21 +413,15 @@ namespace XCharts
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform,
                 Input.mousePosition, canvas.worldCamera, out local))
             {
-                if (m_Tooltip.IsActive())
-                {
-                    m_Tooltip.SetActive(false);
-                    RefreshChart();
-                }
+                if (m_Tooltip.IsActive()) RefreshChart();
+                m_Tooltip.SetActive(false);
                 return;
             }
             if (local.x < 0 || local.x > chartWidth ||
                 local.y < 0 || local.y > chartHeight)
             {
-                if (m_Tooltip.IsActive())
-                {
-                    m_Tooltip.SetActive(false);
-                    RefreshChart();
-                }
+                if (m_Tooltip.IsActive()) RefreshChart();
+                m_Tooltip.SetActive(false);
                 return;
             }
             m_Tooltip.pointerPos = local;
@@ -458,24 +445,10 @@ namespace XCharts
 
         protected void CheckRefreshLabel()
         {
-            if (m_ReinitLabel)
-            {
-                m_ReinitLabel = false;
-                InitSerieLabel();
-            }
             if (m_RefreshLabel)
             {
                 m_RefreshLabel = false;
                 OnRefreshLabel();
-            }
-        }
-
-        protected void CheckAnimation()
-        {
-            if (!m_CheckAnimation)
-            {
-                m_CheckAnimation = true;
-                m_Series.AnimationStart();
             }
         }
 
@@ -551,7 +524,7 @@ namespace XCharts
         protected bool CheckDataShow(string legendName, bool show)
         {
             bool needShow = false;
-            foreach (var serie in m_Series.list)
+            foreach (var serie in m_Series.series)
             {
                 if (legendName.Equals(serie.name))
                 {
@@ -578,7 +551,7 @@ namespace XCharts
         protected bool CheckDataHighlighted(string legendName, bool heighlight)
         {
             bool show = false;
-            foreach (var serie in m_Series.list)
+            foreach (var serie in m_Series.series)
             {
                 if (legendName.Equals(serie.name))
                 {
@@ -608,10 +581,6 @@ namespace XCharts
             vh.Clear();
             DrawBackground(vh);
             DrawChart(vh);
-            if (m_CustomDrawCallback != null)
-            {
-                m_CustomDrawCallback(vh);
-            }
             DrawTooltip(vh);
             m_RefreshLabel = true;
         }
@@ -631,7 +600,7 @@ namespace XCharts
             Vector3 p2 = new Vector3(chartWidth, chartHeight);
             Vector3 p3 = new Vector3(chartWidth, 0);
             Vector3 p4 = new Vector3(0, 0);
-            ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.backgroundColor);
+            ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, m_ThemeInfo.backgroundColor);
         }
 
         protected void DrawSymbol(VertexHelper vh, SerieSymbolType type, float symbolSize,
@@ -642,15 +611,15 @@ namespace XCharts
                 case SerieSymbolType.None:
                     break;
                 case SerieSymbolType.Circle:
-                    ChartDrawer.DrawCricle(vh, pos, symbolSize, color, GetSymbolCricleSegment(symbolSize));
+                    ChartHelper.DrawCricle(vh, pos, symbolSize, color, GetSymbolCricleSegment(symbolSize));
                     break;
                 case SerieSymbolType.EmptyCircle:
                     int segment = GetSymbolCricleSegment(symbolSize);
-                    ChartDrawer.DrawCricle(vh, pos, symbolSize, m_ThemeInfo.backgroundColor, segment);
-                    ChartDrawer.DrawDoughnut(vh, pos, symbolSize - tickness, symbolSize, 0, 360, color, segment);
+                    ChartHelper.DrawCricle(vh, pos, symbolSize, m_ThemeInfo.backgroundColor, segment);
+                    ChartHelper.DrawDoughnut(vh, pos, symbolSize - tickness, symbolSize, 0, 360, color, segment);
                     break;
                 case SerieSymbolType.Rect:
-                    ChartDrawer.DrawPolygon(vh, pos, symbolSize, color);
+                    ChartHelper.DrawPolygon(vh, pos, symbolSize, color);
                     break;
                 case SerieSymbolType.Triangle:
                     var x = symbolSize * Mathf.Cos(30 * Mathf.PI / 180);
@@ -658,71 +627,22 @@ namespace XCharts
                     var p1 = new Vector2(pos.x - x, pos.y - y);
                     var p2 = new Vector2(pos.x, pos.y + symbolSize);
                     var p3 = new Vector2(pos.x + x, pos.y - y);
-                    ChartDrawer.DrawTriangle(vh, p1, p2, p3, color);
+                    ChartHelper.DrawTriangle(vh, p1, p2, p3, color);
                     break;
                 case SerieSymbolType.Diamond:
                     p1 = new Vector2(pos.x - symbolSize, pos.y);
                     p2 = new Vector2(pos.x, pos.y + symbolSize);
                     p3 = new Vector2(pos.x + symbolSize, pos.y);
                     var p4 = new Vector2(pos.x, pos.y - symbolSize);
-                    ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
+                    ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, color);
                     break;
-            }
-        }
-
-        protected void DrawLabelBackground(VertexHelper vh, Serie serie, SerieData serieData)
-        {
-            var labelHalfWid = serieData.GetLabelWidth() / 2;
-            var labelHalfHig = serieData.GetLabelHeight() / 2;
-            var centerPos = serieData.labelPosition + serie.label.offset;
-            var p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig);
-            var p2 = new Vector3(centerPos.x + labelHalfWid, centerPos.y + labelHalfHig);
-            var p3 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig);
-            var p4 = new Vector3(centerPos.x - labelHalfWid, centerPos.y - labelHalfHig);
-
-            if (serie.label.rotate > 0)
-            {
-                p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serie.label.rotate);
-                p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serie.label.rotate);
-                p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serie.label.rotate);
-                p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serie.label.rotate);
-            }
-
-            ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, serie.label.backgroundColor);
-
-            if (serie.label.border)
-            {
-                var borderWid = serie.label.borderWidth;
-                p1 = new Vector3(centerPos.x - labelHalfWid, centerPos.y + labelHalfHig + borderWid);
-                p2 = new Vector3(centerPos.x + labelHalfWid + 2 * borderWid, centerPos.y + labelHalfHig + borderWid);
-                p3 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y + labelHalfHig);
-                p4 = new Vector3(centerPos.x + labelHalfWid + borderWid, centerPos.y - labelHalfHig - 2 * borderWid);
-                var p5 = new Vector3(centerPos.x + labelHalfWid, centerPos.y - labelHalfHig - borderWid);
-                var p6 = new Vector3(centerPos.x - labelHalfWid - 2 * borderWid, centerPos.y - labelHalfHig - borderWid);
-                var p7 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y - labelHalfHig);
-                var p8 = new Vector3(centerPos.x - labelHalfWid - borderWid, centerPos.y + labelHalfHig + 2 * borderWid);
-                if (serie.label.rotate > 0)
-                {
-                    p1 = ChartHelper.RotateRound(p1, centerPos, Vector3.forward, serie.label.rotate);
-                    p2 = ChartHelper.RotateRound(p2, centerPos, Vector3.forward, serie.label.rotate);
-                    p3 = ChartHelper.RotateRound(p3, centerPos, Vector3.forward, serie.label.rotate);
-                    p4 = ChartHelper.RotateRound(p4, centerPos, Vector3.forward, serie.label.rotate);
-                    p5 = ChartHelper.RotateRound(p5, centerPos, Vector3.forward, serie.label.rotate);
-                    p6 = ChartHelper.RotateRound(p6, centerPos, Vector3.forward, serie.label.rotate);
-                    p7 = ChartHelper.RotateRound(p7, centerPos, Vector3.forward, serie.label.rotate);
-                    p8 = ChartHelper.RotateRound(p8, centerPos, Vector3.forward, serie.label.rotate);
-                }
-                ChartDrawer.DrawLine(vh, p1, p2, borderWid, serie.label.borderColor);
-                ChartDrawer.DrawLine(vh, p3, p4, borderWid, serie.label.borderColor);
-                ChartDrawer.DrawLine(vh, p5, p6, borderWid, serie.label.borderColor);
-                ChartDrawer.DrawLine(vh, p7, p8, borderWid, serie.label.borderColor);
             }
         }
 
         private int GetSymbolCricleSegment(float radiu)
         {
             int max = 50;
-            int segent = (int)(2 * Mathf.PI * radiu / ChartDrawer.CRICLE_SMOOTHNESS);
+            int segent = (int)(2 * Mathf.PI * radiu / ChartHelper.CRICLE_SMOOTHNESS);
             if (segent > max) segent = max;
             segent = (int)(segent / (1 + (m_Large - 1) / 10));
             return segent;

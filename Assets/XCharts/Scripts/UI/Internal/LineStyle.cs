@@ -16,26 +16,9 @@ namespace XCharts
         /// </summary>
         public enum Type
         {
-            /// <summary>
-            /// 实线
-            /// </summary>
             Solid,
-            /// <summary>
-            /// 虚线
-            /// </summary>
             Dashed,
-            /// <summary>
-            /// 点线
-            /// </summary>
-            Dotted,
-            /// <summary>
-            /// 点划线
-            /// </summary>
-            DashDot,
-            /// <summary>
-            /// 双点划线
-            /// </summary>
-            DashDotDot,
+            Dotted
         }
         [SerializeField] private bool m_Show = true;
         [SerializeField] private Type m_Type = Type.Solid;
@@ -44,8 +27,8 @@ namespace XCharts
         [SerializeField] [Range(0, 1)] private float m_Opacity = 1;
 
         /// <summary>
-        /// Whether show line.
-        /// 是否显示线条。在折线图中无效。
+        /// Set this to false to prevent the areafrom showing.
+        /// 是否显示区域填充。
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
@@ -67,6 +50,6 @@ namespace XCharts
         /// Opacity of the line. Supports value from 0 to 1, and the line will not be drawn when set to 0.
         /// 线的透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
         /// </summary>
-        public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
+        public float opactiy { get { return m_Opacity; } set { m_Opacity = value; } }
     }
 }

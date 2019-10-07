@@ -44,8 +44,8 @@ namespace XCharts
         /// </summary>
         public bool show { get { return m_Show; } set { m_Show = value; } }
         /// <summary>
-        /// the origin of area.
-        /// 区域填充的起始位置。
+        /// 
+        /// 图形区域的起始位置。
         /// </summary>
         public AreaOrigin origin { get { return m_Origin; } set { m_Origin = value; } }
         /// <summary>
@@ -63,7 +63,7 @@ namespace XCharts
         /// Opacity of the component. Supports value from 0 to 1, and the component will not be drawn when set to 0.
         /// 图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。
         /// </summary>
-        public float opacity { get { return m_Opacity; } set { m_Opacity = value; } }
+        public float opactiy { get { return m_Opacity; } set { m_Opacity = value; } }
 
         public static AreaStyle defaultAreaStyle
         {

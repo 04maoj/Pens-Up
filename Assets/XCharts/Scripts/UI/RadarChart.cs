@@ -75,7 +75,7 @@ namespace XCharts
             RemoveData();
             m_Radars.Add(Radar.defaultRadar);
             m_Title.text = "RadarChart";
-            var serie = AddSerie(SerieType.Radar, "serie1");
+            var serie = AddSerie("serie1", SerieType.Radar);
             serie.symbol.type = SerieSymbolType.EmptyCircle;
             serie.symbol.size = 4;
             serie.symbol.selectedSize = 6;
@@ -201,7 +201,7 @@ namespace XCharts
             int serieNameCount = -1;
             for (int i = 0; i < m_Series.Count; i++)
             {
-                var serie = m_Series.list[i];
+                var serie = m_Series.series[i];
                 var radar = m_Radars[serie.radarIndex];
                 int indicatorNum = radar.indicatorList.Count;
                 var angle = 2 * Mathf.PI / indicatorNum;
@@ -275,11 +275,11 @@ namespace XCharts
                                 p.y + radius * Mathf.Cos(currAngle));
                             if (serie.areaStyle.show)
                             {
-                                ChartDrawer.DrawTriangle(vh, p, startPoint, toPoint, areaColor);
+                                ChartHelper.DrawTriangle(vh, p, startPoint, toPoint, areaColor);
                             }
                             if (serie.lineStyle.show)
                             {
-                                ChartDrawer.DrawLine(vh, startPoint, toPoint, serie.lineStyle.width, lineColor);
+                                ChartHelper.DrawLine(vh, startPoint, toPoint, serie.lineStyle.width, lineColor);
                             }
                             startPoint = toPoint;
                         }
@@ -287,20 +287,19 @@ namespace XCharts
                     }
                     if (serie.areaStyle.show)
                     {
-                        ChartDrawer.DrawTriangle(vh, p, startPoint, firstPoint, areaColor);
+                        ChartHelper.DrawTriangle(vh, p, startPoint, firstPoint, areaColor);
                     }
                     if (serie.lineStyle.show)
                     {
-                        ChartDrawer.DrawLine(vh, startPoint, firstPoint, serie.lineStyle.width, lineColor);
+                        ChartHelper.DrawLine(vh, startPoint, firstPoint, serie.lineStyle.width, lineColor);
                     }
-                    if (serie.symbol.type != SerieSymbolType.None )
+                    if (serie.symbol.type != SerieSymbolType.None)
                     {
                         var symbolSize = (isHighlight ? serie.symbol.selectedSize : serie.symbol.size);
-                        var symbolColor = serie.symbol.color != Color.clear ? serie.symbol.color : lineColor;
-                        symbolColor.a *= serie.symbol.opacity;
+                        float symbolRadius = symbolSize - serie.lineStyle.width * 2;
                         foreach (var point in pointList)
                         {
-                            DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, point, symbolColor);
+                            DrawSymbol(vh, serie.symbol.type, symbolSize, serie.lineStyle.width, point, lineColor);
                         }
                     }
                 }
@@ -335,11 +334,11 @@ namespace XCharts
                         p.y + insideRadius * Mathf.Cos(currAngle));
                     if (radar.splitArea.show)
                     {
-                        ChartDrawer.DrawPolygon(vh, p1, p2, p3, p4, color);
+                        ChartHelper.DrawPolygon(vh, p1, p2, p3, p4, color);
                     }
                     if (radar.lineStyle.show)
                     {
-                        ChartDrawer.DrawLine(vh, p2, p3, radar.lineStyle.width, lineColor);
+                        ChartHelper.DrawLine(vh, p2, p3, radar.lineStyle.width, lineColor);
                     }
                     p1 = p4;
                     p2 = p3;
@@ -353,7 +352,7 @@ namespace XCharts
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 if (radar.lineStyle.show)
                 {
-                    ChartDrawer.DrawLine(vh, p, p3, radar.lineStyle.width / 2, lineColor);
+                    ChartHelper.DrawLine(vh, p, p3, radar.lineStyle.width / 2, lineColor);
                 }
             }
         }
@@ -377,11 +376,11 @@ namespace XCharts
                 outsideRadius = insideRadius + block;
                 if (radar.splitArea.show)
                 {
-                    ChartDrawer.DrawDoughnut(vh, p, insideRadius, outsideRadius, 0, 360, color);
+                    ChartHelper.DrawDoughnut(vh, p, insideRadius, outsideRadius, 0, 360, color);
                 }
                 if (radar.lineStyle.show)
                 {
-                    ChartDrawer.DrawCicleNotFill(vh, p, outsideRadius, radar.lineStyle.width, lineColor);
+                    ChartHelper.DrawCicleNotFill(vh, p, outsideRadius, radar.lineStyle.width, lineColor);
                 }
                 insideRadius = outsideRadius;
             }
@@ -392,7 +391,7 @@ namespace XCharts
                     p.y + outsideRadius * Mathf.Cos(currAngle));
                 if (radar.lineStyle.show)
                 {
-                    ChartDrawer.DrawLine(vh, p, p1, radar.lineStyle.width / 2, lineColor);
+                    ChartHelper.DrawLine(vh, p, p1, radar.lineStyle.width / 2, lineColor);
                 }
             }
         }
@@ -402,13 +401,13 @@ namespace XCharts
             if (radar.lineStyle.color != Color.clear)
             {
                 var color = radar.lineStyle.color;
-                color.a *= radar.lineStyle.opacity;
+                color.a *= radar.lineStyle.opactiy;
                 return color;
             }
             else
             {
                 var color = (Color)m_ThemeInfo.axisLineColor;
-                color.a *= radar.lineStyle.opacity;
+                color.a *= radar.lineStyle.opactiy;
                 return color;
             }
         }
@@ -448,7 +447,7 @@ namespace XCharts
                     }
                 }
             }
-
+            
             if (!highlight)
             {
                 if (m_Tooltip.IsActive())
@@ -471,11 +470,7 @@ namespace XCharts
             int serieIndex = m_Tooltip.dataIndex[0];
             if (serieIndex < 0)
             {
-                if (m_Tooltip.IsActive())
-                {
-                    m_Tooltip.SetActive(false);
-                    RefreshChart();
-                }
+                m_Tooltip.SetActive(false);
                 return;
             }
             m_Tooltip.SetActive(true);
@@ -491,6 +486,7 @@ namespace XCharts
                 sb.AppendFormat("{0}: {1}", key, value);
             }
             m_Tooltip.UpdateContentText(sb.ToString());
+
             var pos = m_Tooltip.GetContentPos();
             if (pos.x + m_Tooltip.width > chartWidth)
             {

@@ -20,8 +20,7 @@ public class Demo_LargeData : MonoBehaviour
         timeNow = System.DateTime.Now;
         chart.ClearAxisData();
         chart.series.ClearData();
-        chart.series.list[0].maxCache = maxCacheDataNumber;
-        chart.xAxises[0].maxCache = maxCacheDataNumber;
+        chart.maxCacheDataNumber = 0;
         chart.title.text = maxCacheDataNumber + "数据";
     }
 
@@ -37,7 +36,6 @@ public class Demo_LargeData : MonoBehaviour
                 timeNow = timeNow.AddSeconds(1);
                 float xvalue = Mathf.PI / 180 * initCount;
                 float yvalue = Mathf.Sin(xvalue);
-                
                 chart.AddData(0, 15 + yvalue * 2);
                 chart.AddXAxisData(timeNow.ToString("hh:mm:ss"));
             }

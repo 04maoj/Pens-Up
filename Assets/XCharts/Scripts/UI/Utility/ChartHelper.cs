@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -8,27 +7,13 @@ using UnityEngine.UI;
 
 namespace XCharts
 {
-    internal static class ChartHelper
+    public static class ChartHelper
     {
-        private static StringBuilder s_Builder = new StringBuilder();
+        public static float CRICLE_SMOOTHNESS = 2f;
+        private static UIVertex[] vertex = new UIVertex[4];
 
-        public static string Cancat(string str1, string str2)
-        {
-            s_Builder.Length = 0;
-            s_Builder.Append(str1).Append(str2);
-            return s_Builder.ToString();
-        }
-
-        public static string Cancat(string str1, int i)
-        {
-            s_Builder.Length = 0;
-            s_Builder.Append(str1).Append(ChartCached.IntToStr(i));
-            return s_Builder.ToString();
-        }
-
-        public static void SetActive(GameObject gameObject, bool active)
-        {
-            SetActive(gameObject.transform, active);
+        public static void SetActive(GameObject gameObject,bool active){
+            SetActive(gameObject.transform,active);
         }
 
         /// <summary>
@@ -36,9 +21,8 @@ namespace XCharts
         /// </summary>
         /// <param name="transform"></param>
         /// <param name="active"></param>   
-        public static void SetActive(Transform transform, bool active)
-        {
-            if (active) transform.localScale = Vector3.one;
+        public static void SetActive(Transform transform,bool active){
+            if(active) transform.localScale = Vector3.one;
             else transform.localScale = Vector3.zero;
         }
         public static void HideAllObject(GameObject obj, string match = null)
@@ -51,14 +35,14 @@ namespace XCharts
             for (int i = 0; i < parent.childCount; i++)
             {
                 if (match == null)
-                    SetActive(parent.GetChild(i), false);
-                //parent.GetChild(i).gameObject.SetActive(false);
+                    SetActive(parent.GetChild(i),false);
+                    //parent.GetChild(i).gameObject.SetActive(false);
                 else
                 {
                     var go = parent.GetChild(i);
                     if (go.name.StartsWith(match))
                     {
-                        SetActive(go, false);
+                        SetActive(go,false);
                         //go.gameObject.SetActive(false);
                     }
                 }
@@ -171,7 +155,7 @@ namespace XCharts
             return btnObj.GetComponent<Button>();
         }
 
-        public static GameObject AddTooltipContent(string name, Transform parent, Font font, int fontSize, FontStyle fontStyle)
+        public static GameObject AddTooltipContent(string name, Transform parent, Font font)
         {
             var anchorMax = new Vector2(0, 1);
             var anchorMin = new Vector2(0, 1);
@@ -181,42 +165,11 @@ namespace XCharts
             var img = GetOrAddComponent<Image>(tooltipObj);
             img.color = Color.black;
             Text txt = AddTextObject("Text", tooltipObj.transform, font, Color.white, TextAnchor.UpperLeft,
-                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
+                    anchorMin, anchorMax, pivot, sizeDelta);
             txt.text = "Text";
             txt.transform.localPosition = new Vector2(3, -3);
             tooltipObj.transform.localPosition = Vector3.zero;
             return tooltipObj;
-        }
-
-        public static GameObject AddIcon(string name, Transform parent, float width, float height)
-        {
-            var anchorMax = new Vector2(0.5f, 0.5f);
-            var anchorMin = new Vector2(0.5f, 0.5f);
-            var pivot = new Vector2(0.5f, 0.5f);
-            var sizeDelta = new Vector2(width, height);
-            GameObject iconObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            GetOrAddComponent<Image>(iconObj);
-            return iconObj;
-        }
-
-        public static GameObject AddSerieLabel(string name, Transform parent, Font font, Color textColor, Color backgroundColor,
-            int fontSize, FontStyle fontStyle, float rotate, float width, float height)
-        {
-            var anchorMin = new Vector2(0.5f, 0.5f);
-            var anchorMax = new Vector2(0.5f, 0.5f);
-            var pivot = new Vector2(0.5f, 0.5f);
-            var sizeDelta = (width != 0 && height != 0) ? new Vector2(width, height) : new Vector2(50, fontSize + 2);
-            GameObject labelObj = AddObject(name, parent, anchorMin, anchorMax, pivot, sizeDelta);
-            //var img = GetOrAddComponent<Image>(labelObj);
-            //img.color = backgroundColor;
-            labelObj.transform.localEulerAngles = new Vector3(0, 0, rotate);
-            Text txt = AddTextObject("Text", labelObj.transform, font, textColor, TextAnchor.MiddleCenter,
-                    anchorMin, anchorMax, pivot, sizeDelta, fontSize, 0, fontStyle);
-            txt.text = "Text";
-            txt.transform.localPosition = new Vector2(0, 0);
-            txt.transform.localEulerAngles = Vector3.zero;
-            labelObj.transform.localPosition = Vector3.zero;
-            return labelObj;
         }
 
         public static GameObject AddTooltipLabel(string name, Transform parent, Font font, Vector2 pivot)
@@ -236,57 +189,179 @@ namespace XCharts
             return labelObj;
         }
 
-       
-        public static void GetPointList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 30f)
+        public static void DrawLine(VertexHelper vh, Vector3 p1, Vector3 p2, float size, Color32 color)
         {
-            Vector3 dir = (ep - sp).normalized;
-            float dist = Vector3.Distance(sp, ep);
-            int segment = (int)(dist / k);
-            posList.Clear();
-            posList.Add(sp);
-            for (int i = 1; i < segment; i++)
+            Vector3 v = Vector3.Cross(p2 - p1, Vector3.forward).normalized * size;
+            vertex[0].position = p1 + v;
+            vertex[1].position = p2 + v;
+            vertex[2].position = p2 - v;
+            vertex[3].position = p1 - v;
+            for (int j = 0; j < 4; j++)
             {
-                posList.Add(sp + dir * dist * i / segment);
+                vertex[j].color = color;
+                vertex[j].uv0 = Vector2.zero;
             }
-            posList.Add(ep);
+            vh.AddUIVertexQuad(vertex);
         }
 
-        public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep,
-            Vector3 lsp, Vector3 nep, bool fine, float k = 2.0f)
+        public static void DrawPolygon(VertexHelper vh, Vector3 p, float size, Color32 color)
         {
-            float dist = Mathf.Abs(sp.x - ep.x);
-            Vector3 cp1, cp2;
-            var dir = (ep - sp).normalized;
-            var diff = dist / k;
-            if (lsp == sp)
-            {
-                cp1 = sp + dist / k * dir * 1;
-                cp1.y = sp.y;
-                cp1 = sp;
-            }
-            else
-            {
-                cp1 = sp + (ep - lsp).normalized * diff;
-            }
-            if (nep == ep) cp2 = ep;
-            else cp2 = ep - (nep - sp).normalized * diff;
-            dist = Vector3.Distance(sp, ep);
-            int segment = (int)(dist / (fine ? 2f : 6f));
-            if (segment < 1) segment = (int)(dist / 0.5f);
-            if (segment < 4) segment = 4;
-            GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
+            Vector3 p1 = new Vector3(p.x - size, p.y - size);
+            Vector3 p2 = new Vector3(p.x + size, p.y - size);
+            Vector3 p3 = new Vector3(p.x + size, p.y + size);
+            Vector3 p4 = new Vector3(p.x - size, p.y + size);
+            DrawPolygon(vh, p1, p2, p3, p4, color, color);
         }
 
-        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep, bool fine, float k = 2.0f)
+        public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+            Color32 color)
+        {
+            DrawPolygon(vh, p1, p2, p3, p4, color, color);
+        }
+
+        public static void DrawPolygon(VertexHelper vh, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4,
+            Color32 startColor, Color32 toColor)
+        {
+            vertex[0].position = p1;
+            vertex[1].position = p2;
+            vertex[2].position = p3;
+            vertex[3].position = p4;
+            for (int j = 0; j < 4; j++)
+            {
+                vertex[j].color = j >= 2 ? toColor : startColor;
+                vertex[j].uv0 = Vector2.zero;
+            }
+            vh.AddUIVertexQuad(vertex);
+        }
+
+        public static void DrawTriangle(VertexHelper vh, Vector3 p1,
+            Vector3 p2, Vector3 p3, Color32 color)
+        {
+            UIVertex v1 = new UIVertex();
+            v1.position = p1;
+            v1.color = color;
+            v1.uv0 = Vector3.zero;
+            UIVertex v2 = new UIVertex();
+            v2.position = p2;
+            v2.color = color;
+            v2.uv0 = Vector3.zero;
+            UIVertex v3 = new UIVertex();
+            v3.position = p3;
+            v3.color = color;
+            v3.uv0 = Vector3.zero;
+            int startIndex = vh.currentVertCount;
+            vh.AddVert(v1);
+            vh.AddVert(v2);
+            vh.AddVert(v3);
+            vh.AddTriangle(startIndex, startIndex + 1, startIndex + 2);
+        }
+
+        public static void DrawCricle(VertexHelper vh, Vector3 p, float radius, Color32 color, int segments = 0)
+        {
+            if (segments <= 0)
+            {
+                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
+            }
+            if (segments < 3) segments = 3;
+            DrawSector(vh, p, radius, color, 0, 360, segments);
+        }
+
+        public static void DrawCicleNotFill(VertexHelper vh, Vector3 p, float radius, float tickness,
+            Color32 color, int segments = 0)
+        {
+            if (segments <= 0)
+            {
+                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
+            }
+            float startDegree = 0, toDegree = 360;
+            Vector3 p2, p3;
+            float startAngle = startDegree * Mathf.Deg2Rad;
+            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
+            p2 = new Vector3(p.x + radius * Mathf.Sin(startAngle), p.y + radius * Mathf.Cos(startAngle));
+            for (int i = 0; i <= segments; i++)
+            {
+                float currAngle = startAngle + i * angle;
+                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle), p.y + radius * Mathf.Cos(currAngle));
+                DrawLine(vh, p2, p3, tickness, color);
+                p2 = p3;
+            }
+        }
+
+        public static void DrawSector(VertexHelper vh, Vector3 p, float radius, Color32 color,
+            float startDegree, float toDegree, int segments = 0)
+        {
+            if (segments <= 0)
+            {
+                segments = (int)((2 * Mathf.PI * radius) / CRICLE_SMOOTHNESS);
+            }
+            Vector3 p2, p3;
+            float startAngle = startDegree * Mathf.Deg2Rad;
+            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
+            p2 = new Vector3(p.x + radius * Mathf.Sin(startAngle), p.y + radius * Mathf.Cos(startAngle));
+            for (int i = 0; i <= segments; i++)
+            {
+                float currAngle = startAngle + i * angle;
+                p3 = new Vector3(p.x + radius * Mathf.Sin(currAngle),
+                    p.y + radius * Mathf.Cos(currAngle));
+                DrawTriangle(vh, p, p2, p3, color);
+                p2 = p3;
+            }
+        }
+
+        public static void DrawDoughnut(VertexHelper vh, Vector3 p, float insideRadius, float outsideRadius,
+            float startDegree, float toDegree, Color32 color, int segments = 0)
+        {
+            if (insideRadius <= 0)
+            {
+                DrawSector(vh, p, outsideRadius, color, startDegree, toDegree, segments);
+                return;
+            }
+            if (segments <= 0)
+            {
+                segments = (int)((2 * Mathf.PI * outsideRadius) / CRICLE_SMOOTHNESS);
+            }
+            Vector3 p1, p2, p3, p4;
+            float startAngle = startDegree * Mathf.Deg2Rad;
+            float angle = (toDegree - startDegree) * Mathf.Deg2Rad / segments;
+            p1 = new Vector3(p.x + insideRadius * Mathf.Sin(startAngle),
+                p.y + insideRadius * Mathf.Cos(startAngle));
+            p2 = new Vector3(p.x + outsideRadius * Mathf.Sin(startAngle),
+                p.y + outsideRadius * Mathf.Cos(startAngle));
+            for (int i = 0; i <= segments; i++)
+            {
+                float currAngle = startAngle + i * angle;
+                p3 = new Vector3(p.x + outsideRadius * Mathf.Sin(currAngle),
+                    p.y + outsideRadius * Mathf.Cos(currAngle));
+                p4 = new Vector3(p.x + insideRadius * Mathf.Sin(currAngle),
+                    p.y + insideRadius * Mathf.Cos(currAngle));
+                DrawPolygon(vh, p1, p2, p3, p4, color);
+                p1 = p4;
+                p2 = p3;
+            }
+        }
+
+        public static void GetBezierList(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 2.0f)
         {
             Vector3 dir = (ep - sp).normalized;
             float dist = Vector3.Distance(sp, ep);
             Vector3 cp1 = sp + dist / k * dir * 1;
             Vector3 cp2 = sp + dist / k * dir * (k - 1);
-            cp1.x = sp.x;
-            cp2.x = ep.x;
-            int segment = (int)(dist / (fine ? 3f : 7f));
+            cp1.y = sp.y;
+            cp2.y = ep.y;
+            int segment = (int)(dist / 0.6f);
             GetBezierList2(ref posList, sp, ep, segment, cp1, cp2);
+        }
+
+        public static void GetBezierListVertical(ref List<Vector3> posList, Vector3 sp, Vector3 ep, float k = 2.0f)
+        {
+            Vector3 dir = (ep - sp).normalized;
+            float dist = Vector3.Distance(sp, ep);
+            Vector3 cp1 = sp + dist / k * dir * 1;
+            Vector3 cp2 = sp + dist / k * dir * (k - 1);
+            cp1.y = sp.y;
+            cp2.y = ep.y;
+            int segment = (int)(dist / 0.6f);
+            GetBezierList2(ref posList, sp, ep, segment, cp2, cp1);
         }
 
         public static List<Vector3> GetBezierList(Vector3 sp, Vector3 ep, int segment, Vector3 cp)
@@ -557,13 +632,6 @@ namespace XCharts
                 || (x >= end.x && x <= start.x))
                 && ((y >= start.y && y <= end.y)
                     || (y >= end.y && y <= start.y));
-        }
-
-        public static Vector3 RotateRound(Vector3 position, Vector3 center, Vector3 axis, float angle)
-        {
-            Vector3 point = Quaternion.AngleAxis(angle, axis) * (position - center);
-            Vector3 resultVec3 = center + point;
-            return resultVec3;
         }
     }
 }

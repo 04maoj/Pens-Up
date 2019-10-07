@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System;
-using UnityEngine.UI;
 
 namespace XCharts
 {
@@ -44,15 +42,37 @@ namespace XCharts
         public float chartHeight { get { return m_ChartHeight; } }
 
         /// <summary>
-        /// the smooth line chart style.
-        /// 平滑折线图的平滑系数。
+        /// The min number of data to show in chart.
+        /// 图表所显示数据的最小索引
         /// </summary>
-        /// <value></value>
-        public float lineSmoothStyle { get { return m_LineSmoothStyle; } set { m_LineSmoothStyle = value; } }
+        public int minShowDataNumber
+        {
+            get { return m_MinShowDataNumber; }
+            set { m_MinShowDataNumber = value; if (m_MinShowDataNumber < 0) m_MinShowDataNumber = 0; }
+        }
+
         /// <summary>
-        /// 自定义绘制回调。
+        /// The max number of data to show in chart.
+        /// 图表所显示数据的最大索引
         /// </summary>
-        public Action<VertexHelper> customDrawCallback { set { m_CustomDrawCallback = value; } }
+        public int maxShowDataNumber
+        {
+            get { return m_MaxShowDataNumber; }
+            set { m_MaxShowDataNumber = value; if (m_MaxShowDataNumber < 0) m_MaxShowDataNumber = 0; }
+        }
+
+        /// <summary>
+        /// The max number of serie and axis data cache.
+        /// The first data will be remove when the size of serie and axis data is larger then maxCacheDataNumber.
+        /// default:0,unlimited.
+        /// 图表每个系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
+        /// </summary>
+        public int maxCacheDataNumber
+        {
+            get { return m_MaxCacheDataNumber; }
+            set { m_MaxCacheDataNumber = value; if (m_MaxCacheDataNumber < 0) m_MaxCacheDataNumber = 0; }
+        }
+
         /// <summary>
         /// Set the size of chart.
         /// 设置图表的大小。
@@ -79,7 +99,6 @@ namespace XCharts
         {
             m_Series.ClearData();
             m_Legend.ClearData();
-            m_CheckAnimation = false;
             RefreshChart();
         }
 
@@ -92,7 +111,6 @@ namespace XCharts
         {
             m_Legend.ClearData();
             m_Series.RemoveAll();
-            m_CheckAnimation = false;
             RefreshChart();
         }
 
@@ -116,9 +134,10 @@ namespace XCharts
         /// <param name="type">the type of serie</param>
         /// <param name="show">whether to show this serie</param>
         /// <returns>the added serie</returns>
-        public virtual Serie AddSerie(SerieType type, string serieName = null, bool show = true)
+        public virtual Serie AddSerie(string serieName, SerieType type, bool show = true)
         {
-            return m_Series.AddSerie(type, serieName);
+            m_Legend.AddData(serieName);
+            return m_Series.AddSerie(serieName, type);
         }
 
         /// <summary>
@@ -132,7 +151,8 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(string serieName, float data, string dataName = null)
         {
-            var success = m_Series.AddData(serieName, data, dataName);
+            m_Legend.AddData(serieName);
+            var success = m_Series.AddData(serieName, data, dataName, m_MaxCacheDataNumber);
             if (success) RefreshChart();
             return success;
         }
@@ -147,12 +167,8 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(int serieIndex, float data, string dataName = null)
         {
-            var success = m_Series.AddData(serieIndex, data, dataName);
-            if (success)
-            {
-                RefreshChart();
-                ReinitChartLabel();
-            }
+            var success = m_Series.AddData(serieIndex, data, dataName, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
             return success;
         }
 
@@ -166,12 +182,8 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(string serieName, List<float> multidimensionalData, string dataName = null)
         {
-            var success = m_Series.AddData(serieName, multidimensionalData, dataName);
-            if (success)
-            {
-                RefreshChart();
-                ReinitChartLabel();
-            }
+            var success = m_Series.AddData(serieName, multidimensionalData, dataName, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
             return success;
         }
 
@@ -185,12 +197,8 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(int serieIndex, List<float> multidimensionalData, string dataName = null)
         {
-            var success = m_Series.AddData(serieIndex, multidimensionalData, dataName);
-            if (success)
-            {
-                RefreshChart();
-                ReinitChartLabel();
-            }
+            var success = m_Series.AddData(serieIndex, multidimensionalData, dataName, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
             return success;
         }
 
@@ -205,12 +213,8 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(string serieName, float xValue, float yValue, string dataName)
         {
-            var success = m_Series.AddXYData(serieName, xValue, yValue, dataName);
-            if (success)
-            {
-                RefreshChart();
-                ReinitChartLabel();
-            }
+            var success = m_Series.AddXYData(serieName, xValue, yValue, dataName, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
             return true;
         }
 
@@ -225,12 +229,8 @@ namespace XCharts
         /// <returns>Returns True on success</returns>
         public virtual bool AddData(int serieIndex, float xValue, float yValue, string dataName = null)
         {
-            var success = m_Series.AddXYData(serieIndex, xValue, yValue, dataName);
-            if (success)
-            {
-                RefreshChart();
-                ReinitChartLabel();
-            }
+            var success = m_Series.AddXYData(serieIndex, xValue, yValue, dataName, m_MaxCacheDataNumber);
+            if (success) RefreshChart();
             return success;
         }
 
@@ -239,11 +239,11 @@ namespace XCharts
         /// 更新指定系列中的指定索引数据。
         /// </summary>
         /// <param name="serieName">the name of serie</param>
-        /// <param name="dataIndex">the index of data</param>
         /// <param name="value">the data will be update</param>
-        public virtual void UpdateData(string serieName, int dataIndex, float value)
+        /// <param name="dataIndex">the index of data</param>
+        public virtual void UpdateData(string serieName, float value, int dataIndex = 0)
         {
-            m_Series.UpdateData(serieName, dataIndex, value);
+            m_Series.UpdateData(serieName, value, dataIndex);
             RefreshChart();
         }
 
@@ -252,36 +252,12 @@ namespace XCharts
         /// 更新指定系列中的指定索引数据。
         /// </summary>
         /// <param name="serieIndex">the index of serie</param>
-        /// <param name="dataIndex">the index of data</param>
         /// <param name="value">the data will be update</param>
-        public virtual void UpdateData(int serieIndex, int dataIndex, float value)
+        /// <param name="dataIndex">the index of data</param>
+        public virtual void UpdateData(int serieIndex, float value, int dataIndex = 0)
         {
-            m_Series.UpdateData(serieIndex, dataIndex, value);
+            m_Series.UpdateData(serieIndex, value, dataIndex);
             RefreshChart();
-        }
-
-        /// <summary>
-        /// Update serie data name.
-        /// 更新指定系列中的指定索引数据名称。
-        /// </summary>
-        /// <param name="serieName"></param>
-        /// <param name="dataIndex"></param>
-        /// <param name="dataName"></param>
-        public virtual void UpdateDataName(string serieName, int dataIndex, string dataName)
-        {
-            m_Series.UpdateDataName(serieName, dataIndex, dataName);
-        }
-
-        /// <summary>
-        /// Update serie data name.
-        /// 更新指定系列中的指定索引数据名称。
-        /// </summary>
-        /// <param name="serieIndex"></param>
-        /// <param name="dataName"></param>
-        /// <param name="dataIndex"></param>
-        public virtual void UpdateDataName(int serieIndex, int dataIndex, string dataName)
-        {
-            m_Series.UpdateDataName(serieIndex, dataIndex, dataName);
         }
 
         /// <summary>
@@ -311,8 +287,7 @@ namespace XCharts
             var serie = m_Series.GetSerie(serieIndex);
             if (serie != null && !string.IsNullOrEmpty(serie.name))
             {
-                var legendIndex = m_LegendRealShowName.IndexOf(serie.name);
-                var bgColor1 = active ? m_ThemeInfo.GetColor(legendIndex) : m_ThemeInfo.legendUnableColor;
+                var bgColor1 = active ? m_ThemeInfo.GetColor(serie.index) : m_ThemeInfo.legendUnableColor;
                 m_Legend.UpdateButtonColor(serie.name, bgColor1);
             }
         }
@@ -347,7 +322,7 @@ namespace XCharts
         /// <returns></returns>
         public virtual bool IsActiveByLegend(string legendName)
         {
-            foreach (var serie in m_Series.list)
+            foreach (var serie in m_Series.series)
             {
                 if (serie.show && legendName.Equals(serie.name))
                 {
@@ -378,14 +353,6 @@ namespace XCharts
         }
 
         /// <summary>
-        /// 重新初始化Label。
-        /// </summary>
-        public void ReinitChartLabel()
-        {
-            m_ReinitLabel = true;
-        }
-
-        /// <summary>
         /// Update chart theme.
         /// 切换图表主题。
         /// </summary>
@@ -394,46 +361,6 @@ namespace XCharts
         {
             m_ThemeInfo.theme = theme;
             OnThemeChanged();
-            RefreshChart();
-        }
-
-        /// <summary>
-        /// Whether series animation enabel.
-        /// 启用或关闭起始动画。
-        /// </summary>
-        /// <param name="flag"></param>
-        public void AnimationEnable(bool flag)
-        {
-            m_Series.AnimationEnable(flag);
-        }
-
-        /// <summary>
-        /// Start play animation.
-        /// 开始初始动画。
-        /// </summary>
-        public void AnimationStart()
-        {
-            m_Series.AnimationStart();
-        }
-
-        /// <summary>
-        /// Stop play animation.
-        /// 停止初始化动画。
-        /// </summary>
-        public void AnimationStop()
-        {
-            m_CheckAnimation = false;
-            m_Series.AnimationStop();
-        }
-
-        /// <summary>
-        /// Reset animation to play.
-        /// 重置初始动画，重新播放。
-        /// </summary>
-        public void AnimationReset()
-        {
-            m_CheckAnimation = false;
-            m_Series.AnimationReset();
             RefreshChart();
         }
     }

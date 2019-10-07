@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace XCharts
 {
@@ -62,87 +63,6 @@ namespace XCharts
     }
 
     /// <summary>
-    /// the type of line chart.
-    /// 折线图样式类型
-    /// </summary>
-    public enum LineType
-    {
-        /// <summary>
-        /// the normal line chart，
-        /// 普通折线图。
-        /// </summary>
-        Normal,
-        /// <summary>
-        /// the smooth line chart，
-        /// 平滑曲线。
-        /// </summary>
-        Smooth,
-        /// <summary>
-        /// the smooth-dash line chart，
-        /// 平滑虚线。
-        /// </summary>
-        SmoothDash,
-        /// <summary>
-        /// step line.
-        /// 阶梯线图：当前点。
-        /// </summary>
-        StepStart,
-        /// <summary>
-        /// step line.
-        /// 阶梯线图：当前点和下一个点的中间。
-        /// </summary>
-        StepMiddle,
-        /// <summary>
-        /// step line.
-        /// 阶梯线图：下一个拐点。
-        /// </summary>
-        StepEnd,
-        /// <summary>
-        /// 虚线
-        /// </summary>
-        Dash,
-        /// <summary>
-        /// 点线
-        /// </summary>
-        Dot,
-        /// <summary>
-        /// 点划线
-        /// </summary>
-        DashDot,
-        /// <summary>
-        /// 双点划线
-        /// </summary>
-        DashDotDot
-    }
-
-    /// <summary>
-    /// 采样类型
-    /// </summary>
-    public enum SampleType
-    {
-        /// <summary>
-        /// 取峰值。
-        /// </summary>
-        Peak,
-        /// <summary>
-        /// 取过滤点的平均值。
-        /// </summary>
-        Average,
-        /// <summary>
-        /// 取过滤点的最大值。
-        /// </summary>
-        Max,
-        /// <summary>
-        /// 取过滤点的最小值。
-        /// </summary>
-        Min,
-        /// <summary>
-        /// 取过滤点的和。
-        /// </summary>
-        Sum
-    }
-
-    /// <summary>
     /// 系列。每个系列通过 type 决定自己的图表类型。
     /// </summary>
     [System.Serializable]
@@ -154,21 +74,9 @@ namespace XCharts
         [SerializeField] private string m_Stack;
         [SerializeField] [Range(0, 1)] private int m_AxisIndex = 0;
         [SerializeField] private int m_RadarIndex = 0;
-        [SerializeField] protected int m_MinShow;
-        [SerializeField] protected int m_MaxShow;
-        [SerializeField] protected int m_MaxCache;
+        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
         [SerializeField] private AreaStyle m_AreaStyle = AreaStyle.defaultAreaStyle;
         [SerializeField] private SerieSymbol m_Symbol = new SerieSymbol();
-        [SerializeField] private LineType m_LineType = LineType.Normal;
-        [SerializeField] private float m_SampleDist = 0;
-        [SerializeField] private SampleType m_SampleType = SampleType.Average;
-        [SerializeField] private float m_SampleAverage = 0;
-
-        [SerializeField] private LineStyle m_LineStyle = new LineStyle();
-        [SerializeField] private float m_BarWidth = 0.6f;
-        [SerializeField] private float m_BarGap = 0.3f; // 30%
-        [SerializeField] private float m_BarCategoryGap = 0.2f; // 20%
-
         #region PieChart field
         [SerializeField] private bool m_ClickOffset = true;
         [SerializeField] private RoseType m_RoseType = RoseType.None;
@@ -178,19 +86,17 @@ namespace XCharts
         #endregion
         [SerializeField] private SerieLabel m_Label = new SerieLabel();
         [SerializeField] private SerieLabel m_HighlightLabel = new SerieLabel();
-        [SerializeField] private Animation m_Animation = new Animation();
-        [SerializeField] private LineArrow m_LineArrow = new LineArrow();
         [SerializeField] [Range(1, 10)] private int m_ShowDataDimension;
         [SerializeField] private bool m_ShowDataName;
-        [SerializeField] private bool m_ShowDataIcon;
-
+        [FormerlySerializedAs("m_Data")]
+        [SerializeField] private List<float> m_YData = new List<float>();
+        [SerializeField] private List<float> m_XData = new List<float>();
         [SerializeField] private List<SerieData> m_Data = new List<SerieData>();
 
         [NonSerialized] private int m_FilterStart;
         [NonSerialized] private int m_FilterEnd;
         [NonSerialized] private List<SerieData> m_FilterData;
-        [NonSerialized] private Dictionary<int, List<Vector3>> m_UpSmoothPoints = new Dictionary<int, List<Vector3>>();
-        [NonSerialized] private Dictionary<int, List<Vector3>> m_DownSmoothPoints = new Dictionary<int, List<Vector3>>();
+        [NonSerialized] private Dictionary<int, List<Vector3>> m_SmoothPoints = new Dictionary<int, List<Vector3>>();
         [NonSerialized] private List<Vector3> m_DataPoints = new List<Vector3>();
 
         /// <summary>
@@ -209,10 +115,6 @@ namespace XCharts
         /// </summary>
         public string name { get { return m_Name; } set { m_Name = value; } }
         /// <summary>
-        /// 图例名称。当系列名称不为空时，图例名称即为系列名称；反之则为索引index。
-        /// </summary>
-        public string legendName { get { return string.IsNullOrEmpty(name) ? ChartCached.IntToStr(index) : name; } }
-        /// <summary>
         /// If stack the value. On the same category axis, the series with the same stack name would be put on top of each other.
         /// 数据堆叠，同个类目轴上系列配置相同的stack值后，后一个系列的值会在前一个系列的值上相加。
         /// </summary>
@@ -228,34 +130,11 @@ namespace XCharts
         /// </summary>
         public int radarIndex { get { return m_RadarIndex; } set { m_RadarIndex = value; } }
         /// <summary>
-        /// The min number of data to show in chart.
-        /// 系列所显示数据的最小索引
+        /// The style of line.
+        /// 线条样式。
         /// </summary>
-        public int minShow
-        {
-            get { return m_MinShow; }
-            set { m_MinShow = value; if (m_MinShow < 0) m_MinShow = 0; }
-        }
-        /// <summary>
-        /// The max number of data to show in chart.
-        /// 系列所显示数据的最大索引
-        /// </summary>
-        public int maxShow
-        {
-            get { return m_MaxShow; }
-            set { m_MaxShow = value; if (m_MaxShow < 0) m_MaxShow = 0; }
-        }
-        /// <summary>
-        /// The max number of serie data cache.
-        /// The first data will be remove when the size of serie data is larger then maxCache.
-        /// default:0,unlimited.
-        /// 系列中可缓存的最大数据量。默认为0没有限制，大于0时超过指定值会移除旧数据再插入新数据。
-        /// </summary>
-        public int maxCache
-        {
-            get { return m_MaxCache; }
-            set { m_MaxCache = value; if (m_MaxCache < 0) m_MaxCache = 0; }
-        }
+        /// <value></value>
+        public LineStyle lineStyle { get { return m_LineStyle; } set { m_LineStyle = value; } }
         /// <summary>
         /// The style of area.
         /// 区域填充样式。
@@ -268,86 +147,30 @@ namespace XCharts
         /// </summary>
         public SerieSymbol symbol { get { return m_Symbol; } set { m_Symbol = value; } }
         /// <summary>
-        /// The type of line chart.
-        /// 折线图样式类型。
-        /// </summary>
-        /// <value></value>
-        public LineType lineType { get { return m_LineType; } set { m_LineType = value; } }
-        /// <summary>
-        /// the min pixel dist of sample.
-        /// 采样的最小像素距离，默认为0时不采样。当两个数据点间的水平距离小于改值时，开启采样，保证两点间的水平距离不小于改值。
-        /// </summary>
-        /// <value></value>
-        public float sampleDist { get { return m_SampleDist; } set { m_SampleDist = value < 0 ? 0 : value; } }
-        /// <summary>
-        /// the type of sample.
-        /// 采样类型。当sampleDist大于0时有效。
-        /// </summary>
-        public SampleType sampleType { get { return m_SampleType; } set { m_SampleType = value; } }
-        /// <summary>
-        /// 设定的采样平均值。当sampleType 为 Peak 时，用于和过滤数据的平均值做对比是取最大值还是最小值。默认为0时会实时计算所有数据的平均值。
-        /// </summary>
-        /// <value></value>
-        public float sampleAverage { get { return m_SampleAverage; } set { m_SampleAverage = value; } }
-        /// <summary>
-        /// The style of line.
-        /// 线条样式。
-        /// </summary>
-        /// <value></value>
-        public LineStyle lineStyle { get { return m_LineStyle; } set { m_LineStyle = value; } }
-        /// <summary>
-        /// The width of the bar. Adaptive when default 0.
-        /// 柱条的宽度，不设时自适应。支持设置成相对于类目宽度的百分比。
-        /// </summary>
-        /// <value></value>
-        public float barWidth { get { return m_BarWidth; } set { m_BarWidth = value; } }
-        /// <summary>
-        /// The gap between bars between different series, is a percent value like '0.3f' , which means 30% of the bar width, can be set as a fixed value.
-        /// <para>Set barGap as '-1' can overlap bars that belong to different series, which is useful when making a series of bar be background.
-        /// In a single coodinate system, this attribute is shared by multiple 'bar' series. 
-        /// This attribute should be set on the last 'bar' series in the coodinate system, 
-        /// then it will be adopted by all 'bar' series in the coordinate system.</para>
-        /// 不同系列的柱间距离。为百分比（如 '0.3f'，表示柱子宽度的 30%）
-        /// 如果想要两个系列的柱子重叠，可以设置 barGap 为 '-1f'。这在用柱子做背景的时候有用。
-        /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
-        /// </summary>
-        /// <value></value>
-        public float barGap { get { return m_BarGap; } set { m_BarGap = value; } }
-        /// <summary>
-        /// The bar gap of a single series, defaults to be 20% of the category gap, can be set as a fixed value.
-        /// In a single coodinate system, this attribute is shared by multiple 'bar' series. 
-        /// This attribute should be set on the last 'bar' series in the coodinate system, 
-        /// then it will be adopted by all 'bar' series in the coordinate system.
-        /// 同一系列的柱间距离，默认为类目间距的20%，可设固定值。
-        /// 在同一坐标系上，此属性会被多个 'bar' 系列共享。此属性应设置于此坐标系中最后一个 'bar' 系列上才会生效，并且是对此坐标系中所有 'bar' 系列生效。
-        /// </summary>
-        /// <value></value>
-        public float barCategoryGap { get { return m_BarCategoryGap; } set { m_BarCategoryGap = value; } }
-        /// <summary>
         /// Whether offset when mouse click pie chart item.
         /// 鼠标点击时是否开启偏移，一般用在PieChart图表中。
         /// </summary>
-        public bool pieClickOffset { get { return m_ClickOffset; } set { m_ClickOffset = value; } }
+        public bool clickOffset { get { return m_ClickOffset; } set { m_ClickOffset = value; } }
         /// <summary>
         /// Whether to show as Nightingale chart.
         /// 是否展示成南丁格尔图，通过半径区分数据大小。
         /// </summary>
-        public RoseType pieRoseType { get { return m_RoseType; } set { m_RoseType = value; } }
+        public RoseType roseType { get { return m_RoseType; } set { m_RoseType = value; } }
         /// <summary>
         /// the space of pie chart item.
         /// 饼图项间的空隙留白。
         /// </summary>
-        public float pieSpace { get { return m_Space; } set { m_Space = value; } }
+        public float space { get { return m_Space; } set { m_Space = value; } }
         /// <summary>
         /// the center of pie chart.
         /// 饼图的中心点。
         /// </summary>
-        public float[] pieCenter { get { return m_Center; } set { m_Center = value; } }
+        public float[] center { get { return m_Center; } set { m_Center = value; } }
         /// <summary>
         /// the radius of pie chart.
         /// 饼图的半径。radius[0]表示内径，radius[1]表示外径。
         /// </summary>
-        public float[] pieRadius { get { return m_Radius; } set { m_Radius = value; } }
+        public float[] radius { get { return m_Radius; } set { m_Radius = value; } }
         /// <summary>
         /// Text label of graphic element,to explain some data information about graphic item like value, name and so on. 
         /// 图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
@@ -359,16 +182,13 @@ namespace XCharts
         /// </summary>
         public SerieLabel highlightLabel { get { return m_HighlightLabel; } set { m_HighlightLabel = value; } }
         /// <summary>
-        /// The start animation.
-        /// 起始动画。
+        /// 维度Y的数据列表。默认对应yAxis。
         /// </summary>
-        /// <value></value>
-        public Animation animation { get { return m_Animation; } set { m_Animation = value; } }
+        public List<float> yData { get { return m_YData; } }
         /// <summary>
-        /// The arrow of line.
-        /// 折线图的箭头
+        /// 维度X的数据列表。默认对应xAxis。
         /// </summary>
-        public LineArrow lineArrow { get { return m_LineArrow; } set { m_LineArrow = value; } }
+        public List<float> xData { get { return m_XData; } }
         /// <summary>
         /// 系列中的数据内容数组。SerieData可以设置1到n维数据。
         /// </summary>
@@ -390,67 +210,24 @@ namespace XCharts
         /// </summary>
         public int dataCount { get { return m_Data.Count; } }
         /// <summary>
-        /// 数据项位置坐标。
+        /// 整个系列的每段曲线的点列表
         /// </summary>
+        /// <value></value>
+        public Dictionary<int, List<Vector3>> smoothPoints { get { return m_SmoothPoints; } }
+
         public List<Vector3> dataPoints { get { return m_DataPoints; } }
-        /// <summary>
-        /// 饼图的中心点位置。
-        /// </summary>
-        public Vector3 pieCenterPos { get; set; }
-        /// <summary>
-        /// 饼图的内径
-        /// </summary>
-        public float pieInsideRadius { get; set; }
-        /// <summary>
-        /// 饼图的外径
-        /// </summary>
-        public float pieOutsideRadius { get; set; }
-        /// <summary>
-        /// 饼图的数据项最大值
-        /// </summary>
-        public float pieDataMax { get; set; }
-        /// <summary>
-        /// 饼图的数据项之和
-        /// </summary>
-        public float pieDataTotal { get; set; }
 
-        public List<Vector3> GetUpSmoothList(int dataIndex, int size = 100)
+        public List<Vector3> GetSmoothList(int dataIndex, int size = 100)
         {
-            if (m_UpSmoothPoints.ContainsKey(dataIndex))
+            if (m_SmoothPoints.ContainsKey(dataIndex))
             {
-                return m_UpSmoothPoints[dataIndex];
+                return m_SmoothPoints[dataIndex];
             }
             else
             {
                 var list = new List<Vector3>(size);
-                m_UpSmoothPoints[dataIndex] = list;
+                m_SmoothPoints[dataIndex] = list;
                 return list;
-            }
-        }
-
-        public List<Vector3> GetDownSmoothList(int dataIndex, int size = 100)
-        {
-            if (m_DownSmoothPoints.ContainsKey(dataIndex))
-            {
-                return m_DownSmoothPoints[dataIndex];
-            }
-            else
-            {
-                var list = new List<Vector3>(size);
-                m_DownSmoothPoints[dataIndex] = list;
-                return list;
-            }
-        }
-
-        public void ClearSmoothList(int dataIndex)
-        {
-            if (m_UpSmoothPoints.ContainsKey(dataIndex))
-            {
-                m_UpSmoothPoints[dataIndex].Clear();
-            }
-            if (m_DownSmoothPoints.ContainsKey(dataIndex))
-            {
-                m_DownSmoothPoints[dataIndex].Clear();
             }
         }
 
@@ -569,6 +346,8 @@ namespace XCharts
         /// </summary>
         public void ClearData()
         {
+            m_XData.Clear();
+            m_YData.Clear();
             m_Data.Clear();
         }
 
@@ -578,6 +357,8 @@ namespace XCharts
         /// <param name="index"></param>
         public void RemoveData(int index)
         {
+            m_XData.RemoveAt(index);
+            m_YData.RemoveAt(index);
             m_Data.RemoveAt(index);
         }
 
@@ -586,13 +367,18 @@ namespace XCharts
         /// </summary>
         /// <param name="value"></param>
         /// <param name="dataName"></param>
-        public void AddYData(float value, string dataName = null)
+        /// <param name="maxDataNumber"></param>
+        public void AddYData(float value, string dataName = null, int maxDataNumber = 0)
         {
-            if (m_MaxCache > 0)
+            if (maxDataNumber > 0)
             {
-                while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
+                while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
+                while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
+                while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
             }
-            int xValue = m_Data.Count;
+            int xValue = m_XData.Count;
+            m_XData.Add(xValue);
+            m_YData.Add(value);
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, value }, name = dataName });
         }
 
@@ -603,12 +389,16 @@ namespace XCharts
         /// <param name="yValue"></param>
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
-        public void AddXYData(float xValue, float yValue, string dataName = null)
+        public void AddXYData(float xValue, float yValue, string dataName = null, int maxDataNumber = 0)
         {
-            if (m_MaxCache > 0)
+            if (maxDataNumber > 0)
             {
-                while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
+                while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
+                while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
+                while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
             }
+            m_XData.Add(xValue);
+            m_YData.Add(yValue);
             m_Data.Add(new SerieData() { data = new List<float>() { xValue, yValue }, name = dataName });
         }
 
@@ -619,27 +409,31 @@ namespace XCharts
         /// <param name="valueList"></param>
         /// <param name="dataName"></param>
         /// <param name="maxDataNumber"></param>
-        public void AddData(List<float> valueList, string dataName = null)
+        public void AddData(List<float> valueList, string dataName = null, int maxDataNumber = 0)
         {
             if (valueList == null || valueList.Count == 0) return;
             if (valueList.Count == 1)
             {
-                AddYData(valueList[0], dataName);
+                AddYData(valueList[0], dataName, maxDataNumber);
             }
             else if (valueList.Count == 2)
             {
-                AddXYData(valueList[0], valueList[1], dataName);
+                AddXYData(valueList[0], valueList[1], dataName, maxDataNumber);
             }
             else
             {
-                if (m_MaxCache > 0)
+                if (maxDataNumber > 0)
                 {
-                    while (m_Data.Count > m_MaxCache) m_Data.RemoveAt(0);
+                    while (m_XData.Count > maxDataNumber) m_XData.RemoveAt(0);
+                    while (m_YData.Count > maxDataNumber) m_YData.RemoveAt(0);
+                    while (m_Data.Count > maxDataNumber) m_Data.RemoveAt(0);
                 }
                 var serieData = new SerieData();
                 serieData.name = dataName;
                 for (int i = 0; i < valueList.Count; i++)
                 {
+                    if (i == 0) m_XData.Add(valueList[i]);
+                    else if (i == 1) m_YData.Add(valueList[i]);
                     serieData.data.Add(valueList[i]);
                 }
                 m_Data.Add(serieData);
@@ -807,7 +601,7 @@ namespace XCharts
         /// <param name="value"></param>
         public void UpdateYData(int index, float value)
         {
-            UpdateData(index, 1, value);
+            UpdateData(index, 2, value);
         }
 
         /// <summary>
@@ -818,8 +612,8 @@ namespace XCharts
         /// <param name="yValue"></param>
         public void UpdateXYData(int index, float xValue, float yValue)
         {
-            UpdateData(index, 0, xValue);
-            UpdateData(index, 1, yValue);
+            UpdateData(index, 1, xValue);
+            UpdateData(index, 2, yValue);
         }
 
         /// <summary>
@@ -831,22 +625,17 @@ namespace XCharts
         public void UpdateData(int index, int dimension, float value)
         {
             if (index < 0) return;
+            if (dimension == 1)
+            {
+                if (index < m_XData.Count) m_XData[index] = value;
+            }
+            else if (dimension == 2)
+            {
+                if (index < m_YData.Count) m_YData[index] = value;
+            }
             if (index < m_Data.Count && dimension < m_Data[index].data.Count)
             {
                 m_Data[index].data[dimension] = value;
-            }
-        }
-
-        public void UpdateDataName(int index, string name)
-        {
-            if (index >= 0 && index < m_Data.Count)
-            {
-                var serieData = m_Data[index];
-                serieData.name = name;
-                if (serieData.labelText != null)
-                {
-                    serieData.labelText.text = name == null ? "" : name;
-                }
             }
         }
 
@@ -881,30 +670,15 @@ namespace XCharts
             {
                 var color = areaStyle.color;
                 if (highlight) color *= color;
-                color.a *= areaStyle.opacity;
+                color.a *= areaStyle.opactiy;
                 return color;
             }
             else
             {
                 var color = (Color)theme.GetColor(index);
                 if (highlight) color *= color;
-                color.a *= areaStyle.opacity;
+                color.a *= areaStyle.opactiy;
                 return color;
-            }
-        }
-
-        public Color GetAreaToColor(ThemeInfo theme, int index, bool highlight)
-        {
-            if (areaStyle.toColor != Color.clear)
-            {
-                var color = areaStyle.toColor;
-                if (highlight) color *= color;
-                color.a *= areaStyle.opacity;
-                return color;
-            }
-            else
-            {
-                return GetAreaColor(theme, index, highlight);
             }
         }
 
@@ -914,139 +688,15 @@ namespace XCharts
             {
                 var color = lineStyle.color;
                 if (highlight) color *= color;
-                color.a *= lineStyle.opacity;
+                color.a *= lineStyle.opactiy;
                 return color;
             }
             else
             {
                 var color = (Color)theme.GetColor(index);
                 if (highlight) color *= color;
-                color.a *= lineStyle.opacity;
+                color.a *= lineStyle.opactiy;
                 return color;
-            }
-        }
-
-        public Color GetSymbolColor(ThemeInfo theme, int index, bool highlight)
-        {
-            if (symbol.color != Color.clear)
-            {
-                var color = symbol.color;
-                if (highlight) color *= color;
-                color.a *= symbol.opacity;
-                return color;
-            }
-            else
-            {
-                var color = (Color)theme.GetColor(index);
-                if (highlight) color *= color;
-                color.a *= symbol.opacity;
-                return color;
-            }
-        }
-
-        public float GetBarWidth(float categoryWidth)
-        {
-            if (m_BarWidth > 1) return m_BarWidth;
-            else return m_BarWidth * categoryWidth;
-        }
-
-        public float GetBarGap(float categoryWidth)
-        {
-            if (m_BarGap == -1) return 0;
-            else if (m_BarGap <= 1) return GetBarWidth(categoryWidth) * m_BarGap;
-            else return m_BarGap;
-        }
-
-        /// <summary>
-        /// 设置所有数据的图标是否显示
-        /// </summary>
-        /// <param name="flag"></param>
-        public void SetDataIconActive(bool flag)
-        {
-            foreach (var data in m_Data)
-            {
-                data.showIcon = flag;
-            }
-        }
-
-        /// <summary>
-        /// 设置指定index的数据图标是否显示
-        /// </summary>
-        /// <param name="dataIndex"></param>
-        /// <param name="flag"></param>
-        public void SetDataIconActive(int dataIndex, bool flag)
-        {
-            if (dataIndex >= 0 && dataIndex < m_Data.Count)
-            {
-                var data = m_Data[dataIndex];
-                data.showIcon = flag;
-            }
-        }
-
-        /// <summary>
-        /// 统一设置图标的尺寸
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void SetDataIconSize(float width, float height)
-        {
-            foreach (var data in m_Data)
-            {
-                data.iconWidth = width;
-                data.iconHeight = height;
-            }
-        }
-
-        /// <summary>
-        /// 设置指定index的数据图标的图片
-        /// </summary>
-        /// <param name="dataIndex"></param>
-        /// <param name="image"></param>
-        public void SetDataIcon(int dataIndex, Sprite image)
-        {
-            if (dataIndex >= 0 && dataIndex < m_Data.Count)
-            {
-                var data = m_Data[dataIndex];
-                data.iconImage = image;
-            }
-        }
-
-        public bool IsNeedShowDataIcon()
-        {
-            foreach (var data in m_Data)
-            {
-                if (data.showIcon) return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// 设置指定index的数据图标的尺寸
-        /// </summary>
-        /// <param name="dataIndex"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void SetDataIconSize(int dataIndex, float width, float height)
-        {
-            if (dataIndex >= 0 && dataIndex < m_Data.Count)
-            {
-                var data = m_Data[dataIndex];
-                data.iconWidth = width;
-                data.iconHeight = height;
-            }
-        }
-
-        /// <summary>
-        /// 设置指定index的数据图标的颜色
-        /// </summary>
-        /// <param name="dataIndex"></param>
-        /// <param name="color"></param>
-        public void SetDataIconColor(int dataIndex, Color color)
-        {
-            if (dataIndex >= 0 && dataIndex < m_Data.Count)
-            {
-                var data = m_Data[dataIndex];
-                data.iconColor = color;
             }
         }
 
@@ -1084,6 +734,8 @@ namespace XCharts
                         if (flag)
                         {
                             serieData.data.Add(value);
+                            if (j == 0) m_XData.Add(value);
+                            else if (j == 1) m_YData.Add(value);
                         }
                         else serieData.name = txt.Replace("\"", "").Trim();
                     }

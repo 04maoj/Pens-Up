@@ -21,6 +21,7 @@ namespace XCharts
         private bool m_IndicatorJsonAreaToggle = false;
         private string m_IndicatorJsonAreaText;
         private int m_IndicatorSize;
+        private bool m_BackgroundColorToggle = false;
         private int m_BackgroundColorSize;
 
         private void InitProperty(SerializedProperty prop)

@@ -5,8 +5,7 @@ using XCharts;
 [ExecuteInEditMode]
 public class Demo10_LineSimple : MonoBehaviour
 {
-    //void Awake()
-    void Start()
+    void Awake()
     {
         var chart = gameObject.GetComponent<LineChart>();
         if (chart == null) return;
@@ -30,7 +29,7 @@ public class Demo10_LineSimple : MonoBehaviour
         chart.xAxises[0].boundaryGap = true;
 
         chart.RemoveData();
-        chart.AddSerie(SerieType.Line);
+        chart.AddSerie("test", SerieType.Line);
         for (int i = 0; i < dataCount; i++)
         {
             chart.AddXAxisData("x" + i);

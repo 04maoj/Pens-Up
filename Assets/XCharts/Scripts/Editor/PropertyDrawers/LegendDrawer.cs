@@ -24,7 +24,6 @@ namespace XCharts
             SerializedProperty itemHeight = prop.FindPropertyRelative("m_ItemHeight");
             SerializedProperty itemGap = prop.FindPropertyRelative("m_ItemGap");
             SerializedProperty itemFontSize = prop.FindPropertyRelative("m_ItemFontSize");
-            SerializedProperty m_Formatter = prop.FindPropertyRelative("m_Formatter");
             SerializedProperty m_Data = prop.FindPropertyRelative("m_Data");
 
             ChartEditorHelper.MakeFoldout(ref drawRect, ref m_LegendModuleToggle, "Legend", show);
@@ -46,8 +45,6 @@ namespace XCharts
                 drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(drawRect, location);
                 drawRect.y += EditorGUI.GetPropertyHeight(location);
-                EditorGUI.PropertyField(drawRect, m_Formatter);
-                drawRect.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 drawRect.width = EditorGUIUtility.labelWidth + 10;
                 m_DataFoldout = EditorGUI.Foldout(drawRect, m_DataFoldout, "Data");
                 ChartEditorHelper.MakeJsonData(ref drawRect, ref m_ShowJsonDataArea, ref m_JsonDataAreaText, prop,pos.width);
@@ -66,7 +63,7 @@ namespace XCharts
             if (m_LegendModuleToggle)
             {
                 SerializedProperty location = prop.FindPropertyRelative("m_Location");
-                height += 7 * EditorGUIUtility.singleLineHeight + 6 * EditorGUIUtility.standardVerticalSpacing;
+                height += 6 * EditorGUIUtility.singleLineHeight + 5 * EditorGUIUtility.standardVerticalSpacing;
                 height += EditorGUI.GetPropertyHeight(location);
                 height += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
                 if (m_DataFoldout)
