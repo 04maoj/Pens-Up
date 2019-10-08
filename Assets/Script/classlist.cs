@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-public class list : MonoBehaviour
+public class classlist : MonoBehaviour
 {
     // Start is called before the first frame update
 	public GameObject spawner;
