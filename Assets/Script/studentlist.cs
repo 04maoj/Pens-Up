@@ -13,7 +13,7 @@ public class studentlist : MonoBehaviour
     void Start()
     {
 			u_name = FindObjectOfType<User_Info>().user_name;
-			string path1 = "Assets/Local_DataBase/Teachers/" + "Fu" + "/Student_List.txt";
+			string path1 = "Assets/Local_DataBase/Teachers/" + u_name + "/Student_List.txt";
 			Debug.Log(u_name+" " + path1);
 			complete_set = new HashSet<string>();
 			if (File.Exists(path1))
@@ -30,7 +30,7 @@ public class studentlist : MonoBehaviour
 			        current_spawned.gameObject.transform.SetParent(Content.transform);
 			        current_spawned.transform.localScale = new Vector3(1, 1, 1);
 			        current_spawned.transform.GetChild(0).GetComponent<Text>().text = line;
-							current_spawned.transform.position = new Vector3(540+i*800,1400,1000);
+							current_spawned.transform.position = new Vector3(1750,1400-i*350,1000);
 							i=i+1;
 						}
 					}
