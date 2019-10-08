@@ -19,7 +19,8 @@ public class DrawManager : MonoBehaviour
     List<List<Tuple<float, float>>> list;
 
 
-    public List<List<Tuple<float, float>>> GetStrokes(String letter){
+    public List<List<Tuple<float, float>>> GetStrokes(String letter)
+    {
         string path = "Assets/Standards/" + letter;
         string line = "";
         string[] temp = new string[2];
@@ -38,21 +39,25 @@ public class DrawManager : MonoBehaviour
         float currentY = float.Parse(line.Split(' ')[1]);
         paint.Add(new Tuple<float, float>(initX, initY));
         line = sr.ReadLine();
-        while (line != null){
+        while (line != null)
+        {
 
             temp = line.Split(' ');
             //currentX = float.Parse(temp[0]) + initX;
             //currentY = float.Parse(temp[1]) + initY;
-            Debug.Log("RX: " + float.Parse(temp[0]) + ",RY: " + float.Parse(temp[1]) + ". CX: " + currentX + ",CY: " + currentY);
+            //Debug.Log("RX: " + float.Parse(temp[0]) + ",RY: " + float.Parse(temp[1]) + ". CX: " + currentX + ",CY: " + currentY);
 
             // New stroke
-            if (Math.Abs(float.Parse(temp[0]) + initX - preX) > seperateValue || Math.Abs(float.Parse(temp[1]) + initY - preY) > seperateValue){
+            if (Math.Abs(float.Parse(temp[0]) + initX - preX) > seperateValue || Math.Abs(float.Parse(temp[1]) + initY - preY) > seperateValue)
+            {
                 paints.Add(paint);
                 paint = new List<Tuple<float, float>>();
                 initX = float.Parse(temp[0]);
                 initY = float.Parse(temp[1]);
                 coordinate = new Tuple<float, float>(initX, initY);
-            } else {
+            }
+            else
+            {
                 currentX = float.Parse(temp[0]) + initX;
                 currentY = float.Parse(temp[1]) + initY;
                 coordinate = new Tuple<float, float>(currentX, currentY);
@@ -71,7 +76,13 @@ public class DrawManager : MonoBehaviour
     }
 
 
-    public void setCharacter(String chara){
+    public void setCharacter(String chara)
+    {
         this.character = chara;
+    }
+
+    public string getCharacter()
+    {
+        return this.character;
     }
 }
