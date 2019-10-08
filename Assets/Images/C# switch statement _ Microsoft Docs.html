@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<!-- saved from url=(0081)https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch -->
+<html class="hasSidebar hasPageActions hasBreadcrumb conceptual has-default-focus js-focus-visible theme-light gr__docs_microsoft_com" lang="en-us" dir="ltr" data-css-variable-support="true" data-authenticated="false" data-auth-status-determined="true" data-target="docs" x-ms-format-detection="none"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:title" content="C# switch statement">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch">
+
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="@docsmsft">
+
+		<meta name="ms.devlang" content="csharp">
+<meta name="author" content="BillWagner">
+<meta name="ms.author" content="wiwagn">
+<meta name="breadcrumb_path" content="/dotnet/breadcrumb/toc.json">
+<meta name="apiPlatform" content="dotnet">
+<meta name="ms.topic" content="language-reference">
+<meta name="ms.prod" content="dotnet-csharp">
+<meta name="uhfHeaderId" content="MSDocsHeader-DotNet">
+<meta name="ms.assetid" content="44bae8b8-8841-4d85-826b-8a94277daecb">
+<meta name="ms.date" content="04/09/2019">
+<meta name="search.ms_sitename" content="Docs">
+<meta name="search.ms_docsetname" content="core-docs">
+<meta name="locale" content="en-us">
+<meta name="site_name" content="Docs">
+<meta name="search.ms_product" content="VS">
+<meta name="depot_name" content="VS.core-docs">
+<meta name="updated_at" content="2019-06-27 11:28 PM">
+<meta name="gitcommit" content="https://github.com/dotnet/docs/blob/d71cfced41fb37454b765a367e1e30047c51bd60/docs/csharp/language-reference/keywords/switch.md">
+<meta name="original_content_git_url" content="https://github.com/dotnet/docs/blob/live/docs/csharp/language-reference/keywords/switch.md">
+<meta name="document_id" content="77d9cc47-5caf-184a-0ad6-cb968850be7a">
+<meta name="document_version_independent_id" content="f058bf17-04e9-9e23-05c7-66c1864445ad">
+<meta name="page_type" content="conceptual">
+<meta name="toc_rel" content="../toc.json">
+<meta name="pdf_url_template" content="https://docs.microsoft.com/pdfstore/en-us/VS.core-docs/{branchName}{pdfName}">
+<meta name="search.mshattr.devlang" content="csharp">
+<meta name="word_count" content="3267">
+
+	<meta name="scope" content=".NET">
+<link href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch" rel="canonical">
+	<title>C# switch statement | Microsoft Docs</title>
+
+		<link rel="stylesheet" href="./C# switch statement _ Microsoft Docs_files/57eecacf.site-ltr.css">
+
+	<link rel="stylesheet" href="./C# switch statement _ Microsoft Docs_files/b8d322.conceptual.css">
+
+
+	<script async="" src="./C# switch statement _ Microsoft Docs_files/analytics.js"></script><script>
+	var msDocs = {
+		data: {
+			timeOrigin: Date.now(),
+			azureHeaderLocale: 'en-us',
+			contentLocale: 'en-us',
+			contentDir: 'ltr',
+			userLocale: 'en-us',
+			userDir: 'ltr',
+			pageTemplate: 'Conceptual',
+			brand: '',
+			context: {
+
+			},
+			hasComments: true,
+			feedbackSystem: 'GitHub',
+			feedbackGitHubRepo: 'dotnet/docs',
+			feedbackProductUrl: 'https://developercommunity.visualstudio.com/spaces/61/index.html',
+			contentGitUrl: 'https://github.com/dotnet/docs/blob/master/docs/csharp/language-reference/keywords/switch.md',
+			showLatex: true,
+			extendBreadcrumb: false,
+		},
+		functions:{}
+	};
+	if (!('Promise' in window && 'resolve' in window.Promise && 'reject' in window.Promise && 'all' in window.Promise && 'race' in window.Promise)) {
+		document.write('<script src="https://static.docs.com/ui/third-party/bluebird/3.5.0/bluebird.min.js" integrity="sha384-aD4BDeDGeLXLpPK4yKeqtZQa9dv4a/7mQ+4L5vwshIYH1Mc2BrXvHd32iHzYCQy5" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof fetch !== 'function') {
+		document.write('<script src="https://static.docs.com/ui/third-party/fetch/2.0.3/fetch.min.js" integrity="sha384-H3LQq82b6Mm80GYRHtRSlTwO9DoXctmYCVEYk9M8mp97lRzs6DuSrHVUg3SBP9w0" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof HTMLTemplateElement === 'undefined') {
+		document.write('<script src="https://static.docs.com/ui/third-party/template/1.4.0/template.min.js" integrity="sha384-1zKzI6ldTVHMU7n0W2HpE/lhHI+UG4D9IIaxbj3kT2UhCWicdTuJkTtnKuu0CQzN" crossorigin="anonymous"><\/script>');
+	}
+	if (typeof URL !== 'function') {
+		document.write('<script src="https://static.docs.com/ui/third-party/url/0.5.7/url.min.js" integrity="sha384-vn7xBMtpSTfzaTRWxj0kVq0UcsbBrTOgZ/M1ISHqe1V358elYva+lfiEC+T8jLPc" crossorigin="anonymous"><\/script>');
+	}
+	</script>
+
+	<script src="./C# switch statement _ Microsoft Docs_files/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+		<script src="./C# switch statement _ Microsoft Docs_files/d9b9afc3.index-docs.js"></script><style></style><script src="./C# switch statement _ Microsoft Docs_files/jsll-4.js" async="" defer=""></script>
+
+<script async="" src="./C# switch statement _ Microsoft Docs_files/t.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><script async="" src="./C# switch statement _ Microsoft Docs_files/t(1).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(2).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(3).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(4).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(5).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(6).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(7).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(8).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(9).js"></script><script async="" src="./C# switch statement _ Microsoft Docs_files/t(10).js"></script><script async="" src="https://web.vortex.data.microsoft.com/collect/v1/t.js?ver=%272.1%27&amp;name=%27Ms.Webi.ContentUpdate%27&amp;time=%272019-10-08T16%3A07%3A56.311Z%27&amp;os=%27MacOS%27&amp;appId=%27JS%3ADocs%27&amp;-ver=%271.0%27&amp;-impressionGuid=%2752e11aee-c029-4895-9e00-bd5720c94eb5%27&amp;-pageName=%2777d9cc47-5caf-184a-0ad6-cb968850be7a%27&amp;-uri=%27https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch%27&amp;-market=%27en-us%27&amp;-pageTags=%27%7B%22pgdevlng%22%3A%22csharp%22%2C%22author%22%3A%22BillWagner%22%2C%22pgauth%22%3A%22wiwagn%22%2C%22pgtop%22%3A%22language-reference%22%2C%22product%22%3A%22dotnet-csharp%22%2C%22asst%22%3A%2244bae8b8-8841-4d85-826b-8a94277daecb%22%2C%22date%22%3A%2204%2F09%2F2019%22%2C%22depotname%22%3A%22VS.core-docs%22%2C%22publishtime%22%3A%222019-06-27%2011%3A28%20PM%22%2C%22gitcommit%22%3A%22https%3A%2F%2Fgithub.com%2Fdotnet%2Fdocs%2Fblob%2Fd71cfced41fb37454b765a367e1e30047c51bd60%2Fdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md%22%2C%22giturl%22%3A%22https%3A%2F%2Fgithub.com%2Fdotnet%2Fdocs%2Fblob%2Flive%2Fdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md%22%2C%22document_version_independent_id%22%3A%22f058bf17-04e9-9e23-05c7-66c1864445ad%22%2C%22contentlocale%22%3A%22en-us%22%2C%22highContrast%22%3A%22false%22%2C%22metaTags%22%3A%7B%7D%7D%27&amp;-pageHeight=17375&amp;-vpHeight=751&amp;-vpWidth=1440&amp;-actionType=%27R%27&amp;-behavior=0&amp;-vScrollOffset=638&amp;-hScrollOffset=0&amp;-contentVer=%272.0%27&amp;-content=%27%5B%5D%27&amp;*baseType=%27Ms.Content.ContentUpdate%27&amp;*title=%27C%23%20switch%20statement%20%7C%20Microsoft%20Docs%27&amp;*cookieEnabled=true&amp;*isJs=true&amp;*isDomComplete=false&amp;*isLoggedIn=false&amp;ext-javascript-ver=%271.1%27&amp;ext-javascript-libVer=%274.2.14%27&amp;ext-javascript-domain=%27docs.microsoft.com%27&amp;ext-javascript-msfpc=%27GUID%3D9f5de76331c542609242747612c5fd99%26HASH%3D9f5d%26LV%3D201811%26V%3D4%26LU%3D1541744848471%27&amp;ext-javascript-userConsent=false&amp;ext-user-localId=%27t%3A0457B77B75AA69112CE9BBDA71AA6AD1%27&amp;$mscomCookies=false"></script><script async="" src="https://web.vortex.data.microsoft.com/collect/v1/t.js?ver=%272.1%27&amp;name=%27Ms.Webi.PageAction%27&amp;time=%272019-10-08T16%3A07%3A56.915Z%27&amp;os=%27MacOS%27&amp;appId=%27JS%3ADocs%27&amp;-ver=%271.0%27&amp;-impressionGuid=%2752e11aee-c029-4895-9e00-bd5720c94eb5%27&amp;-pageName=%2777d9cc47-5caf-184a-0ad6-cb968850be7a%27&amp;-uri=%27https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch%27&amp;-pageTags=%27%7B%22pgdevlng%22%3A%22csharp%22%2C%22author%22%3A%22BillWagner%22%2C%22pgauth%22%3A%22wiwagn%22%2C%22pgtop%22%3A%22language-reference%22%2C%22product%22%3A%22dotnet-csharp%22%2C%22asst%22%3A%2244bae8b8-8841-4d85-826b-8a94277daecb%22%2C%22date%22%3A%2204%2F09%2F2019%22%2C%22depotname%22%3A%22VS.core-docs%22%2C%22publishtime%22%3A%222019-06-27%2011%3A28%20PM%22%2C%22gitcommit%22%3A%22https%3A%2F%2Fgithub.com%2Fdotnet%2Fdocs%2Fblob%2Fd71cfced41fb37454b765a367e1e30047c51bd60%2Fdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md%22%2C%22giturl%22%3A%22https%3A%2F%2Fgithub.com%2Fdotnet%2Fdocs%2Fblob%2Flive%2Fdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md%22%2C%22document_version_independent_id%22%3A%22f058bf17-04e9-9e23-05c7-66c1864445ad%22%2C%22contentlocale%22%3A%22en-us%22%2C%22highContrast%22%3A%22false%22%2C%22metaTags%22%3A%7B%7D%7D%27&amp;-contentVer=%272.0%27&amp;-market=%27en-us%27&amp;-pageType=%27conceptual%27&amp;-actionType=%27O%27&amp;-behavior=300&amp;-content=%27%5B%7B%22event%22%3A%22page-visibility-changed%22%2C%22value%22%3A%22hidden%22%7D%5D%27&amp;*baseType=%27Ms.Content.PageAction%27&amp;*timeToAction=70121&amp;*cookieEnabled=true&amp;*isJs=true&amp;*title=%27C%23%20switch%20statement%20%7C%20Microsoft%20Docs%27&amp;*isLoggedIn=false&amp;*isManual=true&amp;*referrerUri=%27https%3A%2F%2Fwww.google.com%2F%27&amp;ext-javascript-ver=%271.1%27&amp;ext-javascript-libVer=%274.2.14%27&amp;ext-javascript-domain=%27docs.microsoft.com%27&amp;ext-javascript-msfpc=%27GUID%3D9f5de76331c542609242747612c5fd99%26HASH%3D9f5d%26LV%3D201811%26V%3D4%26LU%3D1541744848471%27&amp;ext-javascript-userConsent=false&amp;ext-user-localId=%27t%3A0457B77B75AA69112CE9BBDA71AA6AD1%27&amp;$mscomCookies=false"></script><script async="" src="https://web.vortex.data.microsoft.com/collect/v1/t.js?ver=%272.1%27&amp;name=%27Ms.Webi.PageAction%27&amp;time=%272019-10-08T16%3A07%3A57.424Z%27&amp;os=%27MacOS%27&amp;appId=%27JS%3ADocs%27&amp;-ver=%271.0%27&amp;-impressionGuid=%2752e11aee-c029-4895-9e00-bd5720c94eb5%27&amp;-pageName=%2777d9cc47-5caf-184a-0ad6-cb968850be7a%27&amp;-uri=%27https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch%27&amp;-pageTags=%27%7B%22pgdevlng%22%3A%22csharp%22%2C%22author%22%3A%22BillWagner%22%2C%22pgauth%22%3A%22wiwagn%22%2C%22pgtop%22%3A%22language-reference%22%2C%22product%22%3A%22dotnet-csharp%22%2C%22asst%22%3A%2244bae8b8-8841-4d85-826b-8a94277daecb%22%2C%22date%22%3A%2204%2F09%2F2019%22%2C%22depotname%22%3A%22VS.core-docs%22%2C%22publishtime%22%3A%222019-06-27%2011%3A28%20PM%22%2C%22gitcommit%22%3A%22https%3A%2F%2Fgithub.com%2Fdotnet%2Fdocs%2Fblob%2Fd71cfced41fb37454b765a367e1e30047c51bd60%2Fdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md%22%2C%22giturl%22%3A%22https%3A%2F%2Fgithub.com%2Fdotnet%2Fdocs%2Fblob%2Flive%2Fdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md%22%2C%22document_version_independent_id%22%3A%22f058bf17-04e9-9e23-05c7-66c1864445ad%22%2C%22contentlocale%22%3A%22en-us%22%2C%22highContrast%22%3A%22false%22%2C%22metaTags%22%3A%7B%7D%7D%27&amp;-contentVer=%272.0%27&amp;-market=%27en-us%27&amp;-pageType=%27conceptual%27&amp;-actionType=%27O%27&amp;-behavior=300&amp;-content=%27%5B%7B%22event%22%3A%22page-focus-changed%22%2C%22value%22%3A%22blur%22%7D%5D%27&amp;*baseType=%27Ms.Content.PageAction%27&amp;*timeToAction=70629&amp;*cookieEnabled=true&amp;*isJs=true&amp;*title=%27C%23%20switch%20statement%20%7C%20Microsoft%20Docs%27&amp;*isLoggedIn=false&amp;*isManual=true&amp;*referrerUri=%27https%3A%2F%2Fwww.google.com%2F%27&amp;ext-javascript-ver=%271.1%27&amp;ext-javascript-libVer=%274.2.14%27&amp;ext-javascript-domain=%27docs.microsoft.com%27&amp;ext-javascript-msfpc=%27GUID%3D9f5de76331c542609242747612c5fd99%26HASH%3D9f5d%26LV%3D201811%26V%3D4%26LU%3D1541744848471%27&amp;ext-javascript-userConsent=false&amp;ext-user-localId=%27t%3A0457B77B75AA69112CE9BBDA71AA6AD1%27&amp;$mscomCookies=false"></script></head>
+
+<body lang="en-us" dir="ltr" data-gr-c-s-loaded="true"><div id="MathJax_Message" style="display: none;"></div>
+<div class="header-holder has-default-focus">
+	<a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#main" class="skip-to-main-link visually-hidden-until-focused is-fixed has-inner-focus focus-visible has-top-zero has-left-zero has-right-zero has-padding-medium has-text-centered has-body-background-medium" tabindex="1">Skip to main content</a>
+		<div id="headerAreaHolder" data-bi-name="header"><!----><!----><header class="nav-bar" role="banner" itemscope="itemscope" itemtype="http://schema.org/Organization"><!---->
+		
+		<button class="nav-bar-burger" aria-label="Global navigation" aria-controls="ax-16" aria-expanded="false">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+		<nav class="nav-bar-mobile-nav" role="navigation" id="ax-16" aria-label="Global" hidden="">
+			<ul class="nav-bar-mobile-nav-list">
+				<!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/"><!---->.NET<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet"><!---->About<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn"><!---->Learn<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides"><!---->Architecture<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://docs.microsoft.com/dotnet"><!---->Docs<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/download"><!---->Downloads<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/platform/community"><!---->Community<!----></a>
+		</li><!---->
+		<li class="nav-bar-mobile-nav-item">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro"><!---->Get Started<!----></a>
+		</li><!---->
+			</ul>
+		</nav>
+		
+		<a class="nav-bar-button" itemprop="url" href="https://www.microsoft.com/" aria-label="Microsoft">
+			<div class="nav-bar-logo has-background-image theme-display is-light" role="presentation" aria-hidden="true" itemprop="logo" itemscope="itemscope"></div>
+			<div class="nav-bar-logo has-background-image theme-display is-dark is-high-contrast" role="presentation" aria-hidden="true" itemprop="logo" itemscope="itemscope"></div>
+		</a>
+		<nav class="nav-bar-nav" role="navigation" aria-label="Global">
+			<ul class="nav-bar-nav-list">
+				
+		<li class="nav-bar-item is-category has-spacing">
+			<a class="nav-bar-button title has-hover-underline is-4" itemprop="url" href="https://dotnet.microsoft.com/">
+				<span><!---->.NET<!----></span>
+			</a>
+		</li>
+				<!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet">
+				<span><!---->About<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn">
+				<span><!---->Learn<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides">
+				<span><!---->Architecture<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://docs.microsoft.com/dotnet">
+				<span><!---->Docs<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/download">
+				<span><!---->Downloads<!----></span>
+			</a>
+		</li><!---->
+		<li class="nav-bar-item">
+			<a class="nav-bar-button has-hover-underline" href="https://dotnet.microsoft.com/platform/community">
+				<span><!---->Community<!----></span>
+			</a>
+		</li><!---->
+		<li class="dropdown nav-bar-item" hidden="">
+			<button aria-expanded="false" class="dropdown-trigger nav-bar-button has-hover-underline" aria-controls="ax-17">
+				<span><!---->More<!----></span>
+				<span class="nav-bar-button-chevron" aria-hidden="true">
+					<span class="docon docon-chevron-down-light expanded-indicator"></span>
+				</span>
+			</button>
+			<ul class="dropdown-menu" id="ax-17" aria-label="More">
+				<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/what-is-dotnet"><!---->About<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn"><!---->Learn<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/learn/dotnet/architecture-guides"><!---->Architecture<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://docs.microsoft.com/dotnet"><!---->Docs<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/download"><!---->Downloads<!----></a>
+		</li>
+	<!---->
+		<li class="nav-bar-item" hidden="">
+			<a class="nav-bar-button" href="https://dotnet.microsoft.com/platform/community"><!---->Community<!----></a>
+		</li>
+	<!---->
+			</ul>
+		</li><!---->
+				
+		<li class="nav-bar-item has-spacing">
+			<a class="button is-small is-primary is-outlined" href="https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/intro">
+				Get Started
+			</a>
+		</li>
+			</ul>
+		</nav>
+		<span class="nav-bar-spacer"></span>
+		
+			<div class="nav-bar-item nav-bar-search-form-item" id="ax-18" hidden="">
+				
+			<form class="is-flex" method="GET" id="searchForm" name="searchForm" role="search" aria-label="Search" aria-expanded="false" action="https://docs.microsoft.com/en-us/search/">
+					
+							<button class="nav-bar-button has-margin-extra-small tag" type="button" aria-label="Search filter is &quot;.NET&quot;. Tap to remove.">
+								<span class="is-truncated"><!---->.NET<!----></span>
+								<span class="icon">
+									<span class="docon docon-navigate-close" aria-hidden="true"></span>
+								</span>
+							</button>
+					<div class="autocomplete" data-bi-name="autocomplete"><!---->
+		<div class="control ">
+			<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="site-search-input" class="autocomplete-input input   is-full-width" type="search" name="search" aria-expanded="false" aria-owns="ax-19-listbox" aria-activedescendant="" placeholder="Search">
+
+			<span class="icon is-small is-left" aria-hidden="true" hidden="">
+				<span class="has-text-primary docon docon-undefined"></span>
+			</span>
+
+			<span class="autocomplete-loader loader has-text-primary" aria-hidden="true" hidden=""></span>
+		</div>
+
+		<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-19-listbox" hidden="">
+			
+		</ul><!----></div>
+					<!-- mobile safari will not dispatch submit event unless there's a submit button that is not display:none -->
+					<button type="submit" class="visually-hidden" tabindex="-1" aria-hidden="true"></button>
+					<input name="category" hidden="" value="All">
+					<input name="scope" hidden="" value=".NET">
+					
+			</form>
+		
+			</div>
+			<div class="nav-bar-item ">
+				<button id="form-expander" class="nav-bar-button has-hover-underline has-margin-left-extra-small" aria-label="Search" aria-expanded="false" aria-controls="ax-18">
+						
+					<span class="is-hidden-mobile" aria-hidden="true"><!---->Search<!----></span>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-search"></span>
+					</span>
+	
+				</button>
+			</div>
+		<!----><!----></header></div>
+		<div class="content-header uhf-container has-padding has-default-focus" data-bi-name="content-header">
+		<nav class="has-padding-none-mobile" data-bi-name="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList" role="navigation" aria-label="Breadcrumb">
+			<ul id="page-breadcrumbs" class="breadcrumbs"><!---->
+		<!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/">
+				Docs
+			</a>
+		</li><!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/dotnet/">
+				.NET
+			</a>
+		</li><!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/dotnet/csharp/">
+				C# Guide
+			</a>
+		</li><!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/">
+				Language reference
+			</a>
+		</li><!---->
+		<li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+			
+			<a itemprop="item" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/">
+				Keywords
+			</a>
+		</li><!---->
+	<!----></ul>
+		</nav>
+		<div class="content-header-controls">
+			<button type="button" class="contents-button button" data-bi-name="contents-expand" aria-haspopup="true">
+				<span class="icon"><span class="docon docon-menu" aria-hidden="true"></span></span>
+				<span>Contents</span>
+			</button>
+		</div>
+		<div class="content-header-controls exit-focus">
+			<button type="button" class="ap-collapse-behavior ap-expanded button" data-bi-name="ap-collapse" aria-controls="action-panel">
+				<span class="icon"><span class="docon docon-exit-mode" aria-hidden="true"></span></span>
+				<span>Exit focus mode</span>
+			</button>
+		</div>
+		<div id="page-actions" class="is-flex-touch has-flex-justify-content-space-between-touch has-padding-none has-padding-none-mobile">
+			<ul class="action-list has-flex-justify-content-start-mobile is-flex is-flex-row has-flex-wrap">
+						<li><!---->
+		<button type="button" class="bookmark button is-text has-inner-focus is-small is-icon-only-touch">
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-single-bookmark"></span>
+			</span>
+			<span class="bookmark-status is-visually-hidden-touch is-hidden-portrait"><!---->Bookmark<!----></span>
+		</button><!----></li><li>
+							<a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#feedback" class="button is-text has-inner-focus is-small is-icon-only-touch" data-bi-name="comments">
+								<span class="icon">
+									<span class="docon docon-comment-lines" aria-hidden="true"></span>
+								</span>
+								<span class="is-visually-hidden-touch is-hidden-portrait">Feedback</span>
+							</a>
+						</li>
+							<li id="contenteditbtn">
+									<a href="https://github.com/dotnet/docs/blob/master/docs/csharp/language-reference/keywords/switch.md" class="button is-text has-inner-focus is-icon-only-touch is-small" title="Edit This Document" data-bi-name="edit" data-original_content_git_url="https://github.com/dotnet/docs/blob/live/docs/csharp/language-reference/keywords/switch.md" data-original_content_git_url_template="" data-pr_repo="" data-pr_branch="">
+									<span class="icon">
+										<span class="docon docon-edit-outline" aria-hidden="true"></span>
+									</span>
+									<span class="is-visually-hidden-touch is-hidden-portrait">Edit</span>
+								</a>
+							</li>
+				<li>
+<div class="sharing dropdown has-caret">
+	<button class="dropdown-trigger button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small is-icon-only-touch" aria-controls="sharing-menu" aria-expanded="false" title="Share This Document" data-bi-name="share">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-sharing"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Share</span>
+	</button>
+	<div class="dropdown-menu has-padding-small" id="sharing-menu">
+		<ul data-bi-name="share-links">
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-twitter" data-bi-name="twitter" href="https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch%3FWT.mc_id%3Dtwitter&amp;text=C%23%20switch%20statement%20%7C%20Microsoft%20Docs&amp;tw_p=tweetbutton&amp;url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch%3FWT.mc_id%3Dtwitter">
+					<span class="icon">
+						<span class="docon docon-brand-twitter has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Twitter</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-linkedin" data-bi-name="linkedin" href="https://www.linkedin.com/cws/share?url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch%3FWT.mc_id%3Dlinkedin">
+					<span class="icon">
+						<span class="docon docon-brand-linkedin has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>LinkedIn</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-facebook" data-bi-name="facebook" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch%3FWT.mc_id%3Dfacebook">
+					<span class="icon">
+						<span class="docon docon-brand-facebook has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Facebook</span>
+				</a>
+			</li>
+			<li>
+				<a class="button is-text is-fullwidth has-flex-justify-content-start has-inner-focus is-small share-email" data-bi-name="email" href="mailto:?subject=%5BShared%20Article%5D%20C%23%20switch%20statement%20%7C%20Microsoft%20Docs&amp;body=C%23%20switch%20statement%20%7C%20Microsoft%20Docs%0A%0Ahttps%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch%3FWT.mc_id%3Demail">
+					<span class="icon">
+						<span class="docon docon-mail-message-fill has-text-primary" aria-hidden="true"></span>
+					</span>
+					<span>Email</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>				</li>
+				<li>
+<div class="dropdown has-caret">
+	<button class="dropdown-trigger button is-text is-small is-icon-only-touch has-inner-focus" aria-controls="theme-menu" aria-expanded="false" title="Theme" data-bi-name="theme">
+		<span class="icon">
+			<span class="docon docon-sun" aria-hidden="true"></span>
+		</span>
+		<span class="is-visually-hidden-touch is-hidden-portrait">Theme</span>
+	</button>
+	<div class="dropdown-menu" id="theme-menu" role="menu">
+		<div class="theme-selector has-padding-small">
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start is-selected" data-theme-to="light" role="menuitem" aria-selected="true">
+					<span class="theme-light has-margin-right-small">
+						<span class="theme-selector-icon css-variable-support has-border is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+Light					</span>
+				</button>
+			</div>
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start" data-theme-to="dark" role="menuitem" aria-selected="false">
+					<span class="theme-dark has-margin-right-small">
+						<span class="has-border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+Dark					</span>
+				</button>
+			</div>
+			<div class="theme is-block">
+				<button class="button is-text is-small theme-control is-fullwidth has-flex-justify-content-start" data-theme-to="high-contrast" role="menuitem" aria-selected="false">
+					<span class="theme-high-contrast has-margin-right-small">
+						<span class="has-border theme-selector-icon css-variable-support is-inline-block has-body-background" aria-hidden="true">
+							<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+								<rect width="22" height="14" class="has-fill-body-background"></rect>
+								<rect x="5" y="5" width="12" height="4" class="has-fill-secondary"></rect>
+								<rect x="5" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="8" y="2" width="2" height="1" class="has-fill-secondary"></rect>
+								<rect x="11" y="2" width="3" height="1" class="has-fill-secondary"></rect>
+								<rect x="1" y="1" width="2" height="2" class="has-fill-secondary"></rect>
+								<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary"></rect>
+								<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary"></rect>
+							</svg>
+						</span>
+					</span>
+					<span>
+High contrast					</span>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>				</li>
+				<li>
+					<a class="docs-sign-in auth-status-determined not-authenticated button is-text has-inner-focus has-text-primary is-small" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#">Sign in</a>
+					<div class="dropdown has-caret auth-status-determined authenticated">
+						<button class="dropdown-trigger button is-text has-inner-focus is-small is-icon-only-touch has-inner-focus" aria-label="Your Account" aria-controls="user-menu" aria-expanded="false">
+							<span class="icon" aria-hidden="true">
+								<span class="image">
+									<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+								</span>
+							</span>
+							<span class="is-truncated has-margin-left-small" data-profile-property="userName"></span>
+						</button>
+						<div class="dropdown-menu box" id="user-menu" role="menu">
+							<div class="media is-user-dir">
+								<div class="media-left">
+									<span class="image is-64x64" aria-hidden="true">
+										<img class="has-body-background-medium is-rounded" data-profile-property="avatarUrl">
+									</span>
+								</div>
+								<div class="media-content">
+									<p class="title">
+										<span class="is-truncated" style="max-width: 200px" data-profile-property="userName"></span>
+									</p>
+									<p class="subtitle has-margin-bottom-none">
+										<span class="is-truncated" style="max-width: 200px" data-profile-property="upn"></span>
+									</p>
+									<ul class="is-unstyled has-margin-none has-margin-top-small">
+										<li><a href="https://docs.microsoft.com/profile" data-profile-property="profileUrl">Profile</a></li>
+										<li><a class="docs-sign-out" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#">Sign out</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<button type="button" class="contents-button button is-small is-text is-hidden-tablet has-inner-focus is-hidden-tablet" aria-label="Contents" data-bi-name="contents-expand-">
+				<span class="icon">
+					<span class="docon docon-editor-list-bullet" aria-hidden="true"></span>
+				</span>
+				<span>Contents</span>
+			</button>
+		</div>
+	</div>
+
+		<div id="banner-holder" class="has-default-focus has-overflow-hidden">
+		</div>
+
+	<div id="disclaimer-holder" class="has-overflow-hidden has-default-focus"></div>
+	</div>
+
+	<div class="mainContainer  uhf-container has-top-padding  has-default-focus" data-bi-name="body">
+
+		<div class="columns has-large-gaps is-gapless-mobile ">
+
+			<div id="left-container" class="left-container is-hidden-mobile column is-one-third-tablet is-one-quarter-desktop">
+				<nav id="affixed-left-container" class="is-fixed is-flex is-flex-column" role="navigation" aria-label="Primary" data-bi-name="left toc" style="width: 288px; top: 24px; bottom: 24px;"><form action="javascript:" role="search" aria-label="Search" class="is-full-width has-margin-bottom-small"><label class="visually-hidden" for="ax-10">Search</label><div class="autocomplete is-block" data-bi-name="autocomplete"><!---->
+		<div class="control has-icons-left">
+			<input role="combobox" maxlength="100" aria-autocomplete="list" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" id="ax-10" class="autocomplete-input input control has-icons-left is-small is-full-width" type="text" aria-expanded="false" aria-owns="ax-11-listbox" aria-activedescendant="" placeholder="Filter by title">
+
+			<span class="icon is-small is-left" aria-hidden="true">
+				<span class="has-text-primary docon docon-filter"></span>
+			</span>
+
+			<span class="autocomplete-loader loader has-text-primary" aria-hidden="true" hidden=""></span>
+		</div>
+
+		<ul class="autocomplete-suggestions is-vertically-scrollable" role="listbox" id="ax-11-listbox" hidden="">
+			
+		</ul><!----></div></form><ul class="tree is-vertically-scrollable has-flex-grow has-flex-shrink" role="tree" aria-label="Table of contents" data-bi-name="tree"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/">C# language reference</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/configure-language-version">Configure language version</a></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# keywords</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/">Overview</a></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Built-in types</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Modifiers</span></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Statement Keywords</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/statement-keywords">Statement categories</a></li><li class="tree-item is-expanded" role="treeitem" tabindex="-1" aria-expanded="true"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Selection Statements</span><ul class="tree-group" role="group"><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/if-else">if-else</a></li><li role="none"><a class="tree-item is-leaf is-selected" role="treeitem" tabindex="0" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch">switch</a></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Iteration Statements</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Jump Statements</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Exception Handling Statements</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Checked and Unchecked</span></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/fixed-statement">fixed Statement</a></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/lock-statement">lock Statement</a></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Method Parameters</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Namespace Keywords</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Type-testing Keywords</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Generic Type Constraint Keywords</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Access Keywords</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Literal Keywords</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Contextual Keywords</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>Query Keywords</span></li></ul></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# operators</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# special characters</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# preprocessor directives</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# compiler options</span></li><li role="none"><a class="tree-item is-leaf" role="treeitem" tabindex="-1" data-bi-name="tree-leaf" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/">C# compiler errors</a></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# 6.0 draft specification</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# 7.0 specification proposals</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# 7.1 specification proposals</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# 7.2 specification proposals</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# 7.3 specification proposals</span></li><li class="tree-item" role="treeitem" tabindex="-1" aria-expanded="false"><span class="tree-expander" data-bi-name="tree-expander"><span class="tree-expander-indicator docon docon-chevron-right-light" aria-hidden="true"></span>C# 8.0 specification proposal</span></li></ul><a class="button is-small is-text has-flex-justify-content-start has-inner-focus has-margin-top-small has-border-top has-border-bottom has-flex-shrink-none" href="https://docs.microsoft.com/en-us/dotnet/opbuildpdf/csharp/language-reference/toc.pdf?branch=live" data-bi-name="downloadPdf"><!---->
+		<span class="icon is-size-8 has-text-subtle">
+			<span aria-hidden="true" class="docon docon-arrow-down"></span>
+		</span>
+		<span><!---->Download PDF<!----></span><!----></a></nav>
+			</div>
+
+			<section class="primary-holder column is-two-thirds-tablet is-three-quarters-desktop">
+				<div class="columns is-gapless-mobile has-large-gaps ">
+
+
+				<div id="main-column" class="column  is-full is-four-fifths-desktop ">
+
+					<main id="main" role="main" class="content " data-bi-name="content" lang="en-us" dir="ltr">
+
+
+
+						<h1 id="switch-c-reference" sourcefile="docs/csharp/language-reference/keywords/switch.md" sourcestartlinenumber="16">switch (C# reference)</h1>
+
+						<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+							<li class="displayDate">
+								<time role="presentation" datetime="2019-04-09T00:00:00.000Z" data-article-date-source="ms.date">04/09/2019</time>
+							</li>
+								<li class="readingTime">16 minutes to read</li>
+							<li class="contributors-holder">
+								<a class="has-inner-focus" href="https://github.com/dotnet/docs/blob/master/docs/csharp/language-reference/keywords/switch.md" title="15 Contributors" aria-label="15 Contributors">
+									<ul class="contributors" data-bi-name="contributors" aria-hidden="true">
+												<li><img src="./C# switch statement _ Microsoft Docs_files/BillWagner.png" data-src="https://github.com/BillWagner.png?size=32" role="presentation"></li>
+												<li><img src="./C# switch statement _ Microsoft Docs_files/nschonni.png" data-src="https://github.com/nschonni.png?size=32" role="presentation"></li>
+												<li><img src="./C# switch statement _ Microsoft Docs_files/contributor.svg" data-src="https://github.com/volkan-yazilim.png?size=32" role="presentation"></li>
+												<li><img src="./C# switch statement _ Microsoft Docs_files/mairaw.png" data-src="https://github.com/mairaw.png?size=32" role="presentation"></li>
+												<li><img src="./C# switch statement _ Microsoft Docs_files/Mackiovello.png" data-src="https://github.com/Mackiovello.png?size=32" role="presentation"></li>
+										<li><span class="is-size-8 has-text-subtle">+10</span></li>
+									</ul>
+								</a>
+							</li>
+
+						</ul>
+
+						<nav id="center-doc-outline" class="doc-outline is-hidden-desktop" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+							<h3>In this article</h3>
+						<ol><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-match-expression">The match expression</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-switch-section">The switch section</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#case-labels">Case labels</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-default-case">The default case</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#-pattern-matching-with-the-switch-statement">Pattern matching with the switch statement</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#-the-case-statement-and-the-when-clause">The case statement and the when clause</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#c-language-specification">C# language specification</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#see-also">See also</a></li></ol></nav>
+
+
+						<!-- <content> -->
+							
+<p><code>switch</code> is a selection statement that chooses a single <em>switch section</em> to execute from a list of candidates based on a pattern match with the <em>match expression</em>.</p>
+<div class="codeHeader" id="code-try-0" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="switch#1" data-author-content="using System;
+
+public class Example
+{
+   public static void Main()
+   {
+      int caseSwitch = 1;
+      
+      switch (caseSwitch)
+      {
+          case 1:
+              Console.WriteLine(&quot;Case 1&quot;);
+              break;
+          case 2:
+              Console.WriteLine(&quot;Case 2&quot;);
+              break;
+          default:
+              Console.WriteLine(&quot;Default case&quot;);
+              break;
+      }
+   }
+}
+// The example displays the following output:
+//       Case 1
+"><span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+   {
+      <span class="hljs-keyword">int</span> caseSwitch = <span class="hljs-number">1</span>;
+      
+      <span class="hljs-keyword">switch</span> (caseSwitch)
+      {
+          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+              Console.WriteLine(<span class="hljs-string">"Case 1"</span>);
+              <span class="hljs-keyword">break</span>;
+          <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+              Console.WriteLine(<span class="hljs-string">"Case 2"</span>);
+              <span class="hljs-keyword">break</span>;
+          <span class="hljs-keyword">default</span>:
+              Console.WriteLine(<span class="hljs-string">"Default case"</span>);
+              <span class="hljs-keyword">break</span>;
+      }
+   }
+}
+<span class="hljs-comment">// The example displays the following output:</span>
+<span class="hljs-comment">//       Case 1</span>
+</code></pre>
+<p>The <code>switch</code> statement is often used as an alternative to an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/if-else" data-linktype="relative-path">if-else</a> construct if a single expression is tested against three or more conditions. For example, the following <code>switch</code> statement determines whether a variable of type <code>Color</code> has one of three values:</p>
+<div class="codeHeader" id="code-try-1" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="switch#3" data-author-content="using System;
+
+public enum Color { Red, Green, Blue }
+
+public class Example
+{
+   public static void Main()
+   {
+      Color c = (Color) (new Random()).Next(0, 3);
+      switch (c)
+      {
+         case Color.Red:
+            Console.WriteLine(&quot;The color is red&quot;);
+            break;
+         case Color.Green:
+            Console.WriteLine(&quot;The color is green&quot;);
+            break;
+         case Color.Blue:
+            Console.WriteLine(&quot;The color is blue&quot;);   
+            break;
+         default:
+            Console.WriteLine(&quot;The color is unknown.&quot;);
+            break;   
+      }
+   }
+}
+"><span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Color { Red, Green, Blue }
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+   {
+      Color c = (Color) (<span class="hljs-keyword">new</span> Random()).Next(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>);
+      <span class="hljs-keyword">switch</span> (c)
+      {
+         <span class="hljs-keyword">case</span> Color.Red:
+            Console.WriteLine(<span class="hljs-string">"The color is red"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">case</span> Color.Green:
+            Console.WriteLine(<span class="hljs-string">"The color is green"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">case</span> Color.Blue:
+            Console.WriteLine(<span class="hljs-string">"The color is blue"</span>);   
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">default</span>:
+            Console.WriteLine(<span class="hljs-string">"The color is unknown."</span>);
+            <span class="hljs-keyword">break</span>;   
+      }
+   }
+}
+</code></pre>
+<p>It's equivalent to the following example that uses an <code>if</code>-<code>else</code> construct.</p>
+<div class="codeHeader" id="code-try-2" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="switch#3a" data-author-content="using System;
+
+public enum Color { Red, Green, Blue }
+
+public class Example
+{
+   public static void Main()
+   {
+      Color c = (Color) (new Random()).Next(0, 3);
+      if (c == Color.Red)
+         Console.WriteLine(&quot;The color is red&quot;);
+      else if (c == Color.Green)
+         Console.WriteLine(&quot;The color is green&quot;);
+      else if (c == Color.Blue)
+         Console.WriteLine(&quot;The color is blue&quot;);   
+      else
+         Console.WriteLine(&quot;The color is unknown.&quot;);
+   }
+}
+// The example displays the following output:
+//       The color is red
+"><span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Color { Red, Green, Blue }
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+   {
+      Color c = (Color) (<span class="hljs-keyword">new</span> Random()).Next(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>);
+      <span class="hljs-keyword">if</span> (c == Color.Red)
+         Console.WriteLine(<span class="hljs-string">"The color is red"</span>);
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == Color.Green)
+         Console.WriteLine(<span class="hljs-string">"The color is green"</span>);
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (c == Color.Blue)
+         Console.WriteLine(<span class="hljs-string">"The color is blue"</span>);   
+      <span class="hljs-keyword">else</span>
+         Console.WriteLine(<span class="hljs-string">"The color is unknown."</span>);
+   }
+}
+<span class="hljs-comment">// The example displays the following output:</span>
+<span class="hljs-comment">//       The color is red</span>
+</code></pre><h2 id="the-match-expression">The match expression<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-match-expression" aria-labelledby="the-match-expression"></a></h2>
+<p>The match expression provides the value to match against the patterns in <code>case</code> labels. Its syntax is:</p>
+<div class="codeHeader" id="code-try-3" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" data-author-content="   switch (expr)
+">   <span class="hljs-keyword">switch</span> (expr)
+</code></pre>
+<p>In C# 6 and earlier, the match expression must be an expression that returns a value of the following types:</p>
+<ul>
+<li>a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/char" data-linktype="relative-path">char</a>.</li>
+<li>a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/string" data-linktype="relative-path">string</a>.</li>
+<li>a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/bool" data-linktype="relative-path">bool</a>.</li>
+<li>an integral value, such as an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types" data-linktype="relative-path">int</a> or a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types" data-linktype="relative-path">long</a>.</li>
+<li>an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum" data-linktype="relative-path">enum</a> value.</li>
+</ul>
+<p>Starting with C# 7.0, the match expression can be any non-null expression.</p>
+<h2 id="the-switch-section">The switch section<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-switch-section" aria-labelledby="the-switch-section"></a></h2>
+<p>A <code>switch</code> statement includes one or more switch sections. Each switch section contains one or more <em>case labels</em> (either a case or default label) followed by one or more statements. The <code>switch</code> statement may include at most one default label placed in any switch section. The following example shows a simple <code>switch</code> statement that has three switch sections, each containing two statements. The second switch section contains the <code>case 2:</code> and <code>case 3:</code> labels.</p>
+<p>A <code>switch</code> statement can include any number of switch sections, and each section can have one or more case labels, as shown in the following example. However, no two case labels may contain the same expression.</p>
+<div class="codeHeader" id="code-try-4" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="switch#2" data-author-content="using System;
+
+public class Example
+{
+   public static void Main()
+   {
+      Random rnd = new Random();
+      int caseSwitch = rnd.Next(1,4);
+      
+      switch (caseSwitch)
+      {
+          case 1:
+              Console.WriteLine(&quot;Case 1&quot;);
+              break;
+          case 2:
+          case 3:
+              Console.WriteLine($&quot;Case {caseSwitch}&quot;);
+              break;
+          default:
+              Console.WriteLine($&quot;An unexpected value ({caseSwitch})&quot;);
+              break;
+      }
+   }
+}
+// The example displays output like the following:
+//       Case 1
+"><span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+   {
+      Random rnd = <span class="hljs-keyword">new</span> Random();
+      <span class="hljs-keyword">int</span> caseSwitch = rnd.Next(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>);
+      
+      <span class="hljs-keyword">switch</span> (caseSwitch)
+      {
+          <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+              Console.WriteLine(<span class="hljs-string">"Case 1"</span>);
+              <span class="hljs-keyword">break</span>;
+          <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+          <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+              Console.WriteLine(<span class="hljs-string">$"Case <span class="hljs-subst">{caseSwitch}</span>"</span>);
+              <span class="hljs-keyword">break</span>;
+          <span class="hljs-keyword">default</span>:
+              Console.WriteLine(<span class="hljs-string">$"An unexpected value (<span class="hljs-subst">{caseSwitch}</span>)"</span>);
+              <span class="hljs-keyword">break</span>;
+      }
+   }
+}
+<span class="hljs-comment">// The example displays output like the following:</span>
+<span class="hljs-comment">//       Case 1</span>
+</code></pre>
+<p>Only one switch section in a switch statement executes. C# doesn't allow execution to continue from one switch section to the next. Because of this, the following code generates a compiler error, CS0163: "Control cannot fall through from one case label (&lt;case label&gt;) to another."</p>
+<div class="codeHeader" id="code-try-5" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" data-author-content="switch (caseSwitch)
+{
+    // The following switch section causes an error.
+    case 1:
+        Console.WriteLine(&quot;Case 1...&quot;);
+        // Add a break or other jump statement here.
+    case 2:
+        Console.WriteLine(&quot;... and/or Case 2&quot;);
+        break;
+}
+"><span class="hljs-keyword">switch</span> (caseSwitch)
+{
+    <span class="hljs-comment">// The following switch section causes an error.</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+        Console.WriteLine(<span class="hljs-string">"Case 1..."</span>);
+        <span class="hljs-comment">// Add a break or other jump statement here.</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+        Console.WriteLine(<span class="hljs-string">"... and/or Case 2"</span>);
+        <span class="hljs-keyword">break</span>;
+}
+</code></pre>
+<p>This requirement is usually met by explicitly exiting the switch section by using a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/break" data-linktype="relative-path">break</a>, <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/goto" data-linktype="relative-path">goto</a>, or <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/return" data-linktype="relative-path">return</a> statement. However, the following code is also valid, because it ensures that program control can't fall through to the <code>default</code> switch section.</p>
+<div class="codeHeader" id="code-try-6" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="switch#4" data-author-content="switch (caseSwitch)  
+{  
+    // The following switch section causes an error.  
+    case 1:  
+        Console.WriteLine(&quot;Case 1...&quot;);  
+        break;  
+    case 2:  
+    case 3:
+        Console.WriteLine(&quot;... and/or Case 2&quot;);  
+        break;
+    case 4:  
+        while (true)  
+           Console.WriteLine(&quot;Endless looping. . . .&quot;); 
+    default:
+        Console.WriteLine(&quot;Default value...&quot;);
+        break;                 
+}  
+"><span class="hljs-keyword">switch</span> (caseSwitch)  
+{  
+    <span class="hljs-comment">// The following switch section causes an error.  </span>
+    <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:  
+        Console.WriteLine(<span class="hljs-string">"Case 1..."</span>);  
+        <span class="hljs-keyword">break</span>;  
+    <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:  
+    <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+        Console.WriteLine(<span class="hljs-string">"... and/or Case 2"</span>);  
+        <span class="hljs-keyword">break</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:  
+        <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)  
+           Console.WriteLine(<span class="hljs-string">"Endless looping. . . ."</span>); 
+    <span class="hljs-keyword">default</span>:
+        Console.WriteLine(<span class="hljs-string">"Default value..."</span>);
+        <span class="hljs-keyword">break</span>;                 
+}  
+</code></pre>
+<p>Execution of the statement list in the switch section with a case label that matches the match expression begins with the first statement and proceeds through the statement list, typically until a jump statement, such as a <code>break</code>, <code>goto case</code>, <code>goto label</code>, <code>return</code>, or <code>throw</code>, is reached. At that point, control is transferred outside the <code>switch</code> statement or to another case label. A <code>goto</code> statement, if it's used, must transfer control to a constant label. This restriction is necessary, since attempting to transfer control to a non-constant label can have undesirable side-effects, such transferring control to an unintended location in code or creating an endless loop.</p>
+<h2 id="case-labels">Case labels<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#case-labels" aria-labelledby="case-labels"></a></h2>
+<p>Each case label specifies a pattern to compare to the match expression (the <code>caseSwitch</code> variable in the previous examples). If they match, control is transferred to the switch section that contains the <strong>first</strong> matching case label. If no case label pattern matches the match expression, control is transferred to the section with the <code>default</code> case label, if there's one. If there's no <code>default</code> case, no statements in any switch section are executed, and control is transferred outside the <code>switch</code> statement.</p>
+<p>For information on the <code>switch</code> statement and pattern matching, see the <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#pattern" data-linktype="self-bookmark">Pattern matching with the <code>switch</code> statement</a> section.</p>
+<p>Because C# 6 supports only the constant pattern and doesn't allow the repetition of constant values, case labels define mutually exclusive values, and only one pattern can match the match expression. As a result, the order in which <code>case</code> statements appear is unimportant.</p>
+<p>In C# 7.0, however, because other patterns are supported, case labels need not define mutually exclusive values, and multiple patterns can match the match expression. Because only the statements in the first switch section that contains the matching pattern are executed, the order in which <code>case</code> statements appear is now important. If C# detects a switch section whose case statement or statements are equivalent to or are subsets of previous statements, it generates a compiler error, CS8120, "The switch case has already been handled by a previous case."</p>
+<p>The following example illustrates a <code>switch</code> statement that uses a variety of non-mutually exclusive patterns. If you move the <code>case 0:</code> switch section so that it's no longer the first section in the <code>switch</code> statement, C# generates a compiler error because an integer whose value is zero is a subset of all integers, which is the pattern defined by the <code>case int val</code> statement.</p>
+<div class="codeHeader" id="code-try-7" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="switch#5" data-author-content="using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class Example
+{
+   public static void Main()
+   {
+      var values = new List&lt;object&gt;();
+      for (int ctr = 0; ctr &lt;= 7; ctr++) {
+         if (ctr == 2) 
+            values.Add(DiceLibrary.Roll2());
+         else if (ctr == 4)
+            values.Add(DiceLibrary.Pass());
+         else   
+            values.Add(DiceLibrary.Roll());
+      }   
+
+      Console.WriteLine($&quot;The sum of { values.Count } die is { DiceLibrary.DiceSum(values) }&quot;);
+   }
+}
+
+public static class DiceLibrary
+{
+   // Random number generator to simulate dice rolls.
+   static Random rnd = new Random();
+
+   // Roll a single die.
+   public static int Roll()
+   {
+      return rnd.Next(1, 7);
+   }
+
+   // Roll two dice.
+   public static List&lt;object&gt; Roll2()
+   {
+      var rolls = new List&lt;object&gt;();      
+      rolls.Add(Roll());
+      rolls.Add(Roll());
+      return rolls;
+   }
+
+   // Calculate the sum of n dice rolls.
+   public static int DiceSum(IEnumerable&lt;object&gt; values)
+   {
+      var sum = 0;
+      foreach (var item in values)
+      {
+            switch (item)
+            {
+               // A single zero value.
+               case 0:
+                  break;
+               // A single value.
+               case int val:
+                  sum += val;
+                  break;
+               // A non-empty collection.
+               case IEnumerable&lt;object&gt; subList when subList.Any():
+                  sum += DiceSum(subList);
+                  break;
+               // An empty collection.
+               case IEnumerable&lt;object&gt; subList:
+                  break;
+               //  A null reference.
+               case null:
+                  break;
+               // A value that is neither an integer nor a collection.
+               default:
+                  throw new InvalidOperationException(&quot;unknown item type&quot;);
+            }
+      }
+      return sum;
+   }
+
+   public static object Pass()
+   {
+      if (rnd.Next(0, 2) == 0)
+         return null;
+      else
+         return new List&lt;object&gt;();
+   }
+}
+"><span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+<span class="hljs-keyword">using</span> System.Linq;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+   {
+      <span class="hljs-keyword">var</span> values = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-keyword">object</span>&gt;();
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> ctr = <span class="hljs-number">0</span>; ctr &lt;= <span class="hljs-number">7</span>; ctr++) {
+         <span class="hljs-keyword">if</span> (ctr == <span class="hljs-number">2</span>) 
+            values.Add(DiceLibrary.Roll2());
+         <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (ctr == <span class="hljs-number">4</span>)
+            values.Add(DiceLibrary.Pass());
+         <span class="hljs-keyword">else</span>   
+            values.Add(DiceLibrary.Roll());
+      }   
+
+      Console.WriteLine(<span class="hljs-string">$"The sum of <span class="hljs-subst">{ values.Count }</span> die is <span class="hljs-subst">{ DiceLibrary.DiceSum(values) }</span>"</span>);
+   }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title">DiceLibrary</span>
+{
+   <span class="hljs-comment">// Random number generator to simulate dice rolls.</span>
+   <span class="hljs-keyword">static</span> Random rnd = <span class="hljs-keyword">new</span> Random();
+
+   <span class="hljs-comment">// Roll a single die.</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">Roll</span>(<span class="hljs-params"></span>)</span>
+   {
+      <span class="hljs-keyword">return</span> rnd.Next(<span class="hljs-number">1</span>, <span class="hljs-number">7</span>);
+   }
+
+   <span class="hljs-comment">// Roll two dice.</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> List&lt;<span class="hljs-keyword">object</span>&gt; <span class="hljs-title">Roll2</span>(<span class="hljs-params"></span>)</span>
+   {
+      <span class="hljs-keyword">var</span> rolls = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-keyword">object</span>&gt;();      
+      rolls.Add(Roll());
+      rolls.Add(Roll());
+      <span class="hljs-keyword">return</span> rolls;
+   }
+
+   <span class="hljs-comment">// Calculate the sum of n dice rolls.</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">DiceSum</span>(<span class="hljs-params">IEnumerable&lt;<span class="hljs-keyword">object</span>&gt; values</span>)</span>
+   {
+      <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> item <span class="hljs-keyword">in</span> values)
+      {
+            <span class="hljs-keyword">switch</span> (item)
+            {
+               <span class="hljs-comment">// A single zero value.</span>
+               <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+                  <span class="hljs-keyword">break</span>;
+               <span class="hljs-comment">// A single value.</span>
+               <span class="hljs-keyword">case</span> <span class="hljs-keyword">int</span> val:
+                  sum += val;
+                  <span class="hljs-keyword">break</span>;
+               <span class="hljs-comment">// A non-empty collection.</span>
+               <span class="hljs-keyword">case</span> IEnumerable&lt;<span class="hljs-keyword">object</span>&gt; subList <span class="hljs-keyword">when</span> subList.Any():
+                  sum += DiceSum(subList);
+                  <span class="hljs-keyword">break</span>;
+               <span class="hljs-comment">// An empty collection.</span>
+               <span class="hljs-keyword">case</span> IEnumerable&lt;<span class="hljs-keyword">object</span>&gt; subList:
+                  <span class="hljs-keyword">break</span>;
+               <span class="hljs-comment">//  A null reference.</span>
+               <span class="hljs-keyword">case</span> <span class="hljs-literal">null</span>:
+                  <span class="hljs-keyword">break</span>;
+               <span class="hljs-comment">// A value that is neither an integer nor a collection.</span>
+               <span class="hljs-keyword">default</span>:
+                  <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> InvalidOperationException(<span class="hljs-string">"unknown item type"</span>);
+            }
+      }
+      <span class="hljs-keyword">return</span> sum;
+   }
+
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">object</span> <span class="hljs-title">Pass</span>(<span class="hljs-params"></span>)</span>
+   {
+      <span class="hljs-keyword">if</span> (rnd.Next(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>) == <span class="hljs-number">0</span>)
+         <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+      <span class="hljs-keyword">else</span>
+         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> List&lt;<span class="hljs-keyword">object</span>&gt;();
+   }
+}
+</code></pre>
+<p>You can correct this issue and eliminate the compiler warning in one of two ways:</p>
+<ul>
+<li><p>By changing the order of the switch sections.</p>
+</li>
+<li><p>By using a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#when" data-linktype="self-bookmark">when clause</a> in the <code>case</code> label.</p>
+</li>
+</ul>
+<h2 id="the-default-case">The <code>default</code> case<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-default-case" aria-labelledby="the-default-case"></a></h2>
+<p>The <code>default</code> case specifies the switch section to execute if the match expression doesn't match any other <code>case</code> label. If a <code>default</code> case is not present and the match expression doesn't match any other <code>case</code> label, program flow falls through the <code>switch</code> statement.</p>
+<p>The <code>default</code> case can appear in any order in the <code>switch</code> statement. Regardless of its order in the source code, it's always evaluated last, after all <code>case</code> labels have been evaluated.</p>
+<h2 id="-pattern-matching-with-the-switch-statement"><a name="pattern"></a> Pattern matching with the <code>switch</code> statement<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#-pattern-matching-with-the-switch-statement" aria-labelledby="-pattern-matching-with-the-switch-statement"></a></h2>
+<p>Each <code>case</code> statement defines a pattern that, if it matches the match expression, causes its  containing switch section to be executed. All versions of C# support the constant pattern. The remaining patterns are supported beginning with C# 7.0.</p>
+<h3 id="constant-pattern">Constant pattern<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#constant-pattern" aria-labelledby="constant-pattern"></a></h3>
+<p>The constant pattern tests whether the match expression equals a specified constant. Its syntax is:</p>
+<div class="codeHeader" id="code-try-8" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" data-author-content="   case constant:
+">   <span class="hljs-keyword">case</span> constant:
+</code></pre>
+<p>where <em>constant</em> is the value to test for. <em>constant</em> can be any of the following constant expressions:</p>
+<ul>
+<li>A <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/bool" data-linktype="relative-path">bool</a> literal, either <code>true</code> or <code>false</code>.</li>
+<li>Any integral constant, such as an <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types" data-linktype="relative-path">int</a>, a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types" data-linktype="relative-path">long</a>, or a <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types" data-linktype="relative-path">byte</a>.</li>
+<li>The name of a declared <code>const</code> variable.</li>
+<li>An enumeration constant.</li>
+<li>A <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/char" data-linktype="relative-path">char</a> literal.</li>
+<li>A <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/string" data-linktype="relative-path">string</a> literal.</li>
+</ul>
+<p>The constant expression is evaluated as follows:</p>
+<ul>
+<li><p>If <em>expr</em> and <em>constant</em> are integral types, the C# equality operator determines whether the expression returns <code>true</code> (that is, whether <code>expr == constant</code>).</p>
+</li>
+<li><p>Otherwise, the value of the expression is determined by a call to the static <a class="xref" href="https://docs.microsoft.com/en-us/dotnet/api/system.object.equals#System_Object_Equals_System_Object_System_Object_" data-linktype="absolute-path">Object.Equals(expr, constant)</a> method.</p>
+</li>
+</ul>
+<p>The following example uses the constant pattern to determine whether a particular date is a weekend, the first day of the work week, the last day of the work week, or the middle of the work week. It evaluates the <a class="xref" href="https://docs.microsoft.com/en-us/dotnet/api/system.datetime.dayofweek#System_DateTime_DayOfWeek" data-linktype="absolute-path">DateTime.DayOfWeek</a> property of the current day against the members of the <a class="xref" href="https://docs.microsoft.com/en-us/dotnet/api/system.dayofweek" data-linktype="absolute-path">DayOfWeek</a> enumeration.</p>
+<div class="codeHeader" id="code-try-9" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="switch#7" data-author-content="using System;
+
+class Program
+{
+    static void Main()
+    {
+        switch (DateTime.Now.DayOfWeek)
+        {
+           case DayOfWeek.Sunday:
+           case DayOfWeek.Saturday:
+              Console.WriteLine(&quot;The weekend&quot;);
+              break;
+           case DayOfWeek.Monday:
+              Console.WriteLine(&quot;The first day of the work week.&quot;);
+              break;
+           case DayOfWeek.Friday:
+              Console.WriteLine(&quot;The last day of the work week.&quot;);
+              break;
+           default:
+              Console.WriteLine(&quot;The middle of the work week.&quot;);
+              break;   
+        }
+    }
+}
+// The example displays output like the following:
+//       The middle of the work week.
+"><span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title">Program</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+    {
+        <span class="hljs-keyword">switch</span> (DateTime.Now.DayOfWeek)
+        {
+           <span class="hljs-keyword">case</span> DayOfWeek.Sunday:
+           <span class="hljs-keyword">case</span> DayOfWeek.Saturday:
+              Console.WriteLine(<span class="hljs-string">"The weekend"</span>);
+              <span class="hljs-keyword">break</span>;
+           <span class="hljs-keyword">case</span> DayOfWeek.Monday:
+              Console.WriteLine(<span class="hljs-string">"The first day of the work week."</span>);
+              <span class="hljs-keyword">break</span>;
+           <span class="hljs-keyword">case</span> DayOfWeek.Friday:
+              Console.WriteLine(<span class="hljs-string">"The last day of the work week."</span>);
+              <span class="hljs-keyword">break</span>;
+           <span class="hljs-keyword">default</span>:
+              Console.WriteLine(<span class="hljs-string">"The middle of the work week."</span>);
+              <span class="hljs-keyword">break</span>;   
+        }
+    }
+}
+<span class="hljs-comment">// The example displays output like the following:</span>
+<span class="hljs-comment">//       The middle of the work week.</span>
+</code></pre>
+<p>The following example uses the constant pattern to handle user input in a console application that simulates an automatic coffee machine.</p>
+<div class="codeHeader" id="code-try-10" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="switch#6" data-author-content="using System;
+
+class Example
+{
+   static void Main()
+   {
+       Console.WriteLine(&quot;Coffee sizes: 1=small 2=medium 3=large&quot;);
+       Console.Write(&quot;Please enter your selection: &quot;);
+       string str = Console.ReadLine();
+       int cost = 0;
+
+       // Because of the goto statements in cases 2 and 3, the base cost of 25
+       // cents is added to the additional cost for the medium and large sizes.
+       switch (str)
+       {
+          case &quot;1&quot;:
+          case &quot;small&quot;:
+              cost += 25;
+              break;
+          case &quot;2&quot;:
+          case &quot;medium&quot;:
+              cost += 25;
+              goto case &quot;1&quot;;
+          case &quot;3&quot;:
+          case &quot;large&quot;:
+              cost += 50;
+              goto case &quot;1&quot;;
+          default:
+              Console.WriteLine(&quot;Invalid selection. Please select 1, 2, or 3.&quot;);
+              break;
+      }
+      if (cost != 0)
+      {
+          Console.WriteLine(&quot;Please insert {0} cents.&quot;, cost);
+      }
+      Console.WriteLine(&quot;Thank you for your business.&quot;);
+   }
+}
+// The example displays output like the following:
+//         Coffee sizes: 1=small 2=medium 3=large
+//         Please enter your selection: 2
+//         Please insert 50 cents.
+//         Thank you for your business.
+
+
+"><span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+   {
+       Console.WriteLine(<span class="hljs-string">"Coffee sizes: 1=small 2=medium 3=large"</span>);
+       Console.Write(<span class="hljs-string">"Please enter your selection: "</span>);
+       <span class="hljs-keyword">string</span> str = Console.ReadLine();
+       <span class="hljs-keyword">int</span> cost = <span class="hljs-number">0</span>;
+
+       <span class="hljs-comment">// Because of the goto statements in cases 2 and 3, the base cost of 25</span>
+       <span class="hljs-comment">// cents is added to the additional cost for the medium and large sizes.</span>
+       <span class="hljs-keyword">switch</span> (str)
+       {
+          <span class="hljs-keyword">case</span> <span class="hljs-string">"1"</span>:
+          <span class="hljs-keyword">case</span> <span class="hljs-string">"small"</span>:
+              cost += <span class="hljs-number">25</span>;
+              <span class="hljs-keyword">break</span>;
+          <span class="hljs-keyword">case</span> <span class="hljs-string">"2"</span>:
+          <span class="hljs-keyword">case</span> <span class="hljs-string">"medium"</span>:
+              cost += <span class="hljs-number">25</span>;
+              <span class="hljs-keyword">goto</span> <span class="hljs-keyword">case</span> <span class="hljs-string">"1"</span>;
+          <span class="hljs-keyword">case</span> <span class="hljs-string">"3"</span>:
+          <span class="hljs-keyword">case</span> <span class="hljs-string">"large"</span>:
+              cost += <span class="hljs-number">50</span>;
+              <span class="hljs-keyword">goto</span> <span class="hljs-keyword">case</span> <span class="hljs-string">"1"</span>;
+          <span class="hljs-keyword">default</span>:
+              Console.WriteLine(<span class="hljs-string">"Invalid selection. Please select 1, 2, or 3."</span>);
+              <span class="hljs-keyword">break</span>;
+      }
+      <span class="hljs-keyword">if</span> (cost != <span class="hljs-number">0</span>)
+      {
+          Console.WriteLine(<span class="hljs-string">"Please insert {0} cents."</span>, cost);
+      }
+      Console.WriteLine(<span class="hljs-string">"Thank you for your business."</span>);
+   }
+}
+<span class="hljs-comment">// The example displays output like the following:</span>
+<span class="hljs-comment">//         Coffee sizes: 1=small 2=medium 3=large</span>
+<span class="hljs-comment">//         Please enter your selection: 2</span>
+<span class="hljs-comment">//         Please insert 50 cents.</span>
+<span class="hljs-comment">//         Thank you for your business.</span>
+
+
+</code></pre><h3 id="type-pattern">Type pattern<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#type-pattern" aria-labelledby="type-pattern"></a></h3>
+<p>The type pattern enables concise type evaluation and conversion. When used with the <code>switch</code> statement to perform pattern matching, it tests whether an expression can be converted to a specified type and, if it can be, casts it to a variable of that type. Its syntax is:</p>
+<div class="codeHeader" id="code-try-11" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" data-author-content="   case type varname
+">   <span class="hljs-keyword">case</span> type varname
+</code></pre>
+<p>where <em>type</em> is the name of the type to which the result of <em>expr</em> is to be converted, and <em>varname</em> is the object to which the result of <em>expr</em> is converted if the match succeeds. The compile-time type of <em>expr</em> may be a generic type parameter, starting with C# 7.1.</p>
+<p>The <code>case</code> expression is <code>true</code> if any of the following is true:</p>
+<ul>
+<li><p><em>expr</em> is an instance of the same type as <em>type</em>.</p>
+</li>
+<li><p><em>expr</em> is an instance of a type that derives from <em>type</em>. In other words, the result of <em>expr</em> can be upcast to an instance of <em>type</em>.</p>
+</li>
+<li><p><em>expr</em> has a compile-time type that is a base class of <em>type</em>, and <em>expr</em> has a runtime type that is <em>type</em> or is derived from <em>type</em>. The <em>compile-time type</em> of a variable is the variable's type as defined in its type declaration. The <em>runtime type</em> of a variable is the type of the instance that is assigned to that variable.</p>
+</li>
+<li><p><em>expr</em> is an instance of a type that implements the <em>type</em> interface.</p>
+</li>
+</ul>
+<p>If the case expression is true, <em>varname</em> is definitely assigned and has local scope within the switch section only.</p>
+<p>Note that <code>null</code> doesn't match a type. To match a <code>null</code>, you use the following <code>case</code> label:</p>
+<div class="codeHeader" id="code-try-12" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" data-author-content="case null:
+"><span class="hljs-keyword">case</span> <span class="hljs-literal">null</span>:
+</code></pre>
+<p>The following example uses the type pattern to provide information about various kinds of collection types.</p>
+<div class="codeHeader" id="code-try-13" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="type-pattern#1" data-author-content="using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+class Example
+{
+    static void Main(string[] args)
+    {
+        int[] values = { 2, 4, 6, 8, 10 };
+        ShowCollectionInformation(values);
+        
+        var names = new List&lt;string&gt;();
+        names.AddRange( new string[] { &quot;Adam&quot;, &quot;Abigail&quot;, &quot;Bertrand&quot;, &quot;Bridgette&quot; } );
+        ShowCollectionInformation(names);
+
+        List&lt;int&gt; numbers = null;
+        ShowCollectionInformation(numbers);
+    }
+   
+    private static void ShowCollectionInformation(object coll)
+    {
+        switch (coll)
+        {
+            case Array arr:
+               Console.WriteLine($&quot;An array with {arr.Length} elements.&quot;);
+               break;
+            case IEnumerable&lt;int&gt; ieInt:
+               Console.WriteLine($&quot;Average: {ieInt.Average(s =&gt; s)}&quot;);
+               break;   
+            case IList list:
+               Console.WriteLine($&quot;{list.Count} items&quot;);
+               break;
+            case IEnumerable ie:
+               string result = &quot;&quot;;
+               foreach (var e in ie) 
+                  result += &quot;${e} &quot;;
+               Console.WriteLine(result);
+               break;   
+            case null:
+               // Do nothing for a null.
+               break;
+            default:
+               Console.WriteLine($&quot;A instance of type {coll.GetType().Name}&quot;);
+               break;   
+        }
+    }
+}
+// The example displays the following output:
+//     An array with 5 elements.
+//     4 items
+"><span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+<span class="hljs-keyword">using</span> System.Linq;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)</span>
+    {
+        <span class="hljs-keyword">int</span>[] values = { <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span> };
+        ShowCollectionInformation(values);
+        
+        <span class="hljs-keyword">var</span> names = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-keyword">string</span>&gt;();
+        names.AddRange( <span class="hljs-keyword">new</span> <span class="hljs-keyword">string</span>[] { <span class="hljs-string">"Adam"</span>, <span class="hljs-string">"Abigail"</span>, <span class="hljs-string">"Bertrand"</span>, <span class="hljs-string">"Bridgette"</span> } );
+        ShowCollectionInformation(names);
+
+        List&lt;<span class="hljs-keyword">int</span>&gt; numbers = <span class="hljs-literal">null</span>;
+        ShowCollectionInformation(numbers);
+    }
+   
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ShowCollectionInformation</span>(<span class="hljs-params"><span class="hljs-keyword">object</span> coll</span>)</span>
+    {
+        <span class="hljs-keyword">switch</span> (coll)
+        {
+            <span class="hljs-keyword">case</span> Array arr:
+               Console.WriteLine(<span class="hljs-string">$"An array with <span class="hljs-subst">{arr.Length}</span> elements."</span>);
+               <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> IEnumerable&lt;<span class="hljs-keyword">int</span>&gt; ieInt:
+               Console.WriteLine(<span class="hljs-string">$"Average: <span class="hljs-subst">{ieInt.Average(s =&gt; s)}</span>"</span>);
+               <span class="hljs-keyword">break</span>;   
+            <span class="hljs-keyword">case</span> IList list:
+               Console.WriteLine(<span class="hljs-string">$"<span class="hljs-subst">{list.Count}</span> items"</span>);
+               <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> IEnumerable ie:
+               <span class="hljs-keyword">string</span> result = <span class="hljs-string">""</span>;
+               <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> e <span class="hljs-keyword">in</span> ie) 
+                  result += <span class="hljs-string">"${e} "</span>;
+               Console.WriteLine(result);
+               <span class="hljs-keyword">break</span>;   
+            <span class="hljs-keyword">case</span> <span class="hljs-literal">null</span>:
+               <span class="hljs-comment">// Do nothing for a null.</span>
+               <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">default</span>:
+               Console.WriteLine(<span class="hljs-string">$"A instance of type <span class="hljs-subst">{coll.GetType().Name}</span>"</span>);
+               <span class="hljs-keyword">break</span>;   
+        }
+    }
+}
+<span class="hljs-comment">// The example displays the following output:</span>
+<span class="hljs-comment">//     An array with 5 elements.</span>
+<span class="hljs-comment">//     4 items</span>
+</code></pre>
+<p>Instead of <code>object</code>, you could make a generic method, using the type of the collection as the type parameter, as shown in the following code:</p>
+<div class="codeHeader" id="code-try-14" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="type-pattern#3" data-author-content="using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+class Example
+{
+    static void Main(string[] args)
+    {
+        int[] values = { 2, 4, 6, 8, 10 };
+        ShowCollectionInformation(values);
+        
+        var names = new List&lt;string&gt;();
+        names.AddRange( new string[] { &quot;Adam&quot;, &quot;Abigail&quot;, &quot;Bertrand&quot;, &quot;Bridgette&quot; } );
+        ShowCollectionInformation(names);
+
+        List&lt;int&gt; numbers = null;
+        ShowCollectionInformation(numbers);
+    }
+   
+    private static void ShowCollectionInformation&lt;T&gt;(T coll)
+    {
+        switch (coll)
+        {
+            case Array arr:
+               Console.WriteLine($&quot;An array with {arr.Length} elements.&quot;);
+               break;
+            case IEnumerable&lt;int&gt; ieInt:
+               Console.WriteLine($&quot;Average: {ieInt.Average(s =&gt; s)}&quot;);
+               break;   
+            case IList list:
+               Console.WriteLine($&quot;{list.Count} items&quot;);
+               break;
+            case IEnumerable ie:
+               string result = &quot;&quot;;
+               foreach (var e in ie) 
+                  result += &quot;${e} &quot;;
+               Console.WriteLine(result);
+               break;   
+            case object o:
+               Console.WriteLine($&quot;A instance of type {o.GetType().Name}&quot;);
+               break;   
+            default:
+                Console.WriteLine(&quot;Null passed to this method.&quot;);
+                break;
+        }
+    }
+}
+// The example displays the following output:
+//     An array with 5 elements.
+//     4 items
+//     Null passed to this method.
+"><span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+<span class="hljs-keyword">using</span> System.Linq;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)</span>
+    {
+        <span class="hljs-keyword">int</span>[] values = { <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span> };
+        ShowCollectionInformation(values);
+        
+        <span class="hljs-keyword">var</span> names = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-keyword">string</span>&gt;();
+        names.AddRange( <span class="hljs-keyword">new</span> <span class="hljs-keyword">string</span>[] { <span class="hljs-string">"Adam"</span>, <span class="hljs-string">"Abigail"</span>, <span class="hljs-string">"Bertrand"</span>, <span class="hljs-string">"Bridgette"</span> } );
+        ShowCollectionInformation(names);
+
+        List&lt;<span class="hljs-keyword">int</span>&gt; numbers = <span class="hljs-literal">null</span>;
+        ShowCollectionInformation(numbers);
+    }
+   
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> ShowCollectionInformation&lt;T&gt;(T coll)
+    {
+        <span class="hljs-keyword">switch</span> (coll)
+        {
+            <span class="hljs-keyword">case</span> Array arr:
+               Console.WriteLine(<span class="hljs-string">$"An array with <span class="hljs-subst">{arr.Length}</span> elements."</span>);
+               <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> IEnumerable&lt;<span class="hljs-keyword">int</span>&gt; ieInt:
+               Console.WriteLine(<span class="hljs-string">$"Average: <span class="hljs-subst">{ieInt.Average(s =&gt; s)}</span>"</span>);
+               <span class="hljs-keyword">break</span>;   
+            <span class="hljs-keyword">case</span> IList list:
+               Console.WriteLine(<span class="hljs-string">$"<span class="hljs-subst">{list.Count}</span> items"</span>);
+               <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> IEnumerable ie:
+               <span class="hljs-keyword">string</span> result = <span class="hljs-string">""</span>;
+               <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> e <span class="hljs-keyword">in</span> ie) 
+                  result += <span class="hljs-string">"${e} "</span>;
+               Console.WriteLine(result);
+               <span class="hljs-keyword">break</span>;   
+            <span class="hljs-keyword">case</span> <span class="hljs-keyword">object</span> o:
+               Console.WriteLine(<span class="hljs-string">$"A instance of type <span class="hljs-subst">{o.GetType().Name}</span>"</span>);
+               <span class="hljs-keyword">break</span>;   
+            <span class="hljs-keyword">default</span>:
+                Console.WriteLine(<span class="hljs-string">"Null passed to this method."</span>);
+                <span class="hljs-keyword">break</span>;
+        }
+    }
+}
+<span class="hljs-comment">// The example displays the following output:</span>
+<span class="hljs-comment">//     An array with 5 elements.</span>
+<span class="hljs-comment">//     4 items</span>
+<span class="hljs-comment">//     Null passed to this method.</span>
+</code></pre>
+<p>The generic version is different than the first sample in two ways. First, you can't use the <code>null</code> case. You can't use any constant case because the compiler can't convert any arbitrary type <code>T</code> to any type other than <code>object</code>. What had been the <code>default</code> case now tests for a non-null <code>object</code>. That means the <code>default</code> case tests only for <code>null</code>.</p>
+<p>Without pattern matching, this code might be written as follows. The use of type pattern matching produces more compact, readable code by eliminating the need to test whether the result of a conversion is a <code>null</code> or to perform repeated casts.</p>
+<div class="codeHeader" id="code-try-15" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="type-pattern2#1" data-author-content="using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+class Example
+{
+    static void Main(string[] args)
+    {
+        int[] values = { 2, 4, 6, 8, 10 };
+        ShowCollectionInformation(values);
+        
+        var names = new List&lt;string&gt;();
+        names.AddRange( new string[] { &quot;Adam&quot;, &quot;Abigail&quot;, &quot;Bertrand&quot;, &quot;Bridgette&quot; } );
+        ShowCollectionInformation(names);
+        
+        List&lt;int&gt; numbers = null;
+        ShowCollectionInformation(numbers);
+    }
+   
+    private static void ShowCollectionInformation(object coll)
+    {
+        if (coll is Array) {
+           Array arr = (Array) coll;
+           Console.WriteLine($&quot;An array with {arr.Length} elements.&quot;);
+        }
+        else if (coll is IEnumerable&lt;int&gt;) {
+            IEnumerable&lt;int&gt; ieInt = (IEnumerable&lt;int&gt;) coll;
+            Console.WriteLine($&quot;Average: {ieInt.Average(s =&gt; s)}&quot;);
+        }
+        else if (coll is IList) {
+            IList list = (IList) coll;
+            Console.WriteLine($&quot;{list.Count} items&quot;);
+        }
+        else if (coll is IEnumerable) { 
+            IEnumerable ie = (IEnumerable) coll;
+            string result = &quot;&quot;;
+            foreach (var e in ie) 
+               result += &quot;${e} &quot;;
+            Console.WriteLine(result);
+        }
+        else if (coll == null) { 
+            // Do nothing. 
+        }
+        else {
+            Console.WriteLine($&quot;An instance of type {coll.GetType().Name}&quot;);
+        }   
+    }
+}
+// The example displays the following output:
+//     An array with 5 elements.
+//     4 items
+"><span class="hljs-keyword">using</span> System;
+<span class="hljs-keyword">using</span> System.Collections;
+<span class="hljs-keyword">using</span> System.Collections.Generic;
+<span class="hljs-keyword">using</span> System.Linq;
+
+<span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-keyword">string</span>[] args</span>)</span>
+    {
+        <span class="hljs-keyword">int</span>[] values = { <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span> };
+        ShowCollectionInformation(values);
+        
+        <span class="hljs-keyword">var</span> names = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-keyword">string</span>&gt;();
+        names.AddRange( <span class="hljs-keyword">new</span> <span class="hljs-keyword">string</span>[] { <span class="hljs-string">"Adam"</span>, <span class="hljs-string">"Abigail"</span>, <span class="hljs-string">"Bertrand"</span>, <span class="hljs-string">"Bridgette"</span> } );
+        ShowCollectionInformation(names);
+        
+        List&lt;<span class="hljs-keyword">int</span>&gt; numbers = <span class="hljs-literal">null</span>;
+        ShowCollectionInformation(numbers);
+    }
+   
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ShowCollectionInformation</span>(<span class="hljs-params"><span class="hljs-keyword">object</span> coll</span>)</span>
+    {
+        <span class="hljs-keyword">if</span> (coll <span class="hljs-keyword">is</span> Array) {
+           Array arr = (Array) coll;
+           Console.WriteLine(<span class="hljs-string">$"An array with <span class="hljs-subst">{arr.Length}</span> elements."</span>);
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (coll <span class="hljs-keyword">is</span> IEnumerable&lt;<span class="hljs-keyword">int</span>&gt;) {
+            IEnumerable&lt;<span class="hljs-keyword">int</span>&gt; ieInt = (IEnumerable&lt;<span class="hljs-keyword">int</span>&gt;) coll;
+            Console.WriteLine(<span class="hljs-string">$"Average: <span class="hljs-subst">{ieInt.Average(s =&gt; s)}</span>"</span>);
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (coll <span class="hljs-keyword">is</span> IList) {
+            IList list = (IList) coll;
+            Console.WriteLine(<span class="hljs-string">$"<span class="hljs-subst">{list.Count}</span> items"</span>);
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (coll <span class="hljs-keyword">is</span> IEnumerable) { 
+            IEnumerable ie = (IEnumerable) coll;
+            <span class="hljs-keyword">string</span> result = <span class="hljs-string">""</span>;
+            <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> e <span class="hljs-keyword">in</span> ie) 
+               result += <span class="hljs-string">"${e} "</span>;
+            Console.WriteLine(result);
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (coll == <span class="hljs-literal">null</span>) { 
+            <span class="hljs-comment">// Do nothing. </span>
+        }
+        <span class="hljs-keyword">else</span> {
+            Console.WriteLine(<span class="hljs-string">$"An instance of type <span class="hljs-subst">{coll.GetType().Name}</span>"</span>);
+        }   
+    }
+}
+<span class="hljs-comment">// The example displays the following output:</span>
+<span class="hljs-comment">//     An array with 5 elements.</span>
+<span class="hljs-comment">//     4 items</span>
+</code></pre><h2 id="-the-case-statement-and-the-when-clause"><a name="when"></a> The <code>case</code> statement and the <code>when</code> clause<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#-the-case-statement-and-the-when-clause" aria-labelledby="-the-case-statement-and-the-when-clause"></a></h2>
+<p>Starting with C# 7.0, because case statements need not be mutually exclusive, you can add a <code>when</code> clause to specify an additional condition that must be satisfied for the case statement to evaluate to true. The <code>when</code> clause can be any expression that returns a Boolean value.</p>
+<p>The following example defines a base <code>Shape</code> class, a <code>Rectangle</code> class that derives from <code>Shape</code>, and a <code>Square</code> class that derives from <code>Rectangle</code>. It uses the <code>when</code> clause to ensure that the <code>ShowShapeInfo</code> treats a <code>Rectangle</code> object that has been assigned equal lengths and widths as a <code>Square</code> even if it hasn't been instantiated as a <code>Square</code> object. The method doesn't attempt to display information either about an object that is <code>null</code> or a shape whose area is zero.</p>
+<div class="codeHeader" id="code-try-16" data-bi-name="code-header"><span class="language">C#</span>
+			<button class="action" data-bi-name="copy" aria-label="Copy code">
+				<span class="docon docon-edit-copy" role="presentation"></span>
+				<span>Copy</span>
+			</button></div><pre tabindex="0" class="has-inner-focus"><code class="lang-csharp" name="when-clause#1" data-author-content="using System;
+
+public abstract class Shape
+{
+   public abstract double Area { get; }
+   public abstract double Circumference { get; } 
+}
+
+public class Rectangle : Shape
+{
+   public Rectangle(double length, double width) 
+   {
+      Length = length;
+      Width = width; 
+   }
+
+   public double Length { get; set; }
+   public double Width { get; set; }
+   
+   public override double Area
+   { 
+      get { return Math.Round(Length * Width,2); } 
+   } 
+   
+   public override double Circumference 
+   {
+      get { return (Length + Width) * 2; }
+   }
+}
+
+public class Square : Rectangle
+{
+   public Square(double side) : base(side, side) 
+   {
+      Side = side; 
+   }
+
+   public double Side { get; set; }
+}
+
+public class Circle : Shape
+{
+   public Circle(double radius) 
+   {
+      Radius = radius;
+   } 
+   
+   public double Radius { get; set; }
+
+   public override double Circumference
+   {
+      get { return 2 * Math.PI * Radius; }
+   }
+
+   public override double Area
+   {
+      get { return Math.PI * Math.Pow(Radius, 2); } 
+   }
+}
+
+public class Example
+{
+   public static void Main()
+   {
+      Shape sh = null;
+      Shape[] shapes = { new Square(10), new Rectangle(5, 7),
+                         sh, new Square(0), new Rectangle(8, 8),
+                         new Circle(3) };
+      foreach (var shape in shapes)
+         ShowShapeInfo(shape);
+   }
+
+   private static void ShowShapeInfo(Shape sh)
+   {
+      switch (sh)
+      {
+         // Note that this code never evaluates to true.
+         case Shape shape when shape == null:
+            Console.WriteLine($&quot;An uninitialized shape (shape == null)&quot;);
+            break;
+         case null:
+            Console.WriteLine($&quot;An uninitialized shape&quot;);
+            break;
+         case Shape shape when sh.Area == 0:
+            Console.WriteLine($&quot;The shape: {sh.GetType().Name} with no dimensions&quot;);
+            break;
+         case Square sq when sh.Area &gt; 0:
+            Console.WriteLine(&quot;Information about square:&quot;);
+            Console.WriteLine($&quot;   Length of a side: {sq.Side}&quot;);
+            Console.WriteLine($&quot;   Area: {sq.Area}&quot;);
+            break;
+         case Rectangle r when r.Length == r.Width &amp;&amp; r.Area &gt; 0:
+            Console.WriteLine(&quot;Information about square rectangle:&quot;);
+            Console.WriteLine($&quot;   Length of a side: {r.Length}&quot;);
+            Console.WriteLine($&quot;   Area: {r.Area}&quot;);
+            break;
+         case Rectangle r when sh.Area &gt; 0:
+            Console.WriteLine(&quot;Information about rectangle:&quot;);
+            Console.WriteLine($&quot;   Dimensions: {r.Length} x {r.Width}&quot;);
+            Console.WriteLine($&quot;   Area: {r.Area}&quot;);
+            break;
+         case Shape shape when sh != null:
+            Console.WriteLine($&quot;A {sh.GetType().Name} shape&quot;);
+            break;
+         default:
+            Console.WriteLine($&quot;The {nameof(sh)} variable does not represent a Shape.&quot;);
+            break;   
+      }
+   }
+}
+// The example displays the following output:
+//       Information about square:
+//          Length of a side: 10
+//          Area: 100
+//       Information about rectangle:
+//          Dimensions: 5 x 7
+//          Area: 35
+//       An uninitialized shape
+//       The shape: Square with no dimensions
+//       Information about square rectangle:
+//          Length of a side: 8
+//          Area: 64
+//       A Circle shape
+"><span class="hljs-keyword">using</span> System;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Shape</span>
+{
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">double</span> Area { <span class="hljs-keyword">get</span>; }
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">double</span> Circumference { <span class="hljs-keyword">get</span>; } 
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Rectangle</span> : <span class="hljs-title">Shape</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Rectangle</span>(<span class="hljs-params"><span class="hljs-keyword">double</span> length, <span class="hljs-keyword">double</span> width</span>)</span> 
+   {
+      Length = length;
+      Width = width; 
+   }
+
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> Length { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> Width { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+   
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">double</span> Area
+   { 
+      <span class="hljs-keyword">get</span> { <span class="hljs-keyword">return</span> Math.Round(Length * Width,<span class="hljs-number">2</span>); } 
+   } 
+   
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">double</span> Circumference 
+   {
+      <span class="hljs-keyword">get</span> { <span class="hljs-keyword">return</span> (Length + Width) * <span class="hljs-number">2</span>; }
+   }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Square</span> : <span class="hljs-title">Rectangle</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Square</span>(<span class="hljs-params"><span class="hljs-keyword">double</span> side</span>) : <span class="hljs-title">base</span>(<span class="hljs-params">side, side</span>)</span> 
+   {
+      Side = side; 
+   }
+
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> Side { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Circle</span> : <span class="hljs-title">Shape</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Circle</span>(<span class="hljs-params"><span class="hljs-keyword">double</span> radius</span>)</span> 
+   {
+      Radius = radius;
+   } 
+   
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">double</span> Radius { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">double</span> Circumference
+   {
+      <span class="hljs-keyword">get</span> { <span class="hljs-keyword">return</span> <span class="hljs-number">2</span> * Math.PI * Radius; }
+   }
+
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">double</span> Area
+   {
+      <span class="hljs-keyword">get</span> { <span class="hljs-keyword">return</span> Math.PI * Math.Pow(Radius, <span class="hljs-number">2</span>); } 
+   }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Example</span>
+{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+   {
+      Shape sh = <span class="hljs-literal">null</span>;
+      Shape[] shapes = { <span class="hljs-keyword">new</span> Square(<span class="hljs-number">10</span>), <span class="hljs-keyword">new</span> Rectangle(<span class="hljs-number">5</span>, <span class="hljs-number">7</span>),
+                         sh, <span class="hljs-keyword">new</span> Square(<span class="hljs-number">0</span>), <span class="hljs-keyword">new</span> Rectangle(<span class="hljs-number">8</span>, <span class="hljs-number">8</span>),
+                         <span class="hljs-keyword">new</span> Circle(<span class="hljs-number">3</span>) };
+      <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> shape <span class="hljs-keyword">in</span> shapes)
+         ShowShapeInfo(shape);
+   }
+
+   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ShowShapeInfo</span>(<span class="hljs-params">Shape sh</span>)</span>
+   {
+      <span class="hljs-keyword">switch</span> (sh)
+      {
+         <span class="hljs-comment">// Note that this code never evaluates to true.</span>
+         <span class="hljs-keyword">case</span> Shape shape <span class="hljs-keyword">when</span> shape == <span class="hljs-literal">null</span>:
+            Console.WriteLine(<span class="hljs-string">$"An uninitialized shape (shape == null)"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">case</span> <span class="hljs-literal">null</span>:
+            Console.WriteLine(<span class="hljs-string">$"An uninitialized shape"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">case</span> Shape shape <span class="hljs-keyword">when</span> sh.Area == <span class="hljs-number">0</span>:
+            Console.WriteLine(<span class="hljs-string">$"The shape: <span class="hljs-subst">{sh.GetType().Name}</span> with no dimensions"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">case</span> Square sq <span class="hljs-keyword">when</span> sh.Area &gt; <span class="hljs-number">0</span>:
+            Console.WriteLine(<span class="hljs-string">"Information about square:"</span>);
+            Console.WriteLine(<span class="hljs-string">$"   Length of a side: <span class="hljs-subst">{sq.Side}</span>"</span>);
+            Console.WriteLine(<span class="hljs-string">$"   Area: <span class="hljs-subst">{sq.Area}</span>"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">case</span> Rectangle r <span class="hljs-keyword">when</span> r.Length == r.Width &amp;&amp; r.Area &gt; <span class="hljs-number">0</span>:
+            Console.WriteLine(<span class="hljs-string">"Information about square rectangle:"</span>);
+            Console.WriteLine(<span class="hljs-string">$"   Length of a side: <span class="hljs-subst">{r.Length}</span>"</span>);
+            Console.WriteLine(<span class="hljs-string">$"   Area: <span class="hljs-subst">{r.Area}</span>"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">case</span> Rectangle r <span class="hljs-keyword">when</span> sh.Area &gt; <span class="hljs-number">0</span>:
+            Console.WriteLine(<span class="hljs-string">"Information about rectangle:"</span>);
+            Console.WriteLine(<span class="hljs-string">$"   Dimensions: <span class="hljs-subst">{r.Length}</span> x <span class="hljs-subst">{r.Width}</span>"</span>);
+            Console.WriteLine(<span class="hljs-string">$"   Area: <span class="hljs-subst">{r.Area}</span>"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">case</span> Shape shape <span class="hljs-keyword">when</span> sh != <span class="hljs-literal">null</span>:
+            Console.WriteLine(<span class="hljs-string">$"A <span class="hljs-subst">{sh.GetType().Name}</span> shape"</span>);
+            <span class="hljs-keyword">break</span>;
+         <span class="hljs-keyword">default</span>:
+            Console.WriteLine(<span class="hljs-string">$"The <span class="hljs-subst">{<span class="hljs-keyword">nameof</span>(sh)}</span> variable does not represent a Shape."</span>);
+            <span class="hljs-keyword">break</span>;   
+      }
+   }
+}
+<span class="hljs-comment">// The example displays the following output:</span>
+<span class="hljs-comment">//       Information about square:</span>
+<span class="hljs-comment">//          Length of a side: 10</span>
+<span class="hljs-comment">//          Area: 100</span>
+<span class="hljs-comment">//       Information about rectangle:</span>
+<span class="hljs-comment">//          Dimensions: 5 x 7</span>
+<span class="hljs-comment">//          Area: 35</span>
+<span class="hljs-comment">//       An uninitialized shape</span>
+<span class="hljs-comment">//       The shape: Square with no dimensions</span>
+<span class="hljs-comment">//       Information about square rectangle:</span>
+<span class="hljs-comment">//          Length of a side: 8</span>
+<span class="hljs-comment">//          Area: 64</span>
+<span class="hljs-comment">//       A Circle shape</span>
+</code></pre>
+<p>Note that the <code>when</code> clause in the example that attempts to test whether a <code>Shape</code> object is <code>null</code> doesn't execute. The correct type pattern to test for a <code>null</code> is <code>case null:</code>.</p>
+<h2 id="c-language-specification">C# language specification<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#c-language-specification" aria-labelledby="c-language-specification"></a></h2>
+<p>For more information, see <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/statements#the-switch-statement" data-linktype="relative-path">The switch statement</a> in the <a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/index" data-linktype="relative-path">C# Language Specification</a>. The language specification is the definitive source for C# syntax and usage.</p>
+<h2 id="see-also">See also<a class="docon docon-link heading-anchor" href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#see-also" aria-labelledby="see-also"></a></h2>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/index" data-linktype="relative-path">C# Reference</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/index" data-linktype="relative-path">C# Programming Guide</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/index" data-linktype="relative-path">C# Keywords</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/if-else" data-linktype="relative-path">if-else</a></li>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/pattern-matching" data-linktype="relative-path">Pattern Matching</a></li>
+</ul>
+
+						<!-- </content> -->
+
+						</main>
+
+						<!-- rating mobile section -->
+						<!-- end rating mobile section -->
+
+						<!-- feedback section -->
+
+
+
+<section class="feedback-section" data-bi-name="feedback-section">
+
+	<h2 id="feedback">Feedback</h2>
+
+	<div class="alert choose-feedback-type">
+		<p id="send-feedback-about" aria-hidden="true">Send feedback about</p>
+
+		<div class="choose-feedback-buttons">
+			<a class="button feedback-type-product has-margin-bottom-small" aria-label="Send feedback about this product" href="https://developercommunity.visualstudio.com/spaces/61/index.html" data-bi-name="product-feedback">
+				<span>This product</span>
+				<span class="icon docon docon-navigate-external" aria-hidden="true"></span>
+			</a>
+
+			<div class="field has-addons is-inline-flex has-margin-bottom-small">
+				<div class="control has-margin-top-none has-margin-bottom-none">
+					<button class="button feedback-sign-in-button has-text-wrap" aria-label="Send feedback about this page" data-bi-name="feedback-sign-in">
+						<span class="icon docon docon-brand-github" aria-hidden="true"></span>
+						<span>This page</span>
+					</button>
+				</div>
+				<div class="control dropdown has-caret has-margin-top-none has-margin-bottom-none">
+					<button class="button dropdown-trigger is-full-height" aria-describedby="send-feedback-about" aria-expanded="false" aria-controls="fbm0" aria-label="Additional feedback options" data-bi-name="documentation-feedback-menu">
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-chevron-down-light expanded-indicator"></span>
+						</span>
+					</button>
+					<div id="fbm0" class="dropdown-menu documentation-feedback-menu">
+						You may also leave feedback directly on <a data-bi-name="create-issue-on-github" href="https://github.com/dotnet/docs/issues/new?title=&amp;body=%0A%0A%5BEnter%20feedback%20here%5D%0A%0A%0A---%0A%23%23%23%23%20Document%20Details%0A%0A%E2%9A%A0%20*Do%20not%20edit%20this%20section.%20It%20is%20required%20for%20docs.microsoft.com%20%E2%9E%9F%20GitHub%20issue%20linking.*%0A%0A*%20ID%3A%2077d9cc47-5caf-184a-0ad6-cb968850be7a%0A*%20Version%20Independent%20ID%3A%20f058bf17-04e9-9e23-05c7-66c1864445ad%0A*%20Content%3A%20%5BC%23%20switch%20statement%5D(https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch)%0A*%20Content%20Source%3A%20%5Bdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md%5D(https%3A%2F%2Fgithub.com%2Fdotnet%2Fdocs%2Fblob%2Fmaster%2Fdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md)%0A*%20Product%3A%20**dotnet-csharp**%0A*%20GitHub%20Login%3A%20%40BillWagner%0A*%20Microsoft%20Alias%3A%20**wiwagn**">GitHub <span class="docon docon-navigate-external" aria-hidden="true"></span></a>.					</div>
+				</div>
+			</div>
+
+			<div class="field has-addons is-inline-flex has-margin-bottom-small" hidden="">
+				<div class="control has-margin-top-none has-margin-bottom-none">
+					<button class="button feedback-form-toggle" aria-describedby="send-feedback-about" aria-expanded="false" aria-controls="feedback-form" data-bi-name="documentation-feedback">
+This page					</button>
+				</div>
+				<div class="control dropdown has-caret has-margin-top-none has-margin-bottom-none">
+					<button class="button dropdown-trigger" aria-describedby="send-feedback-about" aria-expanded="false" aria-controls="fbm1" aria-label="Additional feedback options" data-bi-name="documentation-feedback-menu">
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-chevron-down-light expanded-indicator"></span>
+						</span>
+					</button>
+					<div id="fbm1" class="dropdown-menu documentation-feedback-menu">
+						You may also leave feedback directly on <a data-bi-name="create-issue-on-github" href="https://github.com/dotnet/docs/issues/new?title=&amp;body=%0A%0A%5BEnter%20feedback%20here%5D%0A%0A%0A---%0A%23%23%23%23%20Document%20Details%0A%0A%E2%9A%A0%20*Do%20not%20edit%20this%20section.%20It%20is%20required%20for%20docs.microsoft.com%20%E2%9E%9F%20GitHub%20issue%20linking.*%0A%0A*%20ID%3A%2077d9cc47-5caf-184a-0ad6-cb968850be7a%0A*%20Version%20Independent%20ID%3A%20f058bf17-04e9-9e23-05c7-66c1864445ad%0A*%20Content%3A%20%5BC%23%20switch%20statement%5D(https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fdotnet%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch)%0A*%20Content%20Source%3A%20%5Bdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md%5D(https%3A%2F%2Fgithub.com%2Fdotnet%2Fdocs%2Fblob%2Fmaster%2Fdocs%2Fcsharp%2Flanguage-reference%2Fkeywords%2Fswitch.md)%0A*%20Product%3A%20**dotnet-csharp**%0A*%20GitHub%20Login%3A%20%40BillWagner%0A*%20Microsoft%20Alias%3A%20**wiwagn**">GitHub <span class="docon docon-navigate-external" aria-hidden="true"></span></a>.					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<form class="feedback-form" id="feedback-form" accept-charset="UTF-8" autocomplete="off" action="javascript:" hidden="">
+		<h3 class="feedback-form-heading current-user">
+			<img class="avatar" alt="Avatar" width="36" height="36" aria-hidden="true" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9InRyYW5zcGFyZW50IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg==">
+			<span class="username" aria-hidden="true"></span>
+			<span class="visually-hidden">Liquid error: Can't find the localized string giveDocumentationFeedback for template Conceptual.</span>
+		</h3>
+
+		<label>
+			<span class="visually-hidden">Title</span>
+			<input class="input is-radiusless has-margin-bottom-small" name="title" type="text" placeholder="Title" required="" pattern=".*[^\s]+.*">
+		</label>
+		<label>
+			<span class="visually-hidden">Leave a comment</span>
+			<textarea name="body" placeholder="Leave a comment" class="textarea is-radiusless" required=""></textarea>
+		</label>
+
+		<div class="action-container">
+			<button class="button is-primary" type="submit" name="submit">Submit feedback</button>
+		</div>
+	</form>
+
+	<div class="feedback-status alert is-loading">
+		<p>Loading feedback...</p>
+	</div>
+
+	<div class="feedback-tab-group tabGroup" data-tab-group-independent="" hidden="" data-bi-name="tab-group">
+		<ul role="tablist">
+			<li role="presentation">
+				<a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#tabpanel-issues-open" role="tab" aria-controls="tabpanel-issues-open" data-tab="issues-open" data-bi-name="tab" aria-selected="true" tabindex="0"></a>
+			</li>
+			<li role="presentation">
+				<a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#tabpanel-issues-closed" role="tab" aria-controls="tabpanel-issues-closed" data-tab="issues-closed" data-bi-name="tab" aria-selected="false" tabindex="-1"></a>
+			</li>
+		</ul>
+		<section id="tabpanel-issues-open" role="tabpanel" data-tab="issues-open">
+			<div class="no-issues-placeholder">There are no open issues</div>
+			<ul class="github-issues-list" aria-label="Open Issues"></ul>
+		</section>
+		<section id="tabpanel-issues-closed" role="tabpanel" data-tab="issues-closed" hidden="hidden" aria-hidden="true">
+			<div class="no-issues-placeholder">There are no closed issues</div>
+			<ul class="github-issues-list" aria-label="Closed Issues"></ul>
+		</section>
+	</div>
+	<div class="action-container">
+		<a class="view-on-github" href="https://github.com/dotnet/docs/issues?utf8=%E2%9C%93&amp;q=%22f058bf17-04e9-9e23-05c7-66c1864445ad%22&amp;in=body" data-bi-name="view-on-github" hidden="">
+			<span class="docon docon-brand-github" aria-hidden="true"></span>
+			<span>View on GitHub</span>
+			<span class="docon docon-navigate-external" aria-hidden="true"></span>
+		</a>
+	</div>
+</section>
+
+
+						<!-- end feedback section -->
+
+						<div class="footerContainer is-visible-interactive has-default-focus ">
+<footer id="footer-interactive" data-bi-name="footer" class="footer-layout">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="https://docs.microsoft.com/en-us/locale?target=https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small" aria-hidden="true"></span><span class="local-selector-link-text has-inner-focus">English (United States)</span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>
+						</div>
+					</div>
+
+					<div id="page-actions" class="right-container column is-one-quarter is-one-fifth-desktop is-hidden-mobile is-hidden-tablet-only" data-bi-name="pageactions" role="complementary" aria-label="Page Actions">
+							<div id="affixed-right-container" class="doc-outline is-fixed is-vertically-scrollable" style="width: 153.594px; top: 24px; bottom: 24px;">
+<div data-bi-name="rating" class="feedback-verbatim has-border-bottom has-padding-bottom-small has-margin-bottom-small">
+	<div class="binary-rating">
+		<div class="binary-rating-buttons">
+			<h3 class="has-text-weight-semibold has-margin-top-none has-margin-bottom-small">Is this page helpful?</h3>
+			<div>
+				<button class="thumb-rating like has-inner-focus has-padding-left-extra-small has-padding-right-extra-small" title="Yes" data-bi-name="rating-yes" data-bi-sat="1">
+					<span class="icon docon docon-like" aria-hidden="true"></span><span>Yes</span>
+				</button>
+				<button class="thumb-rating dislike has-inner-focus has-padding-none has-padding-right-extra-small" title="No" data-bi-name="rating-no" data-bi-sat="0" aria-expanded="false" aria-haspopup="true" aria-controls="rating-feedback">
+					<span class="icon docon docon-dislike" aria-hidden="true"></span><span>No</span>
+				</button>
+			</div>
+		</div>
+		<form class="feedback-verbatim-form is-hidden">
+			<div class="verbatim-textarea box is-relative has-box-shadow-none has-border has-margin-top-small has-padding-extra-small is-size-8">
+				<label for="rating-feedback-mobile" class="visually-hidden">Any additional feedback?</label>
+				<textarea id="rating-feedback-mobile" rows="4" maxlength="999" placeholder="Any additional feedback?" required="" class="textarea has-border-none has-box-shadow-none has-inner-focus"></textarea>
+			</div>
+			<div class="buttons is-right has-margin-top-medium has-margin-right-extra-small">
+				<button class="skip-rating button is-text is-link is-small" type="button">Skip</button>
+				<button disabled="" class="submit-rating button is-primary is-small" type="submit" data-bi-name="rating-verbatim">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div class="thankyou-rating is-hidden">
+		<p>Thank you.</p>
+	</div>
+</div>								<nav id="side-doc-outline" data-bi-name="intopic toc" role="navigation" aria-label="Article Outline">
+									<h3>In this article</h3>
+								<ol><li class="selected"><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-match-expression">The match expression</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-switch-section">The switch section</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#case-labels">Case labels</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#the-default-case">The default case</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#-pattern-matching-with-the-switch-statement">Pattern matching with the switch statement</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#-the-case-statement-and-the-when-clause">The case statement and the when clause</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#c-language-specification">C# language specification</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch#see-also">See also</a></li></ol></nav>
+							</div>
+					</div>
+
+					<!--end of div.columns -->
+				</div>
+
+			<!--end of .primary-holder -->
+			</section>
+
+			<aside id="interactive-container" class="interactive-container is-visible-interactive column has-body-background-dark ">
+			</aside>
+		</div>
+
+		<!--end of .mainContainer -->
+	</div>
+
+	<div id="openFeedbackContainer" class="openfeedback-container"></div>
+
+	<div class="footerContainer has-default-focus is-hidden-interactive ">
+<footer id="footer" data-bi-name="footer" class="footer-layout uhf-container has-padding" role="contentinfo">
+
+    <a data-mscc-ic="false" class="locale-selector-link" href="https://docs.microsoft.com/en-us/locale?target=https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch" data-bi-name="select-locale"><span class="icon docon docon-world is-size-4 has-margin-right-small" aria-hidden="true"></span><span class="local-selector-link-text">English (United States)</span></a>
+
+    <ul class="links" data-bi-name="footerlinks">
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/previous-versions/" data-bi-name="archivelink">Previous Version Docs</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/teamblog" data-bi-name="bloglink">Blog</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/contribute" data-bi-name="contributorGuide">Contribute</a></li>
+			<li><a data-mscc-ic="false" href="https://go.microsoft.com/fwlink/?LinkId=521839" data-bi-name="privacy">Privacy &amp; Cookies</a></li>
+		<li><a data-mscc-ic="false" href="https://docs.microsoft.com/en-us/legal/termsofuse" data-bi-name="termsofuse">Terms of Use</a></li>
+		<li><a data-mscc-ic="false" href="https://aka.ms/sitefeedback" data-bi-name="feedback">Site Feedback</a></li>
+		<li><a data-mscc-ic="false" href="https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/EN-US.aspx" data-bi-name="trademarks">Trademarks</a></li>
+    </ul>
+</footer>
+	</div>
+
+		<script type="text/x-mathjax-config;executed=true">
+			MathJax.Hub.Config({
+				showMathMenu: false,
+				showMathMenuMSIE: false,
+				tex2jax: {
+					inlineMath: [['$','$'], ['\\(','\\)']],
+					processEscapes: true
+				}
+			});
+		</script>
+		<script src="./C# switch statement _ Microsoft Docs_files/MathJax.js" integrity="sha384-RLsAi7wiVvnmHrRjlVvUjU45C0bfsIBg6Gsxue6azjJi+lA5q5uK+XbGzO3yn5g1" crossorigin="anonymous"></script>
+	<div id="action-panel" role="region" aria-label="Action Panel" class="action-panel has-default-focus" tabindex="-1"></div>
+
+
+</body></html>
