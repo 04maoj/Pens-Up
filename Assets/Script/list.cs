@@ -9,12 +9,14 @@ public class list : MonoBehaviour
 	public GameObject Content;
     void Start()
     {
+
+			
 		for (int i=0; i<3; i++) {
         var current_spawned = Instantiate(spawner, transform.position, Quaternion.identity);
         current_spawned.gameObject.transform.SetParent(Content.transform);
         current_spawned.transform.localScale = new Vector3(1, 1, 1);
         current_spawned.transform.GetChild(0).GetComponent<Text>().text = "Hey";
-				current_spawned.transform.position = new Vector3(550+i*800,1000,1000);
+				current_spawned.transform.position = new Vector3(540+i*800,1400,1000);
 	}
     }
 
