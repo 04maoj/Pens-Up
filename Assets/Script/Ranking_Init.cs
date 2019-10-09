@@ -20,7 +20,7 @@ public class Ranking_Init : MonoBehaviour
         while(!myReader.EndOfStream) {
             string student = myReader.ReadLine();
             // Reading the score.
-            string path_1 = "Assets/Local_DataBase/Students/" + student + "/Total_score_list.txt";
+            string path_1 = "Assets/Local_DataBase/Students/" + student + "/Total_score_list";
             if(!File.Exists(path_1))
             {
                 Debug.Log(path_1);

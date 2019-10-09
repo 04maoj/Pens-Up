@@ -61,6 +61,7 @@ public class Assessment_manager : MonoBehaviour
 
             scores.Add(all_pratice[i].AverageConnections());
             average_connection += all_pratice[i].AverageConnections();
+
             my_info.Store_Individual_Scores(all_pratice[i].gameObject.name, scores, course_title);
         }
         List<Tuple<double, string>> problemList = new List<Tuple<double, string>>();
