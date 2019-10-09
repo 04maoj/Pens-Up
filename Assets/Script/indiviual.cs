@@ -6,11 +6,21 @@ using System.IO;
 
 public class indiviual : MonoBehaviour
 {
-    public GameObject but;
-    public void go(){
-      but = GameObject.Find("Button");
-      Button letter = but.GetComponent<Button>();
-      letter.GetComponent<Image>().color = Color.red;
+    public Text name;
+    public void click(){
+      // but = GameObject.Find("Button");
+      // Button letter = but.GetComponent<Button>();
+      var buttonSelf = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+      // buttonSelf.GetComponent<Image>().color = Color.red;
+      Text text=buttonSelf.gameObject.GetComponentInChildren<Text>();
+      Debug.Log(text.text);
+      staticname.i_name = text.text;
+      Debug.Log(staticname.i_name);
+    }
+
+    void Start() {
+      name.text= staticname.i_name;
+      Debug.Log(staticname.i_name);
     }
 
 }
