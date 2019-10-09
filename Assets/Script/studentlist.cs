@@ -36,8 +36,8 @@ public class studentlist : MonoBehaviour
 							current_spawned.GetComponent<Image>().color = Color.gray;
 							i=i+1;
 
-							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list";
-							// Debug.Log(line+" " + spath);
+							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list.txt";
+							Debug.Log(line+" " + spath);
 							complete_set2 = new HashSet<string>();
 							float total =0;
 							if (File.Exists(spath))
