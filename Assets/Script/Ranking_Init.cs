@@ -28,18 +28,18 @@ public class Ranking_Init : MonoBehaviour
                 continue;
             }
             //use hashmap to prevent duplicates.
-            Dictionary<string, int> score_list = new Dictionary<string, int>();
+            Dictionary<string, float> score_list = new Dictionary<string, float>();
             StreamReader mysecondReader = new StreamReader(path_1);
             while(!mysecondReader.EndOfStream)
             {
                 string[] input = mysecondReader.ReadLine().Split(' ');
                 if (!score_list.ContainsKey(input[0]))
                 {
-                    score_list.Add(input[0], int.Parse(input[1]));
+                    score_list.Add(input[0], float.Parse(input[1]));
                 }
                 else
                 {
-                    score_list[input[0]] = Mathf.Max(score_list[input[0]], int.Parse(input[1]));
+                    score_list[input[0]] = Mathf.Max(score_list[input[0]], float.Parse(input[1]));
                 }
             }
             double total_score = 0;

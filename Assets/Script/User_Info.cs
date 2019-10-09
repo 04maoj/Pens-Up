@@ -24,17 +24,21 @@ public class User_Info : MonoBehaviour
         string path1 = "Assets/Local_DataBase/Students/" + user_name + "/Complted_course";
         complete_set = new HashSet<string>();
         //Debug.Log(path1);
-        if (File.Exists(path1))
-        {
-            // Read a text file line by line.
-            string[] lines = File.ReadAllLines(path1);
-            foreach (string line in lines)
-            {
-                complete_set.Add(line);
-                Debug.Log(line);
-            }
-
-        }
+        //if (File.Exists(path1))
+        //{
+        //    // Read a text file line by line.
+        //    Debug.Log("Assets/Local_DataBase/Students/" + user_name + "/Complted_course");
+        //    string[] lines = File.ReadAllLines(path1);
+        //    foreach (string line in lines)
+        //    {
+        //        complete_set.Add(line);
+        //        Debug.Log(line);
+        //    }
+        //}
+        //else
+        //{
+        //    complete_set.Clear();
+        //}
     }
     public void Update_user_name(string nameded, bool students)
     {
@@ -58,7 +62,6 @@ public class User_Info : MonoBehaviour
             if (File.Exists(path1))
             {
                 // Read a text file line by line.
-                Debug.Log("Yes It exist");
                 string[] lines = File.ReadAllLines(path1);
                 foreach (string line in lines)
                 {
