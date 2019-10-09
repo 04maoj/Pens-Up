@@ -10,6 +10,7 @@ public class Navigation : MonoBehaviour
     public int to;
     private void OnMouseDown()
     {
+        Debug.Log("Hit");
         if(!is_Box)
         {
             SceneLoader loader = FindObjectOfType<SceneLoader>();

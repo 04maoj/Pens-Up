@@ -39,7 +39,7 @@ public class studentlist : MonoBehaviour
 							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list";
 							// Debug.Log(line+" " + spath);
 							complete_set2 = new HashSet<string>();
-							int total =0;
+							float total =0;
 							if (File.Exists(spath))
 				        {
 				        // Read a text file line by line.
@@ -52,7 +52,7 @@ public class studentlist : MonoBehaviour
 								//calculate the score adn set color
 								string[] arr1 = line2.Split(' ');
 							 	// Debug.Log(arr1[1]);
-								int score = int.Parse(arr1[1]);
+								float score = float.Parse(arr1[1]);
 								// Debug.Log(score);
 								total = total +score;
 									}
