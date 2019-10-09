@@ -10,9 +10,13 @@ using LitJson;
 
 public class Submit : MonoBehaviour
 {
+    private AssessProcessMgmt assessMgmt;
+    private Track_manager trackMgmt;
+    private SceneLoader sceneLoad;
+    private GameObject box;
     private Camera ca;
     private DrawManager drawManager;
-    private Scence_Manager sMgr;
+    private Scence_Manager sceneMgmt;
     [SerializeField] string character;
     private GameObject clone;
     private LineRenderer lineRe;
@@ -31,22 +35,16 @@ public class Submit : MonoBehaviour
     public float scale = 1;
 
     private string subscriptionKey;
-
-    private string url;
-    //public string url = "https://australiaeast.api.cognitive.microsoft.com/vision/v1.0/ocr";
     private string endpoint;
     private string uriBase;
     private string extraPara;
-    //public string uri;
 
-    // the Batch Read method endpoint
-    //public string uriBase = endpoint + "/read/core/asyncBatchAnalyze";
     public string filepath;
     public string contentpath;
+    public string scorepath;
     public List<string> analyzed;
     public UnityWebRequest send = null;
     public UnityWebRequest get = null;
-
 
     // Start is called before the first frame update
     private void Awake()
@@ -55,13 +53,17 @@ public class Submit : MonoBehaviour
     }
     void Start()
     {
+        //trackMgmt = FindObjectOfType<Track_manager>();
+        assessMgmt = FindObjectOfType<AssessProcessMgmt>();
+        box = assessMgmt.process;
         Button btn = this.GetComponent<Button>();
         drawManager = FindObjectOfType<DrawManager>();
-        sMgr = FindObjectOfType<Scence_Manager>();
+        sceneMgmt = FindObjectOfType<Scence_Manager>();
+        sceneLoad = FindObjectOfType<SceneLoader>();
 
         filepath = "Assets/Standards/" + drawManager.getCharacter() + ".png";
         contentpath = "Assets/Standards/" + drawManager.getCharacter() + ".content";
-        url = "https://australiaeast.api.cognitive.microsoft.com/vision/v2.0/recognizeText?mode=Handwritten";
+        scorepath = "Assets/Standards/" + drawManager.getCharacter() + ".score";
         endpoint = "https://pensupocr.cognitiveservices.azure.com/";
         uriBase = "vision/v2.0/recognizeText";
         extraPara = "?mode=Handwritten";
@@ -76,25 +78,17 @@ public class Submit : MonoBehaviour
     {
         drawManager.setCharacter(character);
         coordinates = drawManager.GetStrokes(character);
-        // Debug.Log("Got Strokes");
-        // drawManager.DrawBot(coordinates);
-        //StartCoroutine(WaitAndPaint());
-
-
-        //StartCoroutine(DrawAndCommunicate());
-        Evaluate();
+        StartCoroutine(Communicate());
     }
 
-    public IEnumerator DrawAndCommunicate()
+    public IEnumerator Communicate()
     {
+        //yield return StartCoroutine(Draw());
 
-
-        yield return StartCoroutine(Draw());
-
-        Debug.Log("Replay Finished");
+        //Debug.Log("Replay Finished");
         ScreenCapture.CaptureScreenshot(filepath);
-        //Texture2D img = ScreenCapture.CaptureScreenshotAsTexture(1);
-        //byte[] image = img.GetRawTextureData();
+        // Wait for seconds to ensure the shot was stored.
+        StartCoroutine(Wait());
 
         byte[] image = GetImageAsByteArray(filepath);
         Debug.Log(endpoint + uriBase + extraPara);
@@ -111,6 +105,10 @@ public class Submit : MonoBehaviour
         Debug.Log("Send uri: " + send.uri);
         Debug.Log("Content-Type: " + send.GetRequestHeader("Content-Type"));
         Debug.Log("response: " + response);
+        Debug.Log("Processing...");
+        //trackMgmt.Clear_All();
+        sceneMgmt.EraseAll();
+        box.SetActive(true);
 
         yield return new WaitForSeconds(10f);
 
@@ -122,13 +120,18 @@ public class Submit : MonoBehaviour
         Debug.Log("Get uri: " + get.uri);
         yield return get.SendWebRequest();
 
+        float score = 0f;
+        // If error occurs, use local evaluation algorithm instead.
         if (get.isNetworkError == true)
         {
             Debug.Log("NetworkError");
+            score = Evaluate();
+
         }
         else if (get.isHttpError == true)
         {
             Debug.Log("HttpError");
+            score = Evaluate();
         }
         else
         {
@@ -138,63 +141,27 @@ public class Submit : MonoBehaviour
             //JsonData result = JsonMapper.ToObject(send.downloadHandler.text);
             analyzed = Decom(get.downloadHandler.text);
             Debug.Log("Word Count: " + analyzed.Count);
-            for (int i = 0; i < analyzed.Count; i++)
-            {
-                Debug.Log("Ana: " + analyzed[i]);
-            }
+            score = ResultEvaluate();
+            //for (int i = 0; i < analyzed.Count; i++)
+            //{
+            //    Debug.Log("Ana: " + analyzed[i]);
+            //}
             //Debug.Log(result);
         }
-
-        List<string> content = LoadContent(contentpath);
-        for (int i = 0; i < content.Count; i++)
+        if (File.Exists(scorepath))
         {
-            Debug.Log(content[i]);
+            File.Delete(scorepath);
+            Debug.Log("Deleted");
         }
-        //List<List<Tuple<float, float>>> standard = drawManager.GetStrokes("Assessment1_std");
-        //List<List<Tuple<float, float>>> input = drawManager.GetStrokes("Assessment1");
-        //float score = CompareFloat(input, standard);
-        //Debug.Log("score: " + score);
-        //float score = Compare(analyzed, content);
-        //File.WriteAllText("Assets/Standards/" + drawManager.getCharacter() + ".score", score.ToString());
+        File.WriteAllText(scorepath, score.ToString());
+        box.SetActive(false);
+        // Back to student page
+        sceneLoad.LoadScence(7);
+
     }
 
-    public IEnumerator Draw()
+    public IEnumerator Wait()
     {
-        sMgr.EraseAll();
-        int count = 0;
-        foreach (List<Tuple<float, float>> eachStroke in coordinates)
-        {
-            clone = (GameObject)Instantiate(target, target.transform.position, Quaternion.identity);
-            lineRe = clone.GetComponent<LineRenderer>();
-            lineRe.alignment = LineAlignment.View;
-            lineRe.startColor = Color.red;
-            lineRe.endColor = Color.blue;
-            lineRe.startWidth = 0.2f;
-            lineRe.endWidth = 0.2f;
-            count = eachStroke.Count;
-            stroke = new List<Vector3>();
-            foreach (Tuple<float, float> point in eachStroke)
-            {
-                Vector3 pointCoordinate = new Vector3(point.Item1, point.Item2, -10f);
-
-                Vector3 pointCam = Camera.main.ScreenToWorldPoint(pointCoordinate);
-                pointCam.z = -5f;
-
-                stroke.Add(pointCam);
-            }
-            lineRe.positionCount = count;
-
-            currentPosition = new Vector3();
-
-            for (int i = 0; i < lineRe.positionCount; i++)
-            {
-                index = i;
-                currentPosition = stroke[i];
-                lineRe.SetPosition(i, currentPosition);
-
-
-            }
-        }
         yield return new WaitForSeconds(3f);
     }
 
@@ -231,6 +198,7 @@ public class Submit : MonoBehaviour
             return binaryReader.ReadBytes((int)fileStream.Length);
         }
     }
+
     public List<string> LoadContent(string contentpath)
     {
         StreamReader sr = new StreamReader(contentpath);
@@ -245,16 +213,55 @@ public class Submit : MonoBehaviour
         return content;
     }
 
+    public float ResultEvaluate()
+    {
+        List<string> content = LoadContent(contentpath);
+        int contentCount = content.Count;
+        int anaCount = analyzed.Count;
+        string anaString = "";
+        string contentString = "";
+        float score = 100f;
+        for (int i = 0; i < anaCount; i++)
+        {
+            anaString += analyzed[i];
+        }
+        for (int i = 0; i < contentCount; i++)
+        {
+            contentString += content[i];
+            contentString += content[i];
+        }
+        if (anaString.Length != contentString.Length)
+        {
+            score = anaString.Length * 100 / contentString.Length * 100;
+        }
+        string anaSub = "";
+        string contentSub = "";
+        float part = 100 / anaString.Length * 100;
+        for (int i = 0; i < anaString.Length; i++)
+        {
+            anaSub = anaString.Substring(i, 1);
+            contentSub = contentString.Substring(i, 1);
+            if (anaSub.Equals(contentSub) == false)
+            {
+                score -= part;
+            }
+            //Debug.Log(score);
+        }
+        score = Math.Max(0, score);
+        //Debug.Log("anaString: " + anaString);
+        //Debug.Log("contentString: " + contentString);
+        score = score / 100;
+        Debug.Log("Score: " + score);
+        return score;
+    }
 
-
-
-    void Evaluate()
+    public float Evaluate()
     {
         List<List<Tuple<float, float>>> standard = drawManager.GetStrokes("Assessment1_std");
         List<List<Tuple<float, float>>> input = drawManager.GetStrokes("Assessment1");
         float score = CompareFloat(input, standard);
-        File.WriteAllText("Assets/Standards/" + drawManager.getCharacter() + ".score", score.ToString());
-        Debug.Log("score: " + score);
+        return score;
+
     }
 
     public float CompareFloat(List<List<Tuple<float, float>>> analyzed, List<List<Tuple<float, float>>> content)
@@ -295,4 +302,44 @@ public class Submit : MonoBehaviour
         score -= totalDevi / 1000;
         return score;
     }
+
+    //public IEnumerator Draw()
+    //{
+    //    sceneMgmt.EraseAll();
+    //    int count = 0;
+    //    foreach (List<Tuple<float, float>> eachStroke in coordinates)
+    //    {
+    //        clone = (GameObject)Instantiate(target, target.transform.position, Quaternion.identity);
+    //        lineRe = clone.GetComponent<LineRenderer>();
+    //        lineRe.alignment = LineAlignment.View;
+    //        lineRe.startColor = Color.red;
+    //        lineRe.endColor = Color.blue;
+    //        lineRe.startWidth = 0.2f;
+    //        lineRe.endWidth = 0.2f;
+    //        count = eachStroke.Count;
+    //        stroke = new List<Vector3>();
+    //        foreach (Tuple<float, float> point in eachStroke)
+    //        {
+    //            Vector3 pointCoordinate = new Vector3(point.Item1, point.Item2, -10f);
+
+    //            Vector3 pointCam = Camera.main.ScreenToWorldPoint(pointCoordinate);
+    //            pointCam.z = -5f;
+
+    //            stroke.Add(pointCam);
+    //        }
+    //        lineRe.positionCount = count;
+
+    //        currentPosition = new Vector3();
+
+    //        for (int i = 0; i < lineRe.positionCount; i++)
+    //        {
+    //            index = i;
+    //            currentPosition = stroke[i];
+    //            lineRe.SetPosition(i, currentPosition);
+
+
+    //        }
+    //    }
+    //    yield return new WaitForSeconds(3f);
+    //}
 }

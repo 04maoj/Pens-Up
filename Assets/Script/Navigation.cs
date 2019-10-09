@@ -8,7 +8,7 @@ public class Navigation : MonoBehaviour
     [SerializeField] int next;
     public bool is_Box = false;
     public int to;
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         if(!is_Box)
         {
