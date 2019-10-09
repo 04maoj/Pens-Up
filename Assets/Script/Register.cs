@@ -30,6 +30,7 @@ public class Register : MonoBehaviour
         else {
             path = "Assets/Local_DataBase/Students/Student_Password.txt";
             Directory.CreateDirectory("Assets/Local_DataBase/Students/" + user);
+            Directory.CreateDirectory("Assets/Local_DataBase/Students/" + user+"/feedback");
             path1 = "Assets/Local_DataBase/Students/" + user + "/config.txt";
         }
         using (StreamWriter sw = File.AppendText(path1))

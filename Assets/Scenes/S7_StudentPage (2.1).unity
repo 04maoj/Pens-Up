@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f5da5e37a404a8987c9e7208f85954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  next: 10
+  next: 15
   is_Box: 0
   to: 0
 --- !u!65 &99725158
@@ -1981,7 +1981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f5da5e37a404a8987c9e7208f85954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  next: 11
+  next: 16
   is_Box: 0
   to: 0
 --- !u!65 &741853358
@@ -2325,6 +2325,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 259486458, guid: 2aac61d9562bc4f81a574ff72ef3d7b2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 305.64902
       objectReference: {fileID: 0}
     - target: {fileID: 1295798311, guid: 2aac61d9562bc4f81a574ff72ef3d7b2, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2967,7 +2971,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 992679762}
   m_HandleRect: {fileID: 992679761}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4494,90 +4498,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1641714835}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1746170973
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4290427794775964071, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_Name
-      value: UserInfo
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964069, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964070, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: user_name
-      value: afraid
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964070, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: named
-      value: afedk
-      objectReference: {fileID: 0}
-    - target: {fileID: 4290427794775964070, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6,
-        type: 3}
-      propertyPath: teacher
-      value: ajit
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ad8f8cfb2cc5f4a68a59d576e16f8dd6, type: 3}
 --- !u!1 &1751767995
 GameObject:
   m_ObjectHideFlags: 0

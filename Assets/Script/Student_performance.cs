@@ -51,7 +51,6 @@ public class Student_performance : MonoBehaviour
         chart.AddXAxisData("A-List");
         foreach (var temp in rank)
         {
-            Debug.Log(temp.Key + " " + temp.Value);
             chart.AddData(0, temp.Value, temp.Key);
         }
         //chart.ClearData();

@@ -79,7 +79,6 @@ public class Alphabate_manager : MonoBehaviour
                 FindObjectOfType<AudioSource>().PlayOneShot(sound);
             else
                 transform.parent.GetComponent<Word>().Decrement();
-            Debug.Log("Here");
             finished = true;
             return 0;
         } else {
@@ -121,10 +120,10 @@ public class Alphabate_manager : MonoBehaviour
         expected_stroke = 0;
         if (strokeName == "A")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5 };
-            strokes_and_hit_box[1] = new List<int> { 0, 6, 7, 8, 9, 10 };
-            strokes_and_hit_box[2] = new List<int> { 3, 11, 12, 8 };
-            connections_points = new List<int> { 0, 3, 8 };
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, };
+            strokes_and_hit_box[1] = new List<int> { 0,4,5,6};
+            strokes_and_hit_box[2] = new List<int> { 2,7,8,5};
+            connections_points = new List<int> { 0,2,5 };
         }
         else if (strokeName == "a")
         {
@@ -157,7 +156,7 @@ public class Alphabate_manager : MonoBehaviour
         } else if(strokeName == "t")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
-            strokes_and_hit_box[1] = new List<int> { 4, 1, 5, 6 , 7 , 8 };
+            strokes_and_hit_box[1] = new List<int> { 4, 1, 5, 6};
         } else if(strokeName == "p")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2,3,4 };

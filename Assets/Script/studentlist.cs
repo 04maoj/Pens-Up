@@ -36,7 +36,7 @@ public class studentlist : MonoBehaviour
 							current_spawned.GetComponent<Image>().color = Color.gray;
 							i=i+1;
 
-							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list.txt";
+							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list";
 							// Debug.Log(line+" " + spath);
 							complete_set2 = new HashSet<string>();
 							int total =0;
@@ -79,9 +79,4 @@ public class studentlist : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
