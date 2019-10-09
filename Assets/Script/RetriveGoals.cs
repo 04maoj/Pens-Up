@@ -21,6 +21,7 @@ public class RetriveGoals : MonoBehaviour
         string basic = "BASIC";
         string inter = "INTER";
         string expert = "EXPERT";
+        string expert = "INSANE";
 
         FileStream inFile = new FileStream(path, FileMode.Open, FileAccess.Read);
         StreamReader reader = new StreamReader(inFile);
@@ -50,6 +51,13 @@ public class RetriveGoals : MonoBehaviour
                     goal2.text = "2. Attempt all of the courses at least 5 Times.";
                     goal3.text = "3. Log in for 30 consecutive days.";
                     goal4.text = "4. Stay online for 45 minutes per day for each day to count.";
+                }
+                else
+                {
+                    goal1.text = "1. 10000 HOURS!";
+                    goal2.text = "2. Respect!";
+                    goal3.text = "3. Good Luck!!";
+                    goal4.text = "4. GOOD LUCK!!!";
                 }
             }
         }

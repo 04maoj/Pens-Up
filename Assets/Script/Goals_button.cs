@@ -29,6 +29,9 @@ public class Goals_button : MonoBehaviour
                 case 2: 
                     sw.WriteLine("EXPERT"); 
                     break;
+                case 3: 
+                sw.WriteLine("INSANE"); 
+                break;
                 default: 
                     StartCoroutine("Back_To_Home");
                     break;
