@@ -21,7 +21,7 @@ public class RetriveGoals : MonoBehaviour
         string basic = "BASIC";
         string inter = "INTER";
         string expert = "EXPERT";
-        string expert = "INSANE";
+        string insane = "INSANE";
 
         FileStream inFile = new FileStream(path, FileMode.Open, FileAccess.Read);
         StreamReader reader = new StreamReader(inFile);
