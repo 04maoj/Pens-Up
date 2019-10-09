@@ -10,7 +10,7 @@ using LitJson;
 
 public class Submit : MonoBehaviour
 {
-    private readonly Camera ca = Camera.main;
+    private Camera ca;
     private DrawManager drawManager;
     private Scence_Manager sMgr;
     [SerializeField] string character;
@@ -49,6 +49,10 @@ public class Submit : MonoBehaviour
 
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        ca = Camera.main;
+    }
     void Start()
     {
         Button btn = this.GetComponent<Button>();

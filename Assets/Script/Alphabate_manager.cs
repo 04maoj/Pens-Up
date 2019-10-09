@@ -9,6 +9,7 @@ public class Alphabate_manager : MonoBehaviour
     [SerializeField] int total_score;
     [SerializeField] string strokeName;
     [SerializeField] int double_write_penalities = 3;
+    public AudioClip sound;
     List<int> childrens;
     private HashSet<int> visite_stroke;
     private Stack<int> traverse_order;
@@ -74,6 +75,11 @@ public class Alphabate_manager : MonoBehaviour
 
             FindObjectOfType<Scence_Manager>().Decrement_total_Character();
             FindObjectOfType<Track_manager>().Finished_one();
+            if (transform.parent.GetComponent<Word>() == null)
+                FindObjectOfType<AudioSource>().PlayOneShot(sound);
+            else
+                transform.parent.GetComponent<Word>().Decrement();
+            Debug.Log("Here");
             finished = true;
             return 0;
         } else {

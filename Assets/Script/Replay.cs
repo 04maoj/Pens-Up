@@ -7,7 +7,7 @@ using System.IO;
 
 public class Replay : MonoBehaviour
 {
-    private readonly Camera ca = Camera.main;
+    private Camera ca;
     private DrawManager drawManager;
     [SerializeField] string character;
     private GameObject clone;
@@ -30,6 +30,7 @@ public class Replay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ca = Camera.main;
         Button btn = this.GetComponent<Button>();
         drawManager = FindObjectOfType<DrawManager>();
         btn.onClick.AddListener(OnClick);

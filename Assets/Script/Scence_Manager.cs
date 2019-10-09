@@ -17,21 +17,26 @@ public class Scence_Manager : MonoBehaviour
     private int current = 0;
     void Start()
     {
-        finished_screen.SetActive(false);
-        played_tut_list = new bool[videos.transform.childCount + 1];
-        for (int i = 0; i < videos.transform.childCount; i ++)
-        {
-            played_tut_list[i] = false;
+        if(finished_screen != null)
+            finished_screen.SetActive(false);
+        if(videos != null) {
+
+            played_tut_list = new bool[videos.transform.childCount + 1];
+            for (int i = 0; i < videos.transform.childCount; i++)
+            {
+                played_tut_list[i] = false;
+            }
+            played_tut_list[0] = true;
+            total_character = FindObjectsOfType<Alphabate_manager>().Length;
+            my_players.gameObject.SetActive(true);
+            left.SetActive(false);
+            right.SetActive(true);
+            GameObject current_player = videos.transform.GetChild(0).gameObject;
+            current_player.SetActive(true);
+            my_players.myVideo = current_player.GetComponent<VideoPlayer>();
+            my_players.PlayPause();
+
         }
-        played_tut_list[0] = true;
-        total_character = FindObjectsOfType<Alphabate_manager>().Length;
-        my_players.gameObject.SetActive(true);
-        left.SetActive(false);
-        right.SetActive(true);
-        GameObject current_player = videos.transform.GetChild(0).gameObject;
-        current_player.SetActive(true);
-        my_players.myVideo = current_player.GetComponent<VideoPlayer>();
-        my_players.PlayPause();
     }
     public void SwitchTut(int index)
     {
