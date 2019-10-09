@@ -23,15 +23,6 @@ public class Setdob : MonoBehaviour
    string teacher_path = "Assets/Local_DataBase/Teachers/" + u_name  + "/config.txt";
    using (StreamWriter sw = File.AppendText(teacher_path)) { sw.WriteLine(dob.text); }
 
-	// if (dob.IndexOf('-')==-1) {
-	// 	dob.text=day.text + "-" + month.text + "-" + year.text;
-	// }
-	// else {
-	// 	dob.text=line.text;
-	// }
-
-	// using (StreamWriter sw = File.AppendText(teacher_path)) { sw.WriteLine(dob.text); }
-
   }
 
   void Start()
