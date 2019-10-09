@@ -9,7 +9,7 @@ public class Goals_button : MonoBehaviour
     [SerializeField] public Dropdown drop;
     int status = 0;
 
-    public void setAttemp()
+    public void SetGoals()
     {
         status = drop.value;
         string user_name = "Handsome";
