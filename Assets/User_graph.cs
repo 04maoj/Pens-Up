@@ -5,17 +5,18 @@ using XCharts;
 using System.IO;
 using System;
 [DisallowMultipleComponent]
-[RequireComponent(typeof(PieChart))]
+[RequireComponent(typeof(BarChart))]
 public class User_graph : MonoBehaviour
 {
     // Start is called before the first frame update
-    private PieChart chart;
+    private BarChart chart;
     Dictionary<int, int> rank;
     public int num_coruses;
     public string t_n;
     private void Start()
     {
-        chart = transform.GetComponent<PieChart>();
+        chart = transform.GetComponent<BarChart>();
+        chart.SetSize(250, 200);
         string path = "Assets/Local_DataBase/Teachers/" + t_n + "/Student_List.txt";
         StreamReader myReader = new StreamReader(path);
         rank = new Dictionary<int, int>();
@@ -33,18 +34,22 @@ public class User_graph : MonoBehaviour
                 continue;
             }
             //use hashmap to prevent duplicates.
-            Dictionary<string, int> score_list = new Dictionary<string, int>();
+            Dictionary<string, float> score_list = new Dictionary<string, float>();
             StreamReader mysecondReader = new StreamReader(path_1);
             while (!mysecondReader.EndOfStream)
             {
                 string[] input = mysecondReader.ReadLine().Split(' ');
                 if (!score_list.ContainsKey(input[0]))
                 {
-                    score_list.Add(input[0], int.Parse(input[1]));
+
+                    score_list.Add(input[0], float.Parse(input[1]));
                 }
                 else
                 {
-                    score_list[input[0]] = Mathf.Max(score_list[input[0]], int.Parse(input[1]));
+                    if (score_list[input[0]] - float.Parse(input[1]) < 0.000000001)
+                    {
+                        score_list[input[0]] = float.Parse(input[1]);
+                    }
                 }
             }
             double total_score = 0;
@@ -52,6 +57,7 @@ public class User_graph : MonoBehaviour
             foreach (var kvp in score_list)
                 total_score += score_list[kvp.Key];
             total_score /= num_coruses;
+            //Debug.Log(total_score + "   " + student);
             if (rank.ContainsKey((int)total_score))
                 rank[(int)total_score]++;
             else
@@ -60,7 +66,12 @@ public class User_graph : MonoBehaviour
         chart.ClearData();
         foreach (var temp in rank)
         {
-            chart.AddData(0, temp.Value, temp.Key.ToString());
+            chart.AddXAxisData(temp.Key.ToString());
+            //chart.AddXAxisData("B-List");
+            //chart.AddXAxisData("C-List");
+            //chart.AddXAxisData("A-List");
+            chart.AddData(0,temp.Value, temp.Key.ToString());
+            //chart.AddData(temp.Key.ToString(),120);
         }
         //chart.ClearData();
         //chart.AddData(0, 10, "value1");
