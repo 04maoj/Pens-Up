@@ -193,6 +193,11 @@ public class Alphabate_manager : MonoBehaviour
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3 };
             strokes_and_hit_box[1] = new List<int> { 0, 4 };
             connections_points = new List<int> { 0};
+        } else if (strokeName == "F")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3,4 };
+            strokes_and_hit_box[1] = new List<int> { 0, 1, 2, 3, 4 };
+            connections_points = new List<int> { 0,2};
         }
 
     }
