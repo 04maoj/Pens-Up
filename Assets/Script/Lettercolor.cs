@@ -13,7 +13,7 @@ public class Lettercolor : MonoBehaviour
       //find the specific button
 
 
-    string path = "Assets/Local_DataBase/Students/" + "Minz" + "/Total_score_list.txt";
+    string path = "Assets/Local_DataBase/Students/" + staticname.i_name + "/Total_score_list.txt";
     complete_set = new HashSet<string>();
 		if (File.Exists(path)) {
       string[] lines = File.ReadAllLines(path);

@@ -15,7 +15,7 @@ public class studentlist : MonoBehaviour
     void Start()
     {
 			u_name = FindObjectOfType<User_Info>().user_name;
-			string path1 = "Assets/Local_DataBase/Teachers/" + "Fu" + "/Student_List.txt";
+			string path1 = "Assets/Local_DataBase/Teachers/" + u_name + "/Student_List.txt";
 			// Debug.Log(u_name+" " + path1);
 			complete_set = new HashSet<string>();
 			if (File.Exists(path1))

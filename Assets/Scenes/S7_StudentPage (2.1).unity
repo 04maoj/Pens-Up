@@ -997,7 +997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32f5da5e37a404a8987c9e7208f85954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  next: 15
+  next: 22
   is_Box: 0
   to: 0
 --- !u!65 &380521578
@@ -2233,10 +2233,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 259486458, guid: 2aac61d9562bc4f81a574ff72ef3d7b2, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 305.64902
-      objectReference: {fileID: 0}
     - target: {fileID: 1295798311, guid: 2aac61d9562bc4f81a574ff72ef3d7b2, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2469,6 +2465,10 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 259486458, guid: 2aac61d9562bc4f81a574ff72ef3d7b2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 305.64902
       objectReference: {fileID: 0}
     - target: {fileID: 2973086857306138633, guid: 2aac61d9562bc4f81a574ff72ef3d7b2,
         type: 3}
@@ -2760,7 +2760,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 992679762}
   m_HandleRect: {fileID: 992679761}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
