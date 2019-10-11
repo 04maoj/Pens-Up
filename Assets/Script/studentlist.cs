@@ -11,10 +11,11 @@ public class studentlist : MonoBehaviour
 	public string u_name;
 	private HashSet<string> complete_set;
 	private HashSet<string> complete_set2;
+	public indiviual ad;
     void Start()
     {
 			u_name = FindObjectOfType<User_Info>().user_name;
-			string path1 = "Assets/Local_DataBase/Teachers/" + "Fu" + "/Student_List.txt";
+			string path1 = "Assets/Local_DataBase/Teachers/" + u_name + "/Student_List.txt";
 			// Debug.Log(u_name+" " + path1);
 			complete_set = new HashSet<string>();
 			if (File.Exists(path1))
@@ -32,12 +33,19 @@ public class studentlist : MonoBehaviour
 			        current_spawned.gameObject.transform.SetParent(Content.transform);
 			        current_spawned.transform.localScale = new Vector3(1, 1, 1);
 			        current_spawned.transform.GetChild(0).GetComponent<Text>().text = line;
+							ad = current_spawned.AddComponent<indiviual>();
+							current_spawned.GetComponent<Button>().onClick.AddListener(delegate() {
+                this.click();
+            	});
+							current_spawned.GetComponent<Button>().onClick.AddListener(delegate() {
+								FindObjectOfType<SceneLoader>().LoadScence(20);
+							});
 							// current_spawned.transform.position = new Vector3(1750,1400-i*350,1000);
 							current_spawned.GetComponent<Image>().color = Color.gray;
 							i=i+1;
 
-							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list";
-							// Debug.Log(line+" " + spath);
+							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list.txt";
+							Debug.Log(line+" " + spath);
 							complete_set2 = new HashSet<string>();
 							float total =0;
 							if (File.Exists(spath))
@@ -68,15 +76,20 @@ public class studentlist : MonoBehaviour
 									current_spawned.GetComponent<Image>().color = Color.green;
 								}
 								}
-
-
-
-
-
-
 						}
 					}
 
     }
+		public Text name;
+		public void click(){
+			// but = GameObject.Find("Button");
+			// Button letter = but.GetComponent<Button>();
+			var buttonSelf = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+			// buttonSelf.GetComponent<Image>().color = Color.red;
+			Text text=buttonSelf.gameObject.GetComponentInChildren<Text>();
+			Debug.Log(text.text);
+			staticname.i_name = text.text;
+			Debug.Log(staticname.i_name);
+		}
 
 }
