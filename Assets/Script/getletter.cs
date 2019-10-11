@@ -16,5 +16,8 @@ public class getletter : MonoBehaviour
       staticname.i_letter = text.text;
     }
 
+    void Start() {
+      name.text = staticname.i_letter;
+    }
 
 }
