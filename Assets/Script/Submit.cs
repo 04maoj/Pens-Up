@@ -184,6 +184,10 @@ public class Submit : MonoBehaviour
             //back.Add(jd["recognitionResults"]["lines"][i]["text"].ToString());
         }
         //back.Add(jd["recognitionResults"]["lines"][lineCount - 1]["words"][jd["recognitionResults"]["lines"][lineCount - 1]["words"].Count - 1]["confidence"].ToString());
+        foreach ( string temp in back) {
+            Debug.Log(temp);
+         }
+
         return back;
     }
 
