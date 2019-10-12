@@ -9,11 +9,12 @@ public class Track : MonoBehaviour
     public int stroke_number;
     private Alphabate_manager alphbate;
     private Track_manager manger;
-    private List<Tuple<float,float>> corrdinates;
+    private List<Tuple<float, float>> corrdinates;
     private float init_x;
     private float init_y;
     public HashSet<int> to_be_delete;
-    Ray Generate_Ray(Vector3 touchPosit) {
+    Ray Generate_Ray(Vector3 touchPosit)
+    {
         Vector3 mousePosFar = new Vector3(touchPosit.x, touchPosit.y, Camera.main.farClipPlane);
         Vector3 mousePosNear = new Vector3(touchPosit.x, touchPosit.y, Camera.main.nearClipPlane);
         Vector3 mousePosF = Camera.main.ScreenToWorldPoint(mousePosFar);
@@ -39,13 +40,13 @@ public class Track : MonoBehaviour
         return alphbate;
     }
     void Update()
-    {   
-        if(!eneded)
+    {
+        if (!eneded)
         {
             if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) || Input.GetMouseButton(0))
             {
                 //lets only include the corrdinates if it is 1 unit > than the last stored one.
-                if(corrdinates.Count == 0)
+                if (corrdinates.Count == 0)
                 {
                     init_x = Input.mousePosition.x;
                     init_y = Input.mousePosition.y;
@@ -57,9 +58,10 @@ public class Track : MonoBehaviour
                     diff_x *= diff_x;
                     float diff_y = Input.mousePosition.y - corrdinates[corrdinates.Count - 1].Item2;
                     diff_y *= diff_y;
-                    if(Math.Sqrt(diff_x + diff_y) >= 1)
+                    if (Math.Sqrt(diff_x + diff_y) >= 1)
                         corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x - init_x, Input.mousePosition.y - init_y));
                 }
+                //manger.InsertAll(corrdinates);
 
                 Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 float rayDistance;
@@ -88,15 +90,15 @@ public class Track : MonoBehaviour
                             else
                             {
                                 bool possible = false;
-                                for(int i  = 0; i < val.Item1.Count; i ++)
+                                for (int i = 0; i < val.Item1.Count; i++)
                                 {
                                     if (stroke_number == val.Item1[i])
                                         possible = true;
                                 }
-                                if(!possible)
+                                if (!possible)
                                 {
                                     manger.Not_Same();
-                                    Destroy(gameObject);
+                                    //Destroy(gameObject);
                                     to_be_delete.Clear();
                                 }
                                 else
@@ -105,7 +107,9 @@ public class Track : MonoBehaviour
                                 }
                             }
 
-                        } else if(test_hit.collider.tag == "Boarders") {
+                        }
+                        else if (test_hit.collider.tag == "Boarders")
+                        {
                             manger.HitBoarders();
                         }
 
@@ -115,9 +119,10 @@ public class Track : MonoBehaviour
             else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 eneded = true;
-                manger.Insert_Strok(corrdinates,alphbate, to_be_delete, stroke_number);
+                manger.Insert_Strok(corrdinates, alphbate, to_be_delete, stroke_number);
+                manger.InsertAll(corrdinates);
             }
         }
-        
+
     }
 }

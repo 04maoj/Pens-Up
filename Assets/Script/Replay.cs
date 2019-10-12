@@ -15,8 +15,10 @@ public class Replay : MonoBehaviour
     public float waitInterval = 0.1f;
     public GameObject target;
     // private Track_manager trackmg;
-    List<List<Tuple<float, float>>> coordinates;
-    List<Vector3> stroke;
+    private List<List<Tuple<float, float>>> coordinates;
+    private List<Vector3> stroke;
+    //private User_Info user;
+    //string userName;
     Vector3 currentPosition;
     int index = -1;
     // X-axis offset of the character
@@ -32,7 +34,10 @@ public class Replay : MonoBehaviour
     {
         ca = Camera.main;
         Button btn = this.GetComponent<Button>();
+        //user = FindObjectOfType<User_Info>();
+        //userName = FindObjectOfType<User_Info>().Get_Name();
         drawManager = FindObjectOfType<DrawManager>();
+
         btn.onClick.AddListener(OnClick);
 
     }

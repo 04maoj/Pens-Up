@@ -10,10 +10,10 @@ public class Track_manager : MonoBehaviour
     [SerializeField] GameObject Error_Not_Same_Stroke = null;
     [SerializeField] GameObject Error_Write_On_Character = null;
     [SerializeField] GameObject Error_Sequence = null;
-    [SerializeField] GameObject Error_Finished= null;
+    [SerializeField] GameObject Error_Finished = null;
     [SerializeField] GameObject Error_Connections = null;
     // public bool replayMode = false;
-    [SerializeField] string stroke_to_record= null;
+    [SerializeField] string stroke_to_record = null;
     public GameObject prefabs;
     public GameObject current;
     private bool hit_board;
@@ -24,15 +24,21 @@ public class Track_manager : MonoBehaviour
     float total_diviation = 0;
     int total_deviation = 0;
     private Assessment tester;
-    private void Start() {
+    //private User_Info user;
+    string userName;
+
+    private void Start()
+    {
         Set_Error_Inactive();
         objPlane = new Plane(Camera.main.transform.forward * -1, this.transform.position);
         strokes = new List<List<Tuple<float, float>>>();
+        //user = FindObjectOfType<User_Info>();
+        userName = FindObjectOfType<User_Info>().Get_UserName();
     }
     void Update()
-    {   
+    {
         //Some on just stated 
-        if((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
         {
             Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             float rayDistance;
@@ -41,19 +47,20 @@ public class Track_manager : MonoBehaviour
             current = Instantiate(prefabs, start, Quaternion.identity);
             RaycastHit test_hit;
             myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(myRay,out test_hit))
+            if (Physics.Raycast(myRay, out test_hit))
             {
-                if(test_hit.collider!= null)
+                if (test_hit.collider != null)
                 {
-                   if(test_hit.collider.GetComponent<Hit_Box>() != null)
+                    if (test_hit.collider.GetComponent<Hit_Box>() != null)
                         test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
                 }
             }
 
         }
-        else if((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
+        else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
         {
-            if(current != null) {
+            if (current != null)
+            {
 
                 if (Vector3.Distance(current.transform.position, start) < 0.1)
                 {
@@ -62,10 +69,12 @@ public class Track_manager : MonoBehaviour
             }
         }
     }
-    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate, HashSet<int> to_be_delete,int stroke_number)
+    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate, HashSet<int> to_be_delete, int stroke_number)
     {
-        if(record_mode) {
-            string path = "Assets/Standards/" + stroke_to_record;
+        if (record_mode)
+        {
+            string path = "Assets/Local_DataBase/Students/" + userName + "/" + stroke_to_record;
+            Debug.Log("Track Path: " + path);
             StreamWriter sw = File.AppendText(path);
 
             float start_x = input[0].Item1;
@@ -73,8 +82,9 @@ public class Track_manager : MonoBehaviour
 
             // Modified
             sw.WriteLine(start_x + " " + start_y);
-            
-            for (int i = 1; i < input.Count; i ++) {
+
+            for (int i = 1; i < input.Count; i++)
+            {
                 // Modified
                 //sw.WriteLine((input[i].Item1 - start_x) + " " + (input[i].Item2 - start_y));
                 sw.WriteLine((input[i].Item1) + " " + (input[i].Item2));
@@ -84,18 +94,19 @@ public class Track_manager : MonoBehaviour
         }
         else
         {
-            if(alphabate == null)
+            if (alphabate == null)
             {
                 Destroy(current);
                 return;
             }
-            if (alphabate.Get_Assessment()==null)
+            if (alphabate.Get_Assessment() == null)
             {
                 Debug.Log(alphabate.gameObject.name);
                 return;
             }
             tester = alphabate.Get_Assessment();
-            if (current.GetComponent<Track>().Get_Stroke_Number() == -1) {
+            if (current.GetComponent<Track>().Get_Stroke_Number() == -1)
+            {
                 Set_Error_Inactive();
                 Error_Write_On_Character.SetActive(true);
                 Destroy(current);
@@ -109,7 +120,8 @@ public class Track_manager : MonoBehaviour
                 tester.IncorrectOrder();
                 Destroy(current);
                 return;
-            } else if(status == 2)
+            }
+            else if (status == 2)
             {
                 Set_Error_Inactive();
                 Error_Connections.SetActive(true);
@@ -134,6 +146,32 @@ public class Track_manager : MonoBehaviour
             hit_board = false;
         }
     }
+
+    public void InsertAll(List<Tuple<float, float>> input)
+    {
+        //if (record_mode)
+        //{
+        string path = "Assets/Local_DataBase/Students/" + userName + "/" + stroke_to_record + "_all";
+        Debug.Log("RecordAll Path: " + path);
+        StreamWriter sw = File.AppendText(path);
+
+        float start_x = input[0].Item1;
+        float start_y = input[0].Item2;
+
+        // Modified
+        sw.WriteLine(start_x + " " + start_y);
+
+        for (int i = 1; i < input.Count; i++)
+        {
+            // Modified
+            //sw.WriteLine((input[i].Item1 - start_x) + " " + (input[i].Item2 - start_y));
+            sw.WriteLine((input[i].Item1) + " " + (input[i].Item2));
+        }
+        sw.Close();
+        Debug.Log("Done");
+        //}
+    }
+
     public void Set_Error_Inactive()
     {
         Error_Incorrect_Stroke_Order.SetActive(false);
@@ -165,40 +203,11 @@ public class Track_manager : MonoBehaviour
     {
         hit_board = true;
     }
-    public void Finished_one() {
+    public void Finished_one()
+    {
         Set_Error_Inactive();
         Error_Finished.SetActive(true);
     }
 
-    // public List<List<Tuple<float, float>>> GetStrokes(){
-    //     string path = "Assets/Standards/" + stroke_to_record;
-    //     string line = "";
-    //     string[] temp = new string[2];
-    //     Tuple<float, float> coordinate = null;
-    //     List<List<Tuple<float, float>>> paints = new List<List<Tuple<float, float>>>();
-    //     List<Tuple<float, float>> paint = new List<Tuple<float, float>>();
-    //     StreamReader sr = new StreamReader(path);
-    //     line = sr.ReadLine();
-    //     float preX = -1f;
-    //     float preY = -1f;
-    //     float currentX = 0f;
-    //     float currentY = 0f;
-    //     while (line != null){
-    //         temp = line.Split(' ');
-    //         currentX = float.Parse(temp[0]);
-    //         currentY = float.Parse(temp[1]);
-    //         // New stroke
-    //         if (Math.Abs(currentX - preX) > seperateValue || Math.Abs(currentY - preY) > seperateValue){
-    //             paints.Add(paint);
-    //             paint = new List<Tuple<float, float>>();
-    //         }
-    //         coordinate = new Tuple<float, float>(currentX, currentY);
-    //         paint.Add(coordinate);
-    //         preX = currentX;
-    //         preY = currentY;
-    //     }
-    //     paints.Add(paint);
-    //     sr.Close();
-    //     return paints;
-    // }
+
 }

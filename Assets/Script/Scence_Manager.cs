@@ -17,9 +17,10 @@ public class Scence_Manager : MonoBehaviour
     private int current = 0;
     void Start()
     {
-        if(finished_screen != null)
+        if (finished_screen != null)
             finished_screen.SetActive(false);
-        if(videos != null) {
+        if (videos != null)
+        {
 
             played_tut_list = new bool[videos.transform.childCount + 1];
             for (int i = 0; i < videos.transform.childCount; i++)
@@ -65,7 +66,7 @@ public class Scence_Manager : MonoBehaviour
     public void Decrement_total_Character()
     {
         total_character--;
-        if(total_character <= 0)
+        if (total_character <= 0)
         {
             Debug.Log("Lesson finish");
         }
@@ -73,12 +74,17 @@ public class Scence_Manager : MonoBehaviour
     public void EraseAll()
     {
         Track[] tracks = FindObjectsOfType<Track>();
-        for(int i = 0; i < tracks.Length; i ++)
+        for (int i = 0; i < tracks.Length; i++)
         {
             Destroy(tracks[i].gameObject);
         }
+        Draw[] draws = FindObjectsOfType<Draw>();
+        for (int i = 0; i < draws.Length; i++)
+        {
+            Destroy(draws[i].gameObject);
+        }
         Alphabate_manager[] alphabates = FindObjectsOfType<Alphabate_manager>();
-        for(int i = 0; i < alphabates.Length; i ++)
+        for (int i = 0; i < alphabates.Length; i++)
         {
             alphabates[i].Reset();
         }
@@ -86,7 +92,7 @@ public class Scence_Manager : MonoBehaviour
     public void FinishCourse()
     {
         finished_screen.SetActive(true);
-        finished_screen.GetComponentInChildren< Assessment_manager>().UpdateStatus();
+        finished_screen.GetComponentInChildren<Assessment_manager>().UpdateStatus();
         FindObjectOfType<Track_manager>().gameObject.SetActive(false);
     }
 }
