@@ -14,15 +14,15 @@ public class Profile_Init : MonoBehaviour
     private User_Info user;
     void Start()
     {
-        user  = FindObjectOfType<User_Info>();
-        user_name.text= FindObjectOfType<User_Info>().Get_Name();
+        user = FindObjectOfType<User_Info>();
+        user_name.text = FindObjectOfType<User_Info>().Get_Name();
         teacher_name.text = FindObjectOfType<User_Info>().Get_Teacher();
     }
     public void Update_Status()
     {
-        for(int i = 0; i  < courses_name.Count; i ++)
+        for (int i = 0; i < courses_name.Count; i++)
         {
-            if(user.IsCourseFinished(courses_name[i]))
+            if (user.IsCourseFinished(courses_name[i]))
             {
                 Debug.Log(courses_name[i]);
                 Status.transform.GetChild(i).GetComponent<Image>().sprite = finshed;

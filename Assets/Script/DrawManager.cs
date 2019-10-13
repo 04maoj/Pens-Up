@@ -14,14 +14,22 @@ public class DrawManager : MonoBehaviour
     public GameObject target;
     private int counter = 0;
     private int index;
-    Vector3 currentPosition;
+    private Vector3 currentPosition;
     // private Track_manager trackmg;
-    List<List<Tuple<float, float>>> list;
+    private List<List<Tuple<float, float>>> list;
+    //private User_Info user = FindObjectOfType<User_Info>();
+    string userName;
+
+    void Awake()
+    {
+        userName = FindObjectOfType<User_Info>().Get_UserName();
+    }
 
 
     public List<List<Tuple<float, float>>> GetStrokes(String letter)
     {
-        string path = "Assets/Standards/" + letter;
+        string path = "Assets/Local_DataBase/Students/" + userName + "/" + letter + "_all";
+        Debug.Log("Replay path: " + path);
         string line = "";
         string[] temp = new string[2];
         Tuple<float, float> coordinate = null;

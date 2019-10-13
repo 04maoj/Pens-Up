@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 public class Register : MonoBehaviour
-{   
+{
     //0 for teacher and 1 for student
     int status = 0;
     [SerializeField] public Dropdown drop;
@@ -16,7 +16,7 @@ public class Register : MonoBehaviour
     public void registerAttemp()
     {
         status = drop.value;
-        string user = user_name.GetComponent <InputField>().text;
+        string user = user_name.GetComponent<InputField>().text;
         string pass = password.GetComponent<InputField>().text;
         string names = name_g.GetComponent<InputField>().text;
         string path = "";
@@ -25,12 +25,13 @@ public class Register : MonoBehaviour
         {
             path = "Assets/Local_DataBase/Teachers/Teacher_Password.txt";
             Directory.CreateDirectory("Assets/Local_DataBase/Teachers/" + user);
-            path1 = "Assets/Local_DataBase/Teachers/" + user  + "/config.txt";
-        } 
-        else {
+            path1 = "Assets/Local_DataBase/Teachers/" + user + "/config.txt";
+        }
+        else
+        {
             path = "Assets/Local_DataBase/Students/Student_Password.txt";
             Directory.CreateDirectory("Assets/Local_DataBase/Students/" + user);
-            Directory.CreateDirectory("Assets/Local_DataBase/Students/" + user+"/feedback");
+            Directory.CreateDirectory("Assets/Local_DataBase/Students/" + user + "/feedback");
             path1 = "Assets/Local_DataBase/Students/" + user + "/config.txt";
         }
         using (StreamWriter sw = File.AppendText(path1))
@@ -85,7 +86,7 @@ public class Register : MonoBehaviour
     public void DropdownValueChanged(Dropdown change)
     {
         Debug.Log(change.value);
-        if(change.value ==1)
+        if (change.value == 1)
         {
             Load_teacher_list();
         }

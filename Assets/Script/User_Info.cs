@@ -13,7 +13,7 @@ public class User_Info : MonoBehaviour
     private HashSet<string> complete_set;
     private void Awake()
     {
-        if(FindObjectsOfType<User_Info>().Length > 1)
+        if (FindObjectsOfType<User_Info>().Length > 1)
         {
             Destroy(this.gameObject);
         }
@@ -44,7 +44,7 @@ public class User_Info : MonoBehaviour
     {
         user_name = nameded;
         string path;
-        if(students)
+        if (students)
         {
             path = "Assets/Local_DataBase/Students/" + user_name + "/config.txt";
         }
@@ -55,7 +55,7 @@ public class User_Info : MonoBehaviour
 
         StreamReader myReader = new StreamReader(path);
         named = myReader.ReadLine();
-        if(students)
+        if (students)
         {
             teacher = myReader.ReadLine();
             string path1 = "Assets/Local_DataBase/Students/" + user_name + "/Complted_course";
@@ -70,10 +70,16 @@ public class User_Info : MonoBehaviour
                 }
             }
         }
+        myReader.Close();
     }
     public string Get_Name()
     {
         return named;
+    }
+
+    public string Get_UserName()
+    {
+        return this.user_name;
     }
     public string Get_Teacher()
     {
@@ -88,15 +94,15 @@ public class User_Info : MonoBehaviour
     //storing the score of the students for each characters.
     //each input end with a *.
     //the order of score is sequence score, hit board score, deviation score, incorrect stroke score, and incorrect sequence
-    public void Store_Individual_Scores(string character, List<int> scores,string course_title)
+    public void Store_Individual_Scores(string character, List<int> scores, string course_title)
     {
         string path1 = "Assets/Local_DataBase/Students/" + user_name + "/Complted_course";
         complete_set.Add(course_title);
-        string path = "Assets/Local_DataBase/Students/" + user_name + "/" + course_title+ "IndivudalPerformance.txt";
+        string path = "Assets/Local_DataBase/Students/" + user_name + "/" + course_title + "IndivudalPerformance.txt";
         using (StreamWriter sw = File.AppendText(path))
         {
             sw.WriteLine(character);
-            for(int i =  0; i < scores.Count; i ++)
+            for (int i = 0; i < scores.Count; i++)
             {
                 sw.WriteLine(scores[i]);
             }
@@ -104,7 +110,7 @@ public class User_Info : MonoBehaviour
         }
         using (StreamWriter writer = new StreamWriter(path1))
         {
-            foreach(string courses in complete_set)
+            foreach (string courses in complete_set)
             {
                 writer.WriteLine(courses);
             }
