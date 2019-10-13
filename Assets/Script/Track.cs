@@ -58,7 +58,7 @@ public class Track : MonoBehaviour
                     float diff_y = Input.mousePosition.y - corrdinates[corrdinates.Count - 1].Item2;
                     diff_y *= diff_y;
                     if(Math.Sqrt(diff_x + diff_y) >= 1)
-                        corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x - init_x, Input.mousePosition.y - init_y));
+                        corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x, Input.mousePosition.y));
                 }
 
                 Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);

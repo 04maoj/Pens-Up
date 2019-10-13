@@ -80,7 +80,6 @@ public class Track_manager : MonoBehaviour
                 sw.WriteLine((input[i].Item1) + " " + (input[i].Item2));
             }
             sw.Close();
-            Debug.Log("Done");
         }
         else
         {
@@ -101,7 +100,7 @@ public class Track_manager : MonoBehaviour
                 Destroy(current);
                 return;
             }
-            int status = alphabate.remove_Hit(to_be_delete, stroke_number);
+            int status = alphabate.remove_Hit(to_be_delete, stroke_number, input);
             if (status == 1)
             {
                 Set_Error_Inactive();

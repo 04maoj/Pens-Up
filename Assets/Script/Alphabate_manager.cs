@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
+using Advanced.Algorithms.Geometry;
+using Advanced.Algorithms.DataStructures;
 public class Alphabate_manager : MonoBehaviour
 {
     //preset
@@ -14,10 +16,16 @@ public class Alphabate_manager : MonoBehaviour
     private HashSet<int> visite_stroke;
     private Stack<int> traverse_order;
     private List<int>[] strokes_and_hit_box;
-    private List<int> connections_points;
+    private List<int>[] connections_points;
     private bool finished;
     int expected_stroke;
-     private void Start()
+    int current_stroke;
+    List<Line> lines;
+    List<Line> lines_1;
+    SortedSet<Point> points;
+    SortedSet<Point> points_1;
+    int c = 0;
+    private void Start()
     {
         Reset();
     }
@@ -26,7 +34,7 @@ public class Alphabate_manager : MonoBehaviour
         return strokeName;
     }
     //exit status 0 means fine, 1 means normal missing stoke, 2 means missing connection points
-    public int remove_Hit(HashSet<int> to_be_delete, int stroke_number)
+    public int remove_Hit(HashSet<int> to_be_delete, int stroke_number, List<Tuple<float, float>> input)
     {
         traverse_order.Clear();
         List<int> get_back = new List<int>();
@@ -41,35 +49,65 @@ public class Alphabate_manager : MonoBehaviour
         }
         if (traverse_order.Count == 0)
             return 1;
-        for(int i = strokes_and_hit_box[stroke_number].Count- 1; i> -1; i--)
+        for (int i = strokes_and_hit_box[stroke_number].Count - 1; i > -1; i--)
         {
-            if(traverse_order.Count == 0)
+            if (traverse_order.Count == 0)
             {
-                for(int j = 0; j < get_back.Count; j ++)
-                {
-                    childrens.Add(get_back[j]);
-                }
-                if (connections_points.Contains(strokes_and_hit_box[stroke_number][i]) &&(i== strokes_and_hit_box[stroke_number].Count - 1 || i== 0))
-                    return 2;
-                else
-                    return 1;
-            }
-            int u = traverse_order.Pop();
-            Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
-            if(u != strokes_and_hit_box[stroke_number][i])
-            {
-                //Debug.Log(u);
                 for (int j = 0; j < get_back.Count; j++)
                 {
                     childrens.Add(get_back[j]);
                 }
-                if (connections_points.Contains(strokes_and_hit_box[stroke_number][i]) && (i == strokes_and_hit_box[stroke_number].Count - 1 || i == 0))
-                    return 2;
-                else
-                    return 1;
+                return 1;
+            }
+            int u = traverse_order.Pop();
+            Debug.Log(u + "   " + strokes_and_hit_box[stroke_number][i]);
+            if (u != strokes_and_hit_box[stroke_number][i])
+            {
+                for (int j = 0; j < get_back.Count; j++)
+                {
+                    childrens.Add(get_back[j]);
+                }
+                return 1;
             }
         }
-
+        if(current_stroke == 0)
+        {
+            insertLines(input, current_stroke);
+        }
+        else
+        {
+            lines_1.Clear();
+            foreach (var temp in lines)
+            {
+                lines_1.Add(temp);
+            }
+            points_1.Clear();
+            foreach (var point in points)
+            {
+                points_1.Add(point);
+            }
+            insertLines(input, current_stroke);
+            bool poss = CheckIntersections(current_stroke, connections_points[current_stroke]);
+            if (!CheckIntersections(current_stroke, connections_points[current_stroke]))
+            {
+                lines.Clear();
+                foreach (var temp in lines_1)
+                {
+                    lines.Add(temp);
+                }
+                points.Clear();
+                foreach (var point in points_1)
+                {
+                    points.Add(point);
+                }
+                for (int j = 0; j < get_back.Count; j++)
+                {
+                    childrens.Add(get_back[j]);
+                }
+                return 2;
+            }
+        }
+        current_stroke++;
         if (childrens.Count == 0 && !finished)
         {
 
@@ -81,22 +119,16 @@ public class Alphabate_manager : MonoBehaviour
                 transform.parent.GetComponent<Word>().Decrement();
             finished = true;
             return 0;
-        } else {
-            Debug.Log(childrens.Count);
-            for(int i = 0; i < childrens.Count; i ++) {
-                Debug.Log("They aer " + childrens[i]);
-             }
-            
-        }
+        } 
         return 0;
     }
     public bool finish()
     {
         return finished;
     }
-    public bool Increment_Stroke(int stroke) 
+    public bool Increment_Stroke(int stroke)
     {
-        if(stroke == expected_stroke) {
+        if (stroke == expected_stroke) {
             expected_stroke++;
             return true;
         }
@@ -104,16 +136,21 @@ public class Alphabate_manager : MonoBehaviour
     }
     public void Reset()
     {
+        lines = new List<Line>();
+        lines_1 = new List<Line>();
         total_score = 0;
         finished = false;
         childrens = new List<int>();
+        current_stroke = 0;
         visite_stroke = new HashSet<int>();
         strokes_and_hit_box = new List<int>[stroke_number];
         traverse_order = new Stack<int>();
-        connections_points = new List<int>();
+        connections_points = new List<int>[stroke_number];
+        points = new SortedSet<Point>();
+        points_1 = new SortedSet<Point>();
         for (int i = 0; i < transform.childCount; i++)
         {
-            for(int j = 0; j < transform.GetChild(i).GetComponent<Hit_Box>().stroke_number.Count;j++) {
+            for (int j = 0; j < transform.GetChild(i).GetComponent<Hit_Box>().stroke_number.Count; j++) {
                 childrens.Add(transform.GetChild(i).GetComponent<Hit_Box>().index);
             }
         }
@@ -121,9 +158,10 @@ public class Alphabate_manager : MonoBehaviour
         if (strokeName == "A")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, };
-            strokes_and_hit_box[1] = new List<int> { 0,4,5,6};
-            strokes_and_hit_box[2] = new List<int> { 2,7,8,5};
-            connections_points = new List<int> { 0,2,5 };
+            strokes_and_hit_box[1] = new List<int> { 0, 4, 5, 6 };
+            strokes_and_hit_box[2] = new List<int> { 2, 7, 8, 5 };
+            connections_points[1] = new List<int> {0};
+            connections_points[2] = new List<int> { 0,1 };
         }
         else if (strokeName == "a")
         {
@@ -134,7 +172,8 @@ public class Alphabate_manager : MonoBehaviour
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
             strokes_and_hit_box[1] = new List<int> { 0, 5, 6, 7, 8, 9, 2 };
             strokes_and_hit_box[2] = new List<int> { 2, 9, 10, 11, 12, 13, 4 };
-            connections_points = new List<int> { 0, 2,4,9};
+            connections_points[1] = new List<int> {0};
+            connections_points[2] = new List<int> {0};
         }
         else if (strokeName == "C")
         {
@@ -148,20 +187,21 @@ public class Alphabate_manager : MonoBehaviour
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3 };
             strokes_and_hit_box[1] = new List<int> { 1, 4, 5, 6, 7, 8, 3 };
-            connections_points = new List<int> { 1, 3 };
-        } else if(strokeName == "n") {
+            connections_points[1] = new List<int> { 0 };
+        } else if (strokeName == "n") {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
-            strokes_and_hit_box[1] = new List<int> { 0,3,4,5,6 };
-            connections_points = new List<int> { 0 };
-        } else if(strokeName == "t")
+            strokes_and_hit_box[1] = new List<int> { 0, 3, 4, 5, 6 };
+            connections_points[1] = new List<int> { 0 };
+        } else if (strokeName == "t")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
-            strokes_and_hit_box[1] = new List<int> { 4, 1, 5, 6};
-        } else if(strokeName == "p")
+            strokes_and_hit_box[1] = new List<int> { 4, 1, 5, 6 };
+            connections_points[1] = new List<int> { 0 };
+        } else if (strokeName == "p")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2,3,4 };
-            strokes_and_hit_box[1] = new List<int> { 0,5,6,7,2};
-            connections_points = new List<int> { 0,2};
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
+            strokes_and_hit_box[1] = new List<int> { 0, 5, 6, 7, 2 };
+            connections_points[1] = new List<int> { 0 };
         }
         else if (strokeName == "l")
         {
@@ -169,40 +209,149 @@ public class Alphabate_manager : MonoBehaviour
         }
         else if (strokeName == "e")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 ,5,6};
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5, 6 };
         }
-        else if(strokeName == "u")
+        else if (strokeName == "u")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4};
-        } else if(strokeName == "y")
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
+        } else if (strokeName == "y")
         {
-            strokes_and_hit_box[0] = new List<int> { 0,1,2,3};
-            strokes_and_hit_box[1] = new List<int> {4,5,3,6,7 };
-            connections_points = new List<int> {3 };
-        } else if(strokeName == "g")
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3 };
+            strokes_and_hit_box[1] = new List<int> { 4, 5, 3, 6, 7 };
+            connections_points[1] = new List<int> {0};
+        } else if (strokeName == "g")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3 ,4,5};
-            strokes_and_hit_box[1] = new List<int> { 0,6,5,7,8};
-            connections_points = new List<int> { 0,5};
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5 };
+            strokes_and_hit_box[1] = new List<int> { 0, 6, 5, 7, 8 };
+            connections_points[1] = new List<int> { 0};
         }
         else if (strokeName == "o")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4, 5 };
-        } else if(strokeName == "r")
+        } else if (strokeName == "r")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3 };
             strokes_and_hit_box[1] = new List<int> { 0, 4 };
-            connections_points = new List<int> { 0};
+            connections_points[1] = new List<int> { 0 };
         } else if (strokeName == "F")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3,4 };
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
             strokes_and_hit_box[1] = new List<int> { 0, 1, 2, 3, 4 };
-            connections_points = new List<int> { 0,2};
+            connections_points[1] = new List<int> { 0 };
         }
 
     }
     public Assessment Get_Assessment()
     {
         return gameObject.GetComponent<Assessment>();
+    }
+    //
+    public void insertLines(List<Tuple<float, float>> input,int num)
+    {
+        for(int i = 1; i < input.Count; i ++)
+        {
+            //Debug.Log(input[i - 1].Item1 + "  " + input[i - 1].Item2);
+            //Debug.Log(input[i].Item1 + "  " + input[i].Item2);
+            Line temp = new Line(new Point(input[i - 1].Item1, input[i - 1].Item2), new Point(input[i].Item1, input[i].Item2), 5, num);
+            lines.Add(temp);
+            temp.Left.line = lines[lines.Count - 1];
+            temp.Left.isLeft = true;
+            points.Add(lines[lines.Count - 1].Left);
+            temp.Right.line = lines[lines.Count - 1];
+            temp.Right.isLeft = false;
+            points.Add(lines[lines.Count - 1].Right);
+            Debug.Log(lines[lines.Count - 1].Right.line.stroke_number);
+        }
+    }
+    public bool CheckIntersections (int line1, List<int> second) {
+        int t_c = 0;
+        AVLTree<Line> T = new AVLTree<Line>();
+        foreach(Line l1 in lines)
+        {
+            foreach(Line l2 in lines)
+            {
+                if(l1 != l2)
+                {
+                    if (LineIntersection.FindIntersection(l1,l2,5) != null) {
+                        int u = Math.Min(l1.stroke_number,l2.stroke_number);
+                                int v = Math.Max(l1.stroke_number, l2.stroke_number);
+                                Debug.Log(u + " " + v);
+                                for (int p = 0; p < second.Count; p++)
+                                {
+                                    int x = Math.Min(line1, second[p]);
+                                    int y = Math.Max(line1, second[p]);
+                                    if (x == u && v == y)
+                                    {
+                                        t_c++;
+                                    }
+                                }
+                                if (t_c >= second.Count)
+                                    return true;
+
+                           }
+                }
+            }
+            //    if (ptr.isLeft)
+            //    {
+            //        T.Insert(ptr.line);
+            //        if(LineIntersection.FindIntersection(T.NextHigher(ptr.line), ptr.line,5) != null) {
+            //            int u = Math.Min(ptr.line.stroke_number, T.NextHigher(ptr.line).stroke_number);
+            //            int v = Math.Max(ptr.line.stroke_number, T.NextHigher(ptr.line).stroke_number);
+            //            Debug.Log(u + " " + v);
+            //            for (int p = 0; p < second.Count; p++)
+            //            {
+            //                int x = Math.Min(line1, second[p]);
+            //                int y = Math.Max(line1, second[p]);
+            //                if (x == u && v == y)
+            //                {
+            //                    t_c++;
+            //                }
+            //            }
+            //            if (t_c >= second.Count)
+            //                return true;
+
+            //        }
+            //        if (LineIntersection.FindIntersection(T.NextLower(ptr.line), ptr.line, 5) != null)
+            //        {
+            //            int u = Math.Min(ptr.line.stroke_number, T.NextLower(ptr.line).stroke_number);
+            //            int v = Math.Max(ptr.line.stroke_number, T.NextLower(ptr.line).stroke_number);
+            //            Debug.Log(u + " " + v);
+            //            for (int p = 0; p < second.Count; p++)
+            //            {
+            //                int x = Math.Min(line1, second[p]);
+            //                int y = Math.Max(line1, second[p]);
+            //                if (x == u && v == y)
+            //                {
+
+            //                    t_c++;
+            //                }
+            //            }
+            //            if (t_c >= second.Count)
+            //                return true;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (LineIntersection.FindIntersection(T.NextLower(ptr.line), T.NextHigher(ptr.line), 5) != null)
+            //        {
+            //            int u = Math.Min(T.NextLower(ptr.line).stroke_number, T.NextHigher(ptr.line).stroke_number);
+            //            int v = Math.Max(T.NextLower(ptr.line).stroke_number, T.NextHigher(ptr.line).stroke_number);
+            //            for (int p = 0; p < second.Count; p++)
+            //            {
+            //                int x = Math.Min(line1, second[p]);
+            //                int y = Math.Max(line1, second[p]);
+            //                if (x == u && v == y)
+            //                {
+
+            //                    t_c++;
+            //                }
+            //            }
+            //            if (t_c >= second.Count)
+            //                return true;
+            //        }
+            //        T.Delete(ptr.line);
+            //    }
+        }
+        return false;
     }
 }
