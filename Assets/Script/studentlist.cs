@@ -15,7 +15,7 @@ public class studentlist : MonoBehaviour
     void Start()
     {
 			u_name = FindObjectOfType<User_Info>().user_name;
-			string path1 = "Assets/Local_DataBase/Teachers/" + u_name + "/Student_List.txt";
+			string path1 = "Assets/Local_DataBase/Teachers/" + u_name + "/Student_List";
 			// Debug.Log(u_name+" " + path1);
 			complete_set = new HashSet<string>();
 			if (File.Exists(path1))
@@ -44,7 +44,7 @@ public class studentlist : MonoBehaviour
 							current_spawned.GetComponent<Image>().color = Color.gray;
 							i=i+1;
 
-							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list.txt";
+							string spath = "Assets/Local_DataBase/Students/" + line + "/Total_score_list";
 							Debug.Log(line+" " + spath);
 							complete_set2 = new HashSet<string>();
 							float total =0;
