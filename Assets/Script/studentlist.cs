@@ -16,7 +16,7 @@ public class studentlist : MonoBehaviour
     {
 			u_name = FindObjectOfType<User_Info>().user_name;
 			string path1 = "Assets/Local_DataBase/Teachers/" + u_name + "/Student_List";
-			// Debug.Log(u_name+" " + path1);
+			Debug.Log(u_name+" " + path1);
 			complete_set = new HashSet<string>();
 			if (File.Exists(path1))
         {
@@ -78,6 +78,7 @@ public class studentlist : MonoBehaviour
 								}
 						}
 					}
+					else {Debug.Log("not exists");}
 
     }
 		public Text name;
