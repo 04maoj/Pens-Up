@@ -134,7 +134,7 @@ namespace Advanced.Algorithms.DataStructures
             }
             else
             {
-                return;
+                throw new Exception("Item exists");
             }
 
             updateHeight(node);
@@ -224,7 +224,7 @@ namespace Advanced.Algorithms.DataStructures
             {
                 if (node.Right == null)
                 {
-                    return null;
+                    throw new Exception("Item do not exist");
                 }
 
                 delete(node.Right, value);
@@ -234,7 +234,7 @@ namespace Advanced.Algorithms.DataStructures
             {
                 if (node.Left == null)
                 {
-                    return null;
+                    throw new Exception("Item do not exist");
                 }
 
                 delete(node.Left, value);

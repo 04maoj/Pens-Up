@@ -5,7 +5,7 @@ namespace Advanced.Algorithms.Geometry
     /// <summary>
     /// Point object.
     /// </summary>
-    public class Point: IComparable
+    public class Point
     {
         public Point(double x, double y)
         {
@@ -13,9 +13,11 @@ namespace Advanced.Algorithms.Geometry
             Y = y;
         }
         public bool isLeft;
-        public Line line;
+        public bool isIntersect;
         public double X { get; private set; }
         public double Y { get; private set; }
+        public Line line;
+        public Line intersectLine;
 
         public override string ToString()
         {

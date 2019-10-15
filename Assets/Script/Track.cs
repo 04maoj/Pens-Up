@@ -12,6 +12,8 @@ public class Track : MonoBehaviour
     private List<Tuple<float, float>> corrdinates;
     private float init_x;
     private float init_y;
+    private float start_width;
+    private float end_width;
     public HashSet<int> to_be_delete;
     Ray Generate_Ray(Vector3 touchPosit)
     {
@@ -30,6 +32,8 @@ public class Track : MonoBehaviour
         eneded = false;
         corrdinates = new List<Tuple<float, float>>();
         stroke_number = -1;
+        start_width = GetComponent<TrailRenderer>().startWidth;
+        end_width = GetComponent<TrailRenderer>().endWidth;
     }
     public int Get_Stroke_Number()
     {
@@ -46,6 +50,9 @@ public class Track : MonoBehaviour
             if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) || Input.GetMouseButton(0))
             {
                 //lets only include the corrdinates if it is 1 unit > than the last stored one.
+                Debug.Log(Input.GetTouch(0).pressure);
+                GetComponent<TrailRenderer>().startWidth = Input.GetTouch(0).pressure * start_width;
+                GetComponent<TrailRenderer>().endWidth = Input.GetTouch(0).pressure * end_width;
                 if (corrdinates.Count == 0)
                 {
                     init_x = Input.mousePosition.x;
@@ -59,7 +66,7 @@ public class Track : MonoBehaviour
                     float diff_y = Input.mousePosition.y - corrdinates[corrdinates.Count - 1].Item2;
                     diff_y *= diff_y;
                     if (Math.Sqrt(diff_x + diff_y) >= 1)
-                        corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x - init_x, Input.mousePosition.y - init_y));
+                        corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x - init_x, Input.mousePosition.y- init_y));
                 }
                 //manger.InsertAll(corrdinates);
 

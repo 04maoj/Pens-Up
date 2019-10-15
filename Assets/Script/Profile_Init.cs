@@ -24,7 +24,6 @@ public class Profile_Init : MonoBehaviour
         {
             if (user.IsCourseFinished(courses_name[i]))
             {
-                Debug.Log(courses_name[i]);
                 Status.transform.GetChild(i).GetComponent<Image>().sprite = finshed;
             }
             else

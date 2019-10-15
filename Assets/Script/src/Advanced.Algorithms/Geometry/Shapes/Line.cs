@@ -5,7 +5,8 @@ namespace Advanced.Algorithms.Geometry
     /// <summary>
     /// Line object.
     /// </summary>
-    public class Line : IComparable
+    public class Line
+
     {
         public Point Left { get; private set; }
         public Point Right { get; private set; }

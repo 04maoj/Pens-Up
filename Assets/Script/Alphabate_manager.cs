@@ -22,8 +22,8 @@ public class Alphabate_manager : MonoBehaviour
     int current_stroke;
     List<Line> lines;
     List<Line> lines_1;
-    SortedSet<Point> points;
-    SortedSet<Point> points_1;
+    List<Point> points;
+    List<Point> points_1;
     int c = 0;
     private void Start()
     {
@@ -146,8 +146,8 @@ public class Alphabate_manager : MonoBehaviour
         strokes_and_hit_box = new List<int>[stroke_number];
         traverse_order = new Stack<int>();
         connections_points = new List<int>[stroke_number];
-        points = new SortedSet<Point>();
-        points_1 = new SortedSet<Point>();
+        points = new List<Point>();
+        points_1 = new List<Point>();
         for (int i = 0; i < transform.childCount; i++)
         {
             for (int j = 0; j < transform.GetChild(i).GetComponent<Hit_Box>().stroke_number.Count; j++) {
@@ -255,103 +255,190 @@ public class Alphabate_manager : MonoBehaviour
             Line temp = new Line(new Point(input[i - 1].Item1, input[i - 1].Item2), new Point(input[i].Item1, input[i].Item2), 5, num);
             lines.Add(temp);
             temp.Left.line = lines[lines.Count - 1];
-            temp.Left.isLeft = true;
+            //temp.Left.isIntersect = false;
             points.Add(lines[lines.Count - 1].Left);
             temp.Right.line = lines[lines.Count - 1];
-            temp.Right.isLeft = false;
+            //temp.Right.isLeft = false;
+            //temp.Right.isIntersect = false;
             points.Add(lines[lines.Count - 1].Right);
-            Debug.Log(lines[lines.Count - 1].Right.line.stroke_number);
+            //Debug.Log(lines[lines.Count - 1].Right.line.stroke_number);
         }
     }
     public bool CheckIntersections (int line1, List<int> second) {
         int t_c = 0;
-        AVLTree<Line> T = new AVLTree<Line>();
-        foreach(Line l1 in lines)
-        {
-            foreach(Line l2 in lines)
-            {
-                if(l1 != l2)
-                {
-                    if (LineIntersection.FindIntersection(l1,l2,5) != null) {
-                        int u = Math.Min(l1.stroke_number,l2.stroke_number);
-                                int v = Math.Max(l1.stroke_number, l2.stroke_number);
-                                Debug.Log(u + " " + v);
-                                for (int p = 0; p < second.Count; p++)
-                                {
-                                    int x = Math.Min(line1, second[p]);
-                                    int y = Math.Max(line1, second[p]);
-                                    if (x == u && v == y)
-                                    {
-                                        t_c++;
-                                    }
-                                }
-                                if (t_c >= second.Count)
-                                    return true;
+        //var bentleyOttmannAlgorithm = new BentleyOttmann();
+        //var actualIntersections = bentleyOttmannAlgorithm.FindIntersections(lines);
+        ////foreach(Line t in lines)
+        ////{
+        ////    Debug.Log(t.stroke_number);
+        ////}
+        //int q = 0;
+        //foreach (var temp in actualIntersections) {
+        //    foreach(var a in temp.Value)
+        //    {
+        //        Debug.Log(q + " "+a.stroke_number);
 
-                           }
+        //    }
+        //    q++;
+        //}
+
+        //AVLTree<Line> status = new AVLTree<Line>();
+        //PriorityQueue<Point> Q = new PriorityQueue<Point>();
+        //foreach(Point t in points) {
+        //    Q.Enqueue(t);
+        //}
+        //while(Q.Peek() != null)
+        //{
+        //    Point ptr = Q.Dequeue();
+        //    if(ptr.isLeft && !ptr.isIntersect)
+        //    {
+        //        status.Insert(ptr.line);
+        //        if(status.NextLower(ptr.line)!= null)
+        //        {
+        //            Point temp = LineIntersection.FindIntersection(status.NextLower(ptr.line), ptr.line, 5);
+        //            if (temp != null)
+        //            {
+        //                temp.intersectLine = status.NextLower(ptr.line);
+        //                temp.isIntersect = true;
+        //                Q.Enqueue(temp);
+        //            }
+        //        }
+        //        if(status.NextHigher(ptr.line) != null)
+        //        {
+        //            Point temp = LineIntersection.FindIntersection(status.NextHigher(ptr.line), ptr.line, 5);
+        //            if (temp != null)
+        //            {
+        //                temp.intersectLine = status.NextHigher(ptr.line);
+        //                temp.isIntersect = true;
+        //                Q.Enqueue(temp);
+        //            }
+        //        }
+        //    } else if(!ptr.isLeft && !ptr.isIntersect) {
+        //        if(status.NextHigher(ptr.line) != null && status.NextLower(ptr.line) != null)
+        //        {
+        //            Point temp = LineIntersection.FindIntersection(status.NextHigher(ptr.line), status.NextLower(ptr.line), 5);
+        //            if (temp != null)
+        //            {
+        //                temp.line = status.NextHigher(ptr.line);
+        //                temp.intersectLine = status.NextLower(ptr.line);
+        //                temp.isIntersect = true;
+        //                Q.Enqueue(temp);
+        //            }
+        //        }
+        //        status.Delete(ptr.line);
+        //    }
+        //    else
+        //    {
+        //        status.Swap(ptr.line, ptr.intersectLine);
+        //        Line l1, l2;
+        //        if(ptr.line < ptr.intersectLine)
+        //        {
+        //            l1 = ptr.line;
+        //        }
+
+        //        if (status.NextLower(ptr.intersectLine) != null)
+        //        {
+        //            Point temp = LineIntersection.FindIntersection(ptr.intersectLine, status.NextLower(ptr.intersectLine), 5);
+        //            if (temp != null)
+        //            {
+        //                temp.line = ptr.intersectLine;
+        //                temp.intersectLine = status.NextLower(ptr.intersectLine);
+        //                temp.isIntersect = true;
+        //                Q.Enqueue(temp);
+        //            }
+        //        }
+
+        //    }
+        //}
+        foreach (Line l1 in lines)
+        {
+            foreach (Line l2 in lines)
+            {
+                if (l1 != l2)
+                {
+                    if (LineIntersection.FindIntersection(l1, l2, 5) != null)
+                    {
+                        int u = Math.Min(l1.stroke_number, l2.stroke_number);
+                        int v = Math.Max(l1.stroke_number, l2.stroke_number);
+                        //Debug.Log(u + " " + v);
+                        for (int p = 0; p < second.Count; p++)
+                        {
+                            int x = Math.Min(line1, second[p]);
+                            int y = Math.Max(line1, second[p]);
+                            if (x == u && v == y)
+                            {
+                                t_c++;
+                            }
+                        }
+                        if (t_c >= second.Count)
+                            return true;
+
+                    }
                 }
             }
-            //    if (ptr.isLeft)
-            //    {
-            //        T.Insert(ptr.line);
-            //        if(LineIntersection.FindIntersection(T.NextHigher(ptr.line), ptr.line,5) != null) {
-            //            int u = Math.Min(ptr.line.stroke_number, T.NextHigher(ptr.line).stroke_number);
-            //            int v = Math.Max(ptr.line.stroke_number, T.NextHigher(ptr.line).stroke_number);
-            //            Debug.Log(u + " " + v);
-            //            for (int p = 0; p < second.Count; p++)
-            //            {
-            //                int x = Math.Min(line1, second[p]);
-            //                int y = Math.Max(line1, second[p]);
-            //                if (x == u && v == y)
-            //                {
-            //                    t_c++;
-            //                }
-            //            }
-            //            if (t_c >= second.Count)
-            //                return true;
-
-            //        }
-            //        if (LineIntersection.FindIntersection(T.NextLower(ptr.line), ptr.line, 5) != null)
-            //        {
-            //            int u = Math.Min(ptr.line.stroke_number, T.NextLower(ptr.line).stroke_number);
-            //            int v = Math.Max(ptr.line.stroke_number, T.NextLower(ptr.line).stroke_number);
-            //            Debug.Log(u + " " + v);
-            //            for (int p = 0; p < second.Count; p++)
-            //            {
-            //                int x = Math.Min(line1, second[p]);
-            //                int y = Math.Max(line1, second[p]);
-            //                if (x == u && v == y)
-            //                {
-
-            //                    t_c++;
-            //                }
-            //            }
-            //            if (t_c >= second.Count)
-            //                return true;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (LineIntersection.FindIntersection(T.NextLower(ptr.line), T.NextHigher(ptr.line), 5) != null)
-            //        {
-            //            int u = Math.Min(T.NextLower(ptr.line).stroke_number, T.NextHigher(ptr.line).stroke_number);
-            //            int v = Math.Max(T.NextLower(ptr.line).stroke_number, T.NextHigher(ptr.line).stroke_number);
-            //            for (int p = 0; p < second.Count; p++)
-            //            {
-            //                int x = Math.Min(line1, second[p]);
-            //                int y = Math.Max(line1, second[p]);
-            //                if (x == u && v == y)
-            //                {
-
-            //                    t_c++;
-            //                }
-            //            }
-            //            if (t_c >= second.Count)
-            //                return true;
-            //        }
-            //        T.Delete(ptr.line);
-            //    }
         }
+        //}
+        //    if (ptr.isLeft)
+        //    {
+        //        T.Insert(ptr.line);
+        //        if(LineIntersection.FindIntersection(T.NextHigher(ptr.line), ptr.line,5) != null) {
+        //            int u = Math.Min(ptr.line.stroke_number, T.NextHigher(ptr.line).stroke_number);
+        //            int v = Math.Max(ptr.line.stroke_number, T.NextHigher(ptr.line).stroke_number);
+        //            Debug.Log(u + " " + v);
+        //            for (int p = 0; p < second.Count; p++)
+        //            {
+        //                int x = Math.Min(line1, second[p]);
+        //                int y = Math.Max(line1, second[p]);
+        //                if (x == u && v == y)
+        //                {
+        //                    t_c++;
+        //                }
+        //            }
+        //            if (t_c >= second.Count)
+        //                return true;
+
+        //        }
+        //        if (LineIntersection.FindIntersection(T.NextLower(ptr.line), ptr.line, 5) != null)
+        //        {
+        //            int u = Math.Min(ptr.line.stroke_number, T.NextLower(ptr.line).stroke_number);
+        //            int v = Math.Max(ptr.line.stroke_number, T.NextLower(ptr.line).stroke_number);
+        //            Debug.Log(u + " " + v);
+        //            for (int p = 0; p < second.Count; p++)
+        //            {
+        //                int x = Math.Min(line1, second[p]);
+        //                int y = Math.Max(line1, second[p]);
+        //                if (x == u && v == y)
+        //                {
+
+        //                    t_c++;
+        //                }
+        //            }
+        //            if (t_c >= second.Count)
+        //                return true;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (LineIntersection.FindIntersection(T.NextLower(ptr.line), T.NextHigher(ptr.line), 5) != null)
+        //        {
+        //            int u = Math.Min(T.NextLower(ptr.line).stroke_number, T.NextHigher(ptr.line).stroke_number);
+        //            int v = Math.Max(T.NextLower(ptr.line).stroke_number, T.NextHigher(ptr.line).stroke_number);
+        //            for (int p = 0; p < second.Count; p++)
+        //            {
+        //                int x = Math.Min(line1, second[p]);
+        //                int y = Math.Max(line1, second[p]);
+        //                if (x == u && v == y)
+        //                {
+
+        //                    t_c++;
+        //                }
+        //            }
+        //            if (t_c >= second.Count)
+        //                return true;
+        //        }
+        //        T.Delete(ptr.line);
+        //    }
+        //}
         return false;
     }
 }
