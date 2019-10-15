@@ -42,13 +42,22 @@ public class Scence_Manager : MonoBehaviour
     public void SwitchTut(int index)
     {
         current += index;
+        //Debug.Log("current: " + current);
         EraseAll();
+
         if (current > 0)
+        {
+
             left.SetActive(true);
+        }
+
         else
             left.SetActive(false);
         if (current < ui_manager.courses.Count - 1)
+        {
             right.SetActive(true);
+        }
+
         else
             right.SetActive(false);
         if (!played_tut_list[current])

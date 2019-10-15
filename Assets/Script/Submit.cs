@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEditor;
 using System;
 using System.IO;
 using LitJson;
@@ -39,12 +40,15 @@ public class Submit : MonoBehaviour
     private string uriBase;
     private string extraPara;
 
+    public string user_name;
+    public string path;
     public string filepath;
     public string contentpath;
     public string scorepath;
     public List<string> analyzed;
     public UnityWebRequest send = null;
     public UnityWebRequest get = null;
+    private User_Info user;
 
     // Start is called before the first frame update
     private void Awake()
@@ -61,9 +65,13 @@ public class Submit : MonoBehaviour
         sceneMgmt = FindObjectOfType<Scence_Manager>();
         sceneLoad = FindObjectOfType<SceneLoader>();
 
-        filepath = "Assets/Standards/" + drawManager.getCharacter() + ".png";
+        user = FindObjectOfType<User_Info>();
+        user_name = user.Get_UserName();
+        path = "Assets/Local_DataBase/Students/" + user_name + "/" + drawManager.getCharacter();
+        filepath = path + ".png";
         contentpath = "Assets/Standards/" + drawManager.getCharacter() + ".content";
-        scorepath = "Assets/Standards/" + drawManager.getCharacter() + ".score";
+
+        scorepath = path + ".score";
         endpoint = "https://pensupocr.cognitiveservices.azure.com/";
         uriBase = "vision/v2.0/recognizeText";
         extraPara = "?mode=Handwritten";
@@ -137,7 +145,7 @@ public class Submit : MonoBehaviour
         {
             Debug.Log("Success");
             Debug.Log(get.downloadHandler.text);
-            File.WriteAllText("Assets/Standards/" + drawManager.getCharacter() + ".json", get.downloadHandler.text);
+            File.WriteAllText(path + ".json", get.downloadHandler.text);
             //JsonData result = JsonMapper.ToObject(send.downloadHandler.text);
             analyzed = Decom(get.downloadHandler.text);
             Debug.Log("Word Count: " + analyzed.Count);
@@ -151,7 +159,7 @@ public class Submit : MonoBehaviour
         if (File.Exists(scorepath))
         {
             File.Delete(scorepath);
-            Debug.Log("Deleted");
+            //Debug.Log("Deleted");
         }
         File.WriteAllText(scorepath, score.ToString());
         box.SetActive(false);
@@ -162,6 +170,7 @@ public class Submit : MonoBehaviour
 
     public IEnumerator Wait()
     {
+        AssetDatabase.Refresh();
         yield return new WaitForSeconds(3f);
     }
 
@@ -169,7 +178,7 @@ public class Submit : MonoBehaviour
     {
         List<string> back = new List<string>();
         JsonData jd = JsonMapper.ToObject(str);
-        Debug.Log(jd["recognitionResult"].Count);
+        //Debug.Log(jd["recognitionResult"].Count);
         int before = 3;
         int after = 2;
         int lineCount = jd["recognitionResult"]["lines"].Count - before - after;
@@ -180,13 +189,15 @@ public class Submit : MonoBehaviour
             for (int j = 0; j < wordCount; j++)
             {
                 back.Add(jd["recognitionResult"]["lines"][before + i]["words"][j]["text"].ToString());
+                Debug.Log("Result; " + jd["recognitionResult"]["lines"][before + i]["words"][j]["text"].ToString());
             }
             //back.Add(jd["recognitionResults"]["lines"][i]["text"].ToString());
         }
         //back.Add(jd["recognitionResults"]["lines"][lineCount - 1]["words"][jd["recognitionResults"]["lines"][lineCount - 1]["words"].Count - 1]["confidence"].ToString());
-        foreach ( string temp in back) {
+        foreach (string temp in back)
+        {
             Debug.Log(temp);
-         }
+        }
 
         return back;
     }
@@ -307,43 +318,5 @@ public class Submit : MonoBehaviour
         return score;
     }
 
-    //public IEnumerator Draw()
-    //{
-    //    sceneMgmt.EraseAll();
-    //    int count = 0;
-    //    foreach (List<Tuple<float, float>> eachStroke in coordinates)
-    //    {
-    //        clone = (GameObject)Instantiate(target, target.transform.position, Quaternion.identity);
-    //        lineRe = clone.GetComponent<LineRenderer>();
-    //        lineRe.alignment = LineAlignment.View;
-    //        lineRe.startColor = Color.red;
-    //        lineRe.endColor = Color.blue;
-    //        lineRe.startWidth = 0.2f;
-    //        lineRe.endWidth = 0.2f;
-    //        count = eachStroke.Count;
-    //        stroke = new List<Vector3>();
-    //        foreach (Tuple<float, float> point in eachStroke)
-    //        {
-    //            Vector3 pointCoordinate = new Vector3(point.Item1, point.Item2, -10f);
 
-    //            Vector3 pointCam = Camera.main.ScreenToWorldPoint(pointCoordinate);
-    //            pointCam.z = -5f;
-
-    //            stroke.Add(pointCam);
-    //        }
-    //        lineRe.positionCount = count;
-
-    //        currentPosition = new Vector3();
-
-    //        for (int i = 0; i < lineRe.positionCount; i++)
-    //        {
-    //            index = i;
-    //            currentPosition = stroke[i];
-    //            lineRe.SetPosition(i, currentPosition);
-
-
-    //        }
-    //    }
-    //    yield return new WaitForSeconds(3f);
-    //}
 }

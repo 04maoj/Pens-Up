@@ -10,10 +10,18 @@ public class Navigation : MonoBehaviour
     public int to;
     public void OnMouseDown()
     {
-        if(!is_Box)
+        if (!is_Box)
         {
             SceneLoader loader = FindObjectOfType<SceneLoader>();
             loader.LoadScence(next);
+            if (next == 22)
+            {
+                staticname.i_letter = "Assessment1";
+            }
+            if (next == 8)
+            {
+                staticname.i_letter = "A";
+            }
         }
         else
         {
