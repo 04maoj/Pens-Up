@@ -12,10 +12,15 @@ public class Student_performance : MonoBehaviour
     private BarChart chart;
     Dictionary<string, float> rank;
     public string t_n;
+    public bool maunul;
     private void Start()
     {
         chart = transform.GetComponent<BarChart>();
-        t_n = FindObjectOfType<User_Info>().user_name;
+        if (maunul)
+        {
+            t_n = staticname.i_name;
+        } else
+            t_n = FindObjectOfType<User_Info>().user_name;
         string path_1 = "Assets/Local_DataBase/Students/" + t_n + "/Total_score_list";
         rank = new Dictionary<string, float>();
         rank.Add("A-C", 0);

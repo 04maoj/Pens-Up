@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 public class Profile_Init : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -12,11 +13,21 @@ public class Profile_Init : MonoBehaviour
     public Sprite finshed;
     public Sprite not_finshed;
     private User_Info user;
+    public GameObject seeGoals;
     void Start()
     {
         user = FindObjectOfType<User_Info>();
         user_name.text = FindObjectOfType<User_Info>().Get_Name();
         teacher_name.text = FindObjectOfType<User_Info>().Get_Teacher();
+        string user_named = FindObjectOfType<User_Info>().user_name;
+        if(File.Exists("Assets/Local_DataBase/Students/" + user_named + "/goals.txt"))
+        {
+            seeGoals.SetActive(true);
+        }
+        else
+        {
+            seeGoals.SetActive(false);
+        }
     }
     public void Update_Status()
     {

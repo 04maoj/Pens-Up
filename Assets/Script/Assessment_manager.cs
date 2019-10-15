@@ -13,7 +13,6 @@ public class Assessment_manager : MonoBehaviour
     public TextMesh worst;
 
 
-
     private User_Info my_info;
     private char current_worst = '*';
     private int current_worst_score =1000000000;

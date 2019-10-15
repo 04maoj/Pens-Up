@@ -295,65 +295,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.1709332, y: 13.512579, z: 1}
   m_Center: {x: 0.27054957, y: 0.6375534, z: 0}
---- !u!1 &7847051854181213342
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5024439560703781666}
-  - component: {fileID: 3869591186456342738}
-  - component: {fileID: 591050211736128790}
-  m_Layer: 0
-  m_Name: Points (12)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5024439560703781666
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7847051854181213342}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.4, y: -16.4, z: 0}
-  m_LocalScale: {x: 5.525, y: 1.7375, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1693603048318766412}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3869591186456342738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7847051854181213342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1d751581c4834dce9327230187b044a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 8
-  stroke_number: 02000000
---- !u!65 &591050211736128790
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7847051854181213342}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.345933, y: 17.184893, z: 1}
-  m_Center: {x: 1.6729665, y: -4.346655, z: 0}
 --- !u!1 &8256089930756884016
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +452,6 @@ RectTransform:
   - {fileID: 627789114450578464}
   - {fileID: 5486949249948653176}
   - {fileID: 7110494377486769041}
-  - {fileID: 5024439560703781666}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -642,5 +582,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3.68598, y: 16.13558, z: 1}
-  m_Center: {x: 1.3429899, y: -3.821999, z: 0}
+  m_Size: {x: 7.349348, y: 16.13558, z: 1}
+  m_Center: {x: 3.1746747, y: -3.821999, z: 0}

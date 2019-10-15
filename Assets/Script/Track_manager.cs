@@ -95,6 +95,8 @@ public class Track_manager : MonoBehaviour
         {
             if (alphabate == null)
             {
+                Set_Error_Inactive();
+                Error_Write_On_Character.SetActive(true);
                 Destroy(current);
                 return;
             }
