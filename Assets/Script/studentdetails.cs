@@ -16,7 +16,7 @@ public class studentdetails : MonoBehaviour
     public GameObject Content;
     void Start()
     {
-      u_name = staticname.i_name;
+      u_name = "Minz";
       string teacher_path = "Assets/Local_DataBase/Students/" + u_name  + "/config.txt";
       //  Debug.Log(u_name+" " + teacher_path);
         complete_set = new HashSet<string>();
