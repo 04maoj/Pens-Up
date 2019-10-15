@@ -14,17 +14,18 @@ public class Lettercolor : MonoBehaviour
 
 
     string path = "Assets/Local_DataBase/Students/" + staticname.i_name + "/Total_score_list";
+    Debug.Log(path + staticname.i_name);
     complete_set = new HashSet<string>();
 		if (File.Exists(path)) {
       string[] lines = File.ReadAllLines(path);
 			int i=1;
 			foreach (string line in lines) {
           complete_set.Add(line);
-    			// Debug.Log(line);
+    			Debug.Log(line);
           string[] arr1 = line.Split(' ');
     			Debug.Log(arr1[1]);
-    			int score = int.Parse(arr1[1]);
-          Debug.Log(i.ToString());
+    			float score = float.Parse(arr1[1]);
+          Debug.Log(score);
           GameObject but = GameObject.Find(i.ToString());
           Button letter = but.GetComponent<Button>();
           if (score <=4) {
@@ -37,7 +38,7 @@ public class Lettercolor : MonoBehaviour
             letter.GetComponent<Image>().color = Color.green;
           }
           i++;
-          // Debug.Log(i);
+          Debug.Log(i+ "haha " + line );
       }
 
     }
