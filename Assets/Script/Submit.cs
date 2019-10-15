@@ -164,7 +164,7 @@ public class Submit : MonoBehaviour
         File.WriteAllText(scorepath, score.ToString());
         box.SetActive(false);
         // Back to student page
-        sceneLoad.LoadScence(7);
+        sceneLoad.LoadScence(24);
 
     }
 
