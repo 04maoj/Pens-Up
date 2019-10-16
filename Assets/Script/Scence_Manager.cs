@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 
@@ -14,7 +15,9 @@ public class Scence_Manager : MonoBehaviour
     public GameObject right;
     private bool[] played_tut_list;
     public GameObject finished_screen;
+    public GameObject icons;
     private int current = 0;
+    int[] alphbate_list;
     void Start()
     {
         if (finished_screen != null)
@@ -36,6 +39,18 @@ public class Scence_Manager : MonoBehaviour
             current_player.SetActive(true);
             my_players.myVideo = current_player.GetComponent<VideoPlayer>();
             my_players.PlayPause();
+        }
+        if(icons != null)
+        {
+            for(int i = 0; i < icons.transform.childCount;i ++)
+            {
+                icons.transform.GetChild(i).GetChild(1).GetComponent<Image>().color = Color.gray;
+            }
+        }
+        alphbate_list = new int[26];
+        for(int i = 0; i < 26; i ++)
+        {
+            alphbate_list[i] = 2;
 
         }
     }
@@ -72,9 +87,15 @@ public class Scence_Manager : MonoBehaviour
         }
         ui_manager.Get_Course(current);
     }
-    public void Decrement_total_Character()
+    public void Decrement_total_Character(string name)
     {
         total_character--;
+        int c = name.ToLower()[0] - 'a';
+        alphbate_list[c]--;
+        if(alphbate_list[c] <= 0)
+        {
+            icons.transform.GetChild(c).GetChild(1).GetComponent<Image>().color = Color.green;
+        }
         if (total_character <= 0)
         {
             Debug.Log("Lesson finish");

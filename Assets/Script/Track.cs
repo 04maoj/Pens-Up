@@ -105,7 +105,7 @@ public class Track : MonoBehaviour
                                 if (!possible)
                                 {
                                     manger.Not_Same();
-                                    //Destroy(gameObject);
+                                    Destroy(gameObject);
                                     to_be_delete.Clear();
                                 }
                                 else
