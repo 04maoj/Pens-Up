@@ -31,7 +31,6 @@ public class studentdetails : MonoBehaviour
         }
         Debug.Log(birthday);
         dob.text=birthday;
-
         string course_path = "Assets/Local_DataBase/Students/" + u_name  + "/Complted_course";
         Debug.Log(u_name+" " + course_path);
         complete_set2 = new HashSet<string>();

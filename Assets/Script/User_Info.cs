@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
+using UnityEngine.UI;
 public class User_Info : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -10,6 +10,7 @@ public class User_Info : MonoBehaviour
     public string named = "Bob the Builder";
     public string teacher = "Alice the creater";
     public string student = "Builder";
+    public string c_student;
     private HashSet<string> complete_set;
     private void Awake()
     {
@@ -124,5 +125,10 @@ public class User_Info : MonoBehaviour
             writer.WriteLine(course_title + " " + score);
         }
 
+    }
+    public void setStudent(Text obj )
+    {
+        Debug.Log(obj.text);
+        this.c_student = obj.text;
     }
 }

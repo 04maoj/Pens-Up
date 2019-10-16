@@ -8,9 +8,19 @@ public class LoadGoals : MonoBehaviour
     // Start is called before the first frame update
     public GameObject Content;
     public GameObject spawner;
+    public bool isTeacher;
     void Start()
     {
-        string user_name = FindObjectOfType<User_Info>().user_name;
+        string user_name;
+        if (isTeacher)
+        {
+            user_name = FindObjectOfType<User_Info>().c_student;
+            Debug.Log(user_name);
+        }
+        else
+        {
+            user_name = FindObjectOfType<User_Info>().user_name;
+        }
         string path_1 = "Assets/Local_DataBase/Students/" + user_name + "/goals.txt";
         StreamReader myReader = new StreamReader(path_1);
         while (!myReader.EndOfStream)
