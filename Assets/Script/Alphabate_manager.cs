@@ -48,7 +48,13 @@ public class Alphabate_manager : MonoBehaviour
             }
         }
         if (traverse_order.Count == 0)
+        {
+            for (int j = 0; j < get_back.Count; j++)
+            {
+                childrens.Add(get_back[j]);
+            }
             return 1;
+        }
         for (int i = strokes_and_hit_box[stroke_number].Count - 1; i > -1; i--)
         {
             if (traverse_order.Count == 0)
@@ -111,7 +117,7 @@ public class Alphabate_manager : MonoBehaviour
         if (childrens.Count == 0 && !finished)
         {
 
-            FindObjectOfType<Scence_Manager>().Decrement_total_Character();
+            FindObjectOfType<Scence_Manager>().Decrement_total_Character(strokeName);
             FindObjectOfType<Track_manager>().Finished_one();
             if (transform.parent.GetComponent<Word>() == null)
                 FindObjectOfType<AudioSource>().PlayOneShot(sound);
@@ -235,8 +241,55 @@ public class Alphabate_manager : MonoBehaviour
             connections_points[1] = new List<int> { 0 };
         } else if (strokeName == "F")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
-            strokes_and_hit_box[1] = new List<int> { 0, 1, 2, 3, 4 };
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
+            strokes_and_hit_box[1] = new List<int> { 0, 3 };
+            strokes_and_hit_box[2] = new List<int> { 0, 4};
+            connections_points[1] = new List<int> { 0 };
+            connections_points[2] = new List<int> { 0 };
+        } else if(strokeName == "D")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2};
+            strokes_and_hit_box[1] = new List<int> { 0, 3, 4,2 };
+            connections_points[1] = new List<int> { 0 };
+        } else if(strokeName == "d")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1 };
+            strokes_and_hit_box[1] = new List<int> {2,1};
+            connections_points[1] = new List<int> { 0 };
+        }
+        else if (strokeName == "E")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1 ,2 };
+            strokes_and_hit_box[1] = new List<int> { 0, 3 };
+            strokes_and_hit_box[2] = new List<int> { 1, 4 };
+            strokes_and_hit_box[3] = new List<int> { 2, 5 };
+            connections_points[1] = new List<int> { 0 };
+            connections_points[2] = new List<int> { 0 };
+            connections_points[3] = new List<int> { 0 };
+        } else if(strokeName == "f")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
+            strokes_and_hit_box[1] = new List<int> { 1 };
+            connections_points[1] = new List<int> { 0 };
+        }
+        else if (strokeName == "G")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2,3 };
+            strokes_and_hit_box[1] = new List<int> { 3};
+            connections_points[1] = new List<int> { 0 };
+        }
+        else if (strokeName == "H")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
+            strokes_and_hit_box[1] = new List<int> { 3,4,5 };
+            strokes_and_hit_box[2] = new List<int> {1, 6,4 };
+            connections_points[1] = new List<int> { 2 };
+            connections_points[2] = new List<int> { 0,1 };
+        }
+        else if (strokeName == "h")
+        {
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2};
+            strokes_and_hit_box[1] = new List<int> { 1,3,4,5 };
             connections_points[1] = new List<int> { 0 };
         }
 
