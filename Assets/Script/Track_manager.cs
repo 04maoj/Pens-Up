@@ -34,6 +34,7 @@ public class Track_manager : MonoBehaviour
         strokes = new List<List<Tuple<float, float>>>();
         //user = FindObjectOfType<User_Info>();
         userName = FindObjectOfType<User_Info>().Get_UserName();
+        stroke_to_record = staticname.i_letter;
     }
     void Update()
     {
@@ -167,8 +168,23 @@ public class Track_manager : MonoBehaviour
             sw.WriteLine((input[i].Item1) + " " + (input[i].Item2));
         }
         sw.Close();
-        Debug.Log("Done");
+        //Debug.Log("Done");
         //}
+    }
+
+    public void InsertPressure(List<float> pressure)
+    {
+        string path = "Assets/Local_DataBase/Students/" + userName + "/" + stroke_to_record + "_pressure";
+        StreamWriter sw = File.AppendText(path);
+
+        sw.WriteLine(pressure[0]);
+        for (int i = 1; i < pressure.Count; i++)
+        {
+            // Modified
+            //sw.WriteLine((input[i].Item1 - start_x) + " " + (input[i].Item2 - start_y));
+            sw.WriteLine(pressure[i]);
+        }
+        sw.Close();
     }
 
     public void Set_Error_Inactive()
@@ -208,5 +224,9 @@ public class Track_manager : MonoBehaviour
         Error_Finished.SetActive(true);
     }
 
+    public void SetLetter(string letter)
+    {
+        this.stroke_to_record = letter;
+    }
 
 }

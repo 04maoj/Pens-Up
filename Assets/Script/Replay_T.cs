@@ -12,7 +12,7 @@ public class Replay_T : MonoBehaviour
     [SerializeField] string character;
     private GameObject clone;
     private LineRenderer lineRe;
-    public float waitInterval = 0.1f;
+    public float waitInterval = 0.05f;
     public GameObject target;
     // private Track_manager trackmg;
     private List<List<Tuple<float, float>>> coordinates;
@@ -28,12 +28,14 @@ public class Replay_T : MonoBehaviour
     // Z-axis offset of the drawing space
     public float offSetZ = -1f;
     public float scale = 1;
+    string currentLetter;
 
     // Start is called before the first frame update
     void Start()
     {
         ca = Camera.main;
         Button btn = this.GetComponent<Button>();
+        currentLetter = staticname.i_letter;
         //user = FindObjectOfType<User_Info>();
         //userName = FindObjectOfType<User_Info>().Get_Name();
         drawManager = FindObjectOfType<DrawManager_T>();
@@ -48,9 +50,9 @@ public class Replay_T : MonoBehaviour
     {
         // Debug.Log("'Replay' Pressed.");
         // drawManager.setCharacter(character);
-        Debug.Log("Replay char: " + character);
-        drawManager.setCharacter(character);
-        coordinates = drawManager.GetStrokes(character);
+        Debug.Log("Replay char: " + currentLetter);
+        drawManager.setCharacter(currentLetter);
+        coordinates = drawManager.GetStrokes(currentLetter);
         // Debug.Log("Got Strokes");
         // drawManager.DrawBot(coordinates);
         StartCoroutine(WaitAndPaint());

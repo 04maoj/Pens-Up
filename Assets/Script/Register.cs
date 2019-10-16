@@ -42,7 +42,7 @@ public class Register : MonoBehaviour
                 int current_te = teacher_list.value;
                 string myteacher = teacher_list.options[current_te].text;
                 sw.WriteLine(myteacher);
-                string path_2 = "Assets/Local_DataBase/Teachers/" + myteacher + "/Student_List.txt";
+                string path_2 = "Assets/Local_DataBase/Teachers/" + myteacher + "/Student_List";
                 using (StreamWriter sw_2 = File.AppendText(path_2))
                 {
                     sw_2.WriteLine(user);

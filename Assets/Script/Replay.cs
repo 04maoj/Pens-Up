@@ -12,11 +12,14 @@ public class Replay : MonoBehaviour
     [SerializeField] string character;
     private GameObject clone;
     private LineRenderer lineRe;
-    public float waitInterval = 0.1f;
+    public float waitInterval = 0.05f;
     public GameObject target;
     // private Track_manager trackmg;
     private List<List<Tuple<float, float>>> coordinates;
     private List<Vector3> stroke;
+    private List<List<float>> pressures;
+    private User_Info user;
+
     //private User_Info user;
     //string userName;
     Vector3 currentPosition;
@@ -28,16 +31,18 @@ public class Replay : MonoBehaviour
     // Z-axis offset of the drawing space
     public float offSetZ = -1f;
     public float scale = 1;
+    public string path;
 
     // Start is called before the first frame update
     void Start()
     {
         ca = Camera.main;
         Button btn = this.GetComponent<Button>();
-        //user = FindObjectOfType<User_Info>();
+        user = FindObjectOfType<User_Info>();
         //userName = FindObjectOfType<User_Info>().Get_Name();
+        character = staticname.i_letter;
         drawManager = FindObjectOfType<DrawManager>();
-
+        path = "Assets/Local_DataBase/Students/" + user.Get_UserName() + "/" + staticname.i_letter + "_pressure";
         btn.onClick.AddListener(OnClick);
 
     }
@@ -47,9 +52,10 @@ public class Replay : MonoBehaviour
     {
         // Debug.Log("'Replay' Pressed.");
         // drawManager.setCharacter(character);
-        Debug.Log("Replay char: " + character);
-        drawManager.setCharacter(character);
-        coordinates = drawManager.GetStrokes(character);
+        Debug.Log("Replay char: " + drawManager.getCharacter());
+        //drawManager.setCharacter(character);
+        coordinates = drawManager.GetStrokes(drawManager.getCharacter());
+        pressures = GetPressure(path, coordinates);
         // Debug.Log("Got Strokes");
         // drawManager.DrawBot(coordinates);
         StartCoroutine(WaitAndPaint());
@@ -71,6 +77,8 @@ public class Replay : MonoBehaviour
         // lr.SetPosition(i, points);
 
         int count = 0;
+        int index = 0;
+        float offsetT = 0f;
         foreach (List<Tuple<float, float>> eachStroke in coordinates)
         {
             clone = (GameObject)Instantiate(target, target.transform.position, Quaternion.identity);
@@ -82,6 +90,15 @@ public class Replay : MonoBehaviour
             lineRe.startWidth = 0.2f;
             lineRe.endWidth = 0.2f;
             count = eachStroke.Count;
+
+            //AnimationCurve curve = new AnimationCurve();
+            //for(int i = 0; i < pressures[index].Count; i++)
+            //{
+            //    curve.AddKey(offsetT, pressures[index][i]);
+            //    offsetT += waitInterval;
+            //}
+            //lineRe.widthCurve = curve;
+
             // vectorList = new List<Vector3>();
             // List<Vector3> stroke = new List<Vector3>();
             stroke = new List<Vector3>();
@@ -120,6 +137,29 @@ public class Replay : MonoBehaviour
                 // StartCoroutine(WaitAndDraw(lineRe, i, stroke[i]));
 
             }
+            index++;
         }
+    }
+
+    public List<List<float>> GetPressure(string path, List<List<Tuple<float, float>>> coordinates)
+    {
+        string line = "";
+        Debug.Log("Pressure path: " + path);
+        //float pressure = 1;
+        List<List<float>> pList = new List<List<float>>();
+        List<float> pp = new List<float>();
+        StreamReader sr = new StreamReader(path);
+        line = sr.ReadLine();
+        for (int i = 0; i < coordinates.Count; i++)
+        {
+            for (int j = 0; j < coordinates[i].Count; j++)
+            {
+                pp.Add(float.Parse(line));
+                line = sr.ReadLine();
+            }
+            pList.Add(pp);
+            pp = new List<float>();
+        }
+        return pList;
     }
 }

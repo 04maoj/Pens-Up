@@ -159,7 +159,7 @@ public class Alphabate_manager : MonoBehaviour
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, };
             strokes_and_hit_box[1] = new List<int> { 0, 4, 5, 6 };
-            strokes_and_hit_box[2] = new List<int> { 2, 7, 8, 5 };
+            strokes_and_hit_box[2] = new List<int> { 2, 7,5 };
             connections_points[1] = new List<int> {0};
             connections_points[2] = new List<int> { 0,1 };
         }

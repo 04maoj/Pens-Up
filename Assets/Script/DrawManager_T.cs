@@ -19,11 +19,13 @@ public class DrawManager_T : MonoBehaviour
     private List<List<Tuple<float, float>>> list;
     //private User_Info user = FindObjectOfType<User_Info>();
     string userName;
+    string currentLetter;
 
     void Awake()
     {
         //userName = FindObjectOfType<User_Info>().Get_UserName();
         userName = staticname.i_name;
+        currentLetter = staticname.i_letter;
     }
 
 

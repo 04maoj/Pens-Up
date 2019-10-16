@@ -23,6 +23,7 @@ public class DrawManager : MonoBehaviour
     void Awake()
     {
         userName = FindObjectOfType<User_Info>().Get_UserName();
+        character = staticname.i_letter;
     }
 
 
@@ -83,7 +84,6 @@ public class DrawManager : MonoBehaviour
         return paints;
     }
 
-
     public void setCharacter(String chara)
     {
         this.character = chara;
@@ -93,4 +93,6 @@ public class DrawManager : MonoBehaviour
     {
         return this.character;
     }
+
+
 }
