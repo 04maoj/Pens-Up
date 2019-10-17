@@ -17,7 +17,8 @@ public class User_graph : MonoBehaviour
     {
         chart = transform.GetComponent<BarChart>();
         chart.SetSize(250, 200);
-        string path = "Assets/Local_DataBase/Teachers/" + t_n + "/Student_List.txt";
+        t_n = FindObjectOfType<User_Info>().user_name;
+        string path = "Assets/Local_DataBase/Teachers/" + t_n + "/Student_List";
         StreamReader myReader = new StreamReader(path);
         rank = new Dictionary<int, int>();
         while (!myReader.EndOfStream)

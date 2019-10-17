@@ -12,14 +12,14 @@ public class Alphabate_manager : MonoBehaviour
     [SerializeField] string strokeName;
     [SerializeField] int double_write_penalities = 3;
     public AudioClip sound;
-    List<int> childrens;
+    public List<int> childrens;
     private HashSet<int> visite_stroke;
     private Stack<int> traverse_order;
     private List<int>[] strokes_and_hit_box;
     private List<int>[] connections_points;
     private bool finished;
     int expected_stroke;
-    int current_stroke;
+    public int current_stroke;
     List<Line> lines;
     List<Line> lines_1;
     List<Point> points;
@@ -76,7 +76,7 @@ public class Alphabate_manager : MonoBehaviour
                 return 1;
             }
         }
-        if(current_stroke == 0)
+        if(current_stroke == 0 || strokeName == "t")
         {
             insertLines(input, current_stroke);
         }
@@ -116,7 +116,7 @@ public class Alphabate_manager : MonoBehaviour
         current_stroke++;
         if (childrens.Count == 0 && !finished)
         {
-
+            Debug.Log(childrens.Count);
             FindObjectOfType<Scence_Manager>().Decrement_total_Character(strokeName);
             FindObjectOfType<Track_manager>().Finished_one();
             if (transform.parent.GetComponent<Word>() == null)
@@ -163,9 +163,9 @@ public class Alphabate_manager : MonoBehaviour
         expected_stroke = 0;
         if (strokeName == "A")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, };
-            strokes_and_hit_box[1] = new List<int> { 0, 4, 5, 6 };
-            strokes_and_hit_box[2] = new List<int> { 2, 7,5 };
+            strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
+            strokes_and_hit_box[1] = new List<int> { 0, 3,4 };
+            strokes_and_hit_box[2] = new List<int> { 1,5,3 };
             connections_points[1] = new List<int> {0};
             connections_points[2] = new List<int> { 0,1 };
         }
@@ -200,9 +200,8 @@ public class Alphabate_manager : MonoBehaviour
             connections_points[1] = new List<int> { 0 };
         } else if (strokeName == "t")
         {
-            strokes_and_hit_box[0] = new List<int> { 0, 1, 2 };
-            strokes_and_hit_box[1] = new List<int> { 4, 1, 5, 6 };
-            connections_points[1] = new List<int> { 0 };
+            strokes_and_hit_box[0] = new List<int> { 0, 1 };
+            strokes_and_hit_box[1] = new List<int> { 2,3,4};
         } else if (strokeName == "p")
         {
             strokes_and_hit_box[0] = new List<int> { 0, 1, 2, 3, 4 };
@@ -305,7 +304,7 @@ public class Alphabate_manager : MonoBehaviour
         {
             //Debug.Log(input[i - 1].Item1 + "  " + input[i - 1].Item2);
             //Debug.Log(input[i].Item1 + "  " + input[i].Item2);
-            Line temp = new Line(new Point(input[i - 1].Item1, input[i - 1].Item2), new Point(input[i].Item1, input[i].Item2), 5, num);
+            Line temp = new Line(new Point(input[i - 1].Item1, input[i - 1].Item2), new Point(input[i].Item1, input[i].Item2), 1, num);
             lines.Add(temp);
             temp.Left.line = lines[lines.Count - 1];
             //temp.Left.isIntersect = false;
@@ -409,11 +408,11 @@ public class Alphabate_manager : MonoBehaviour
             {
                 if (l1 != l2)
                 {
-                    if (LineIntersection.FindIntersection(l1, l2, 5) != null)
+                    if (LineIntersection.FindIntersection(l1, l2, 2) != null)
                     {
                         int u = Math.Min(l1.stroke_number, l2.stroke_number);
                         int v = Math.Max(l1.stroke_number, l2.stroke_number);
-                        //Debug.Log(u + " " + v);
+                        Debug.Log(u + " " + v);
                         for (int p = 0; p < second.Count; p++)
                         {
                             int x = Math.Min(line1, second[p]);

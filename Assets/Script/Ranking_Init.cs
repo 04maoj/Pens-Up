@@ -15,7 +15,7 @@ public class Ranking_Init : MonoBehaviour
     {
         ranks = new List<Tuple<double, string>>();
         t_n = FindObjectOfType<User_Info>().Get_Teacher();
-        string path = "Assets/Local_DataBase/Teachers/" + t_n + "/Student_List.txt";
+        string path = "Assets/Local_DataBase/Teachers/" + t_n + "/Student_List";
         StreamReader myReader = new StreamReader(path);
         while(!myReader.EndOfStream) {
             string student = myReader.ReadLine();
