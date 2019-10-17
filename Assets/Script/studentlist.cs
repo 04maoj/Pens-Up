@@ -59,9 +59,9 @@ public class studentlist : MonoBehaviour
 
 								//calculate the score adn set color
 								string[] arr1 = line2.Split(' ');
-							 	// Debug.Log(arr1[1]);
+							 	Debug.Log(arr1[1]);
 								float score = float.Parse(arr1[1]);
-								// Debug.Log(score);
+								Debug.Log(score);
 								total = total +score;
 									}
 								total = total/4;
