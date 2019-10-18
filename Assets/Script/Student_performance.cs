@@ -23,7 +23,7 @@ public class Student_performance : MonoBehaviour
             t_n = FindObjectOfType<User_Info>().user_name;
         string path_1 = "Assets/Local_DataBase/Students/" + t_n + "/Total_score_list";
         rank = new Dictionary<string, float>();
-        rank.Add("A-C", 0);
+        rank.Add("A-H", 0);
         rank.Add("B-List", 0);
         rank.Add("C_List", 0);
         rank.Add("A-List", 0);
@@ -50,10 +50,10 @@ public class Student_performance : MonoBehaviour
         }
       
         chart.ClearData();
-        chart.AddXAxisData("A-C");
+        chart.AddXAxisData("A-H");
         chart.AddXAxisData("B-List");
         chart.AddXAxisData("C-List");
-        chart.AddXAxisData("A-List");
+        chart.AddXAxisData("A_List");
         foreach (var temp in rank)
         {
             chart.AddData(0, temp.Value, temp.Key);

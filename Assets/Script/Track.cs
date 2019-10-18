@@ -11,6 +11,7 @@ public class Track : MonoBehaviour
     private Track_manager manger;
     private List<Tuple<float, float>> corrdinates;
     private List<float> pressure;
+    private List<int> candidate;
     private float init_x;
     private float init_y;
     public HashSet<int> to_be_delete;
@@ -31,6 +32,7 @@ public class Track : MonoBehaviour
         eneded = false;
         corrdinates = new List<Tuple<float, float>>();
         pressure = new List<float>();
+        candidate = new List<int>();
         stroke_number = -1;
     }
     public int Get_Stroke_Number()
@@ -85,11 +87,44 @@ public class Track : MonoBehaviour
                             Tuple<List<int>, Tuple<Alphabate_manager, int>> val = test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
                             if (stroke_number == -1 && val.Item1.Count > 1)
                             {
+                                if (candidate.Count == 0)
+                                {
+                                    foreach (int temp in val.Item1)
+                                    {
+                                        candidate.Add(temp);
+
+                                    }
+                                }
+                                else
+                                {
+                                    for (int q = 0; q < candidate.Count; q++)
+                                    {
+                                        bool found = false;
+                                        foreach (int temp in val.Item1)
+                                        {
+                                            if (temp == candidate[q])
+                                            {
+                                                found = true;
+                                            }
+                                        }
+                                        if (found == false)
+                                        {
+                                            candidate.Remove(candidate[q]);
+                                        }
+                                    }
+                                }
                                 alphbate = val.Item2.Item1;
                                 to_be_delete.Add(val.Item2.Item2);
                             }
                             else if (stroke_number == -1)
                             {
+                                bool found = false;
+                                for (int q = 0; q < candidate.Count; q++)
+                                {
+                                    if (candidate[q] == val.Item1[0]) found = true;
+                                }
+                                if (!found)
+                                    Destroy(gameObject);
                                 stroke_number = val.Item1[0];
                                 alphbate = val.Item2.Item1;
                                 to_be_delete.Add(val.Item2.Item2);
