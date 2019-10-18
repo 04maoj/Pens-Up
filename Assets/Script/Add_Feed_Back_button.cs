@@ -12,8 +12,8 @@ public class Add_Feed_Back_button : MonoBehaviour
     public string user_name;
     public void Write_Comment()
     {
-        string path = "Assets/Local_DataBase/Students/" + user_name + "/feedback/" + title.text + ".txt";
         user_name = FindObjectOfType<User_Info>().c_student;
+        string path = "Assets/Local_DataBase/Students/" + user_name + "/feedback/" + title.text + ".txt";
         using (StreamWriter sw = File.AppendText(path))
         {
             sw.WriteLine(title.text);
