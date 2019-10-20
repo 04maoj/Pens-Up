@@ -12,6 +12,7 @@ public class Track : MonoBehaviour
     private List<Tuple<float, float>> corrdinates;
     private List<float> pressure;
     private List<int> candidate;
+    private List<int> detelet_me;
     private float init_x;
     private float init_y;
     public HashSet<int> to_be_delete;
@@ -33,6 +34,7 @@ public class Track : MonoBehaviour
         corrdinates = new List<Tuple<float, float>>();
         pressure = new List<float>();
         candidate = new List<int>();
+        detelet_me = new List<int>();
         stroke_number = -1;
     }
     public int Get_Stroke_Number()
@@ -65,7 +67,7 @@ public class Track : MonoBehaviour
                     diff_y *= diff_y;
                     if (Math.Sqrt(diff_x + diff_y) >= 1)
                     {
-                        corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x - init_x, Input.mousePosition.y - init_y));
+                        corrdinates.Add(new Tuple<float, float>(Input.mousePosition.x, Input.mousePosition.y));
                         pressure.Add(Input.GetTouch(0).pressure);
                     }
 
@@ -114,7 +116,11 @@ public class Track : MonoBehaviour
                                     }
                                 }
                                 alphbate = val.Item2.Item1;
-                                to_be_delete.Add(val.Item2.Item2);
+                                if (!to_be_delete.Contains(val.Item2.Item2))
+                                {
+                                    to_be_delete.Add(val.Item2.Item2);
+                                    detelet_me.Add(val.Item2.Item2);
+                                }
                             }
                             else if (stroke_number == -1)
                             {
@@ -127,7 +133,11 @@ public class Track : MonoBehaviour
                                     Destroy(gameObject);
                                 stroke_number = val.Item1[0];
                                 alphbate = val.Item2.Item1;
-                                to_be_delete.Add(val.Item2.Item2);
+                                if (!to_be_delete.Contains(val.Item2.Item2))
+                                {
+                                    to_be_delete.Add(val.Item2.Item2);
+                                    detelet_me.Add(val.Item2.Item2);
+                                }
                             }
                             else
                             {
@@ -145,7 +155,11 @@ public class Track : MonoBehaviour
                                 }
                                 else
                                 {
-                                    to_be_delete.Add(val.Item2.Item2);
+                                    if(!to_be_delete.Contains(val.Item2.Item2))
+                                    {
+                                        to_be_delete.Add(val.Item2.Item2);
+                                        detelet_me.Add(val.Item2.Item2);
+                                    }
                                 }
                             }
 
@@ -161,7 +175,7 @@ public class Track : MonoBehaviour
             else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 eneded = true;
-                manger.Insert_Strok(corrdinates, alphbate, to_be_delete, stroke_number);
+                manger.Insert_Strok(corrdinates, alphbate, detelet_me, stroke_number);
                 manger.InsertAll(corrdinates);
                 manger.InsertPressure(pressure);
             }

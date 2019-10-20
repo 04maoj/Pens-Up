@@ -98,11 +98,11 @@ namespace Advanced.Algorithms.Geometry
         {
             return new Line(Left.Clone(), Right.Clone());
         }
-        public int CompareTo(object obj)
-        {
-            if (obj == null) return 1;
-            Line otherptr = obj as Line;
-            return (int)(Math.Min(Left.Y, Right.Y)- Math.Min(otherptr.Left.Y, otherptr.Right.Y));
-        }
+        //public int CompareTo(object obj)
+        //{
+        //    if (obj == null) return 1;
+        //    Line otherptr = obj as Line;
+        //    return (int)(Math.Min(Left.Y, Right.Y)- Math.Min(otherptr.Left.Y, otherptr.Right.Y));
+        //}
     }
 }

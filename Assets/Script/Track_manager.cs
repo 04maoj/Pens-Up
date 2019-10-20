@@ -70,7 +70,7 @@ public class Track_manager : MonoBehaviour
             }
         }
     }
-    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate, HashSet<int> to_be_delete, int stroke_number)
+    public void Insert_Strok(List<Tuple<float, float>> input, Alphabate_manager alphabate, List<int> to_be_delete, int stroke_number)
     {
         if (record_mode)
         {

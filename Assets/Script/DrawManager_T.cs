@@ -40,47 +40,27 @@ public class DrawManager_T : MonoBehaviour
         List<Tuple<float, float>> paint = new List<Tuple<float, float>>();
         StreamReader sr = new StreamReader(path);
         line = sr.ReadLine();
-        //float preX = -1f;
-        //float preY = -1f;
-        float initX = float.Parse(line.Split(' ')[0]);
-        float initY = float.Parse(line.Split(' ')[1]);
-        float preX = float.Parse(line.Split(' ')[0]);
-        float preY = float.Parse(line.Split(' ')[1]);
-        float currentX = float.Parse(line.Split(' ')[0]);
-        float currentY = float.Parse(line.Split(' ')[1]);
-        paint.Add(new Tuple<float, float>(initX, initY));
+        float initX = 0, initY = 0, cx, cy, tempx, tempy;
         line = sr.ReadLine();
-        while (line != null)
-        {
-
+        while ((line = sr.ReadLine()) != null)
+        {   
             temp = line.Split(' ');
-            //currentX = float.Parse(temp[0]) + initX;
-            //currentY = float.Parse(temp[1]) + initY;
-            //Debug.Log("RX: " + float.Parse(temp[0]) + ",RY: " + float.Parse(temp[1]) + ". CX: " + currentX + ",CY: " + currentY);
-
-            // New stroke
-            if (Math.Abs(float.Parse(temp[0]) + initX - preX) > seperateValue || Math.Abs(float.Parse(temp[1]) + initY - preY) > seperateValue)
-            {
+            tempx = float.Parse(temp[0]);
+            tempy = float.Parse(temp[1]);
+            if(tempx >= 700 && tempy >= 700) {
                 paints.Add(paint);
                 paint = new List<Tuple<float, float>>();
-                initX = float.Parse(temp[0]);
-                initY = float.Parse(temp[1]);
-                coordinate = new Tuple<float, float>(initX, initY);
+                coordinate = new Tuple<float, float>(tempx, tempy);
+                paint.Add(coordinate);
+                initX = tempx;
+                initY = tempy;
+            } else {
+                cx = tempx + initX;
+                cy = tempy + initY;
+                coordinate = new Tuple<float, float>(cx, cy);
+                paint.Add(coordinate);
             }
-            else
-            {
-                currentX = float.Parse(temp[0]) + initX;
-                currentY = float.Parse(temp[1]) + initY;
-                coordinate = new Tuple<float, float>(currentX, currentY);
-            }
-            //coordinate = new Tuple<float, float>(currentX + initX, currentY + initY);
-            //Debug.Log("From: " + coordinate.Item1 + ", " + coordinate.Item2);
-            paint.Add(coordinate);
-            preX = currentX;
-            preY = currentY;
-            line = sr.ReadLine();
         }
-        paints.Add(paint);
         sr.Close();
         // Debug.Log("Stroke #: " + paints.Count);
         return paints;
