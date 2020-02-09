@@ -12,10 +12,13 @@ public class Track : MonoBehaviour
     private List<Tuple<float, float>> corrdinates;
     private List<float> pressure;
     private List<int> candidate;
-    private List<int> detelet_me;
+    private List<int> m_hitBoxDelete;
     private float init_x;
     private float init_y;
-    public HashSet<int> to_be_delete;
+    /// <summary>
+    /// Haset of the hit box index to be deleted
+    /// </summary>
+    public HashSet<int> m_CheckOccurence;
     Ray Generate_Ray(Vector3 touchPosit)
     {
         Vector3 mousePosFar = new Vector3(touchPosit.x, touchPosit.y, Camera.main.farClipPlane);
@@ -28,13 +31,13 @@ public class Track : MonoBehaviour
     private void Start()
     {
         manger = FindObjectOfType<Track_manager>();
-        to_be_delete = new HashSet<int>();
+        m_CheckOccurence = new HashSet<int>();
         objPlane = new Plane(Camera.main.transform.forward * -1, transform.position);
         eneded = false;
         corrdinates = new List<Tuple<float, float>>();
         pressure = new List<float>();
         candidate = new List<int>();
-        detelet_me = new List<int>();
+        m_hitBoxDelete = new List<int>();
         stroke_number = -1;
     }
     public int Get_Stroke_Number()
@@ -72,93 +75,74 @@ public class Track : MonoBehaviour
                     }
 
                 }
-                //manger.InsertAll(corrdinates);
-
                 Ray myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 float rayDistance;
                 if (objPlane.Raycast(myRay, out rayDistance))
                     transform.position = myRay.GetPoint(rayDistance);
                 RaycastHit test_hit;
                 Ray hit_ray = Generate_Ray(Input.mousePosition);
+                //Send a RayCast that sense whether it hits the background gameObject
                 if (Physics.Raycast(hit_ray.origin, hit_ray.direction, out test_hit))
                 {
                     if (test_hit.collider != null)
                     {
                         if (test_hit.collider.GetComponent<Hit_Box>() != null)
                         {
-                            Tuple<List<int>, Tuple<Alphabate_manager, int>> val = test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
-                            if (stroke_number == -1 && val.Item1.Count > 1)
+                            //If it hits the hitbox retreive the information of the hit box.
+                            Tuple<Alphabate_manager, int> val = test_hit.collider.GetComponent<Hit_Box>().F_GetsInfo();
+                            int hitBoxId = val.Item2;
+                            HashSet<int> possibleCandidate = val.Item1.F_GetsPossibleStrokWithHitBoxId(hitBoxId);
+
+                            //Try to determine to current stroke. By finding the intersections. 
+                            if (stroke_number == -1 && possibleCandidate.Count >= 1)
                             {
+                                //If there is no candidate, add all in. 
                                 if (candidate.Count == 0)
                                 {
-                                    foreach (int temp in val.Item1)
+                                    foreach (int temp in possibleCandidate)
                                     {
                                         candidate.Add(temp);
-
                                     }
                                 }
+                                // Peforming Intersection
                                 else
                                 {
                                     for (int q = 0; q < candidate.Count; q++)
                                     {
-                                        bool found = false;
-                                        foreach (int temp in val.Item1)
-                                        {
-                                            if (temp == candidate[q])
-                                            {
-                                                found = true;
-                                            }
-                                        }
-                                        if (found == false)
+                                        if (possibleCandidate.Contains(candidate[q]))
                                         {
                                             candidate.Remove(candidate[q]);
                                         }
                                     }
                                 }
-                                alphbate = val.Item2.Item1;
-                                if (!to_be_delete.Contains(val.Item2.Item2))
+                                //if after Intersection not possible solution, then the current one must wrote on two strokes. 
+                                if (candidate.Count == 0)
                                 {
-                                    to_be_delete.Add(val.Item2.Item2);
-                                    detelet_me.Add(val.Item2.Item2);
-                                }
-                            }
-                            else if (stroke_number == -1)
-                            {
-                                bool found = false;
-                                for (int q = 0; q < candidate.Count; q++)
-                                {
-                                    if (candidate[q] == val.Item1[0]) found = true;
-                                }
-                                if (!found)
+                                    manger.Not_Same();
                                     Destroy(gameObject);
-                                stroke_number = val.Item1[0];
-                                alphbate = val.Item2.Item1;
-                                if (!to_be_delete.Contains(val.Item2.Item2))
+                                    m_CheckOccurence.Clear();
+                                }
+                                alphbate = val.Item1;
+                                if (!m_CheckOccurence.Contains(val.Item2))
                                 {
-                                    to_be_delete.Add(val.Item2.Item2);
-                                    detelet_me.Add(val.Item2.Item2);
+                                    m_CheckOccurence.Add(val.Item2);
+                                    m_hitBoxDelete.Add(val.Item2);
                                 }
                             }
                             else
                             {
-                                bool possible = false;
-                                for (int i = 0; i < val.Item1.Count; i++)
-                                {
-                                    if (stroke_number == val.Item1[i])
-                                        possible = true;
-                                }
-                                if (!possible)
+                                if (possibleCandidate.Contains(stroke_number))
                                 {
                                     manger.Not_Same();
                                     Destroy(gameObject);
-                                    to_be_delete.Clear();
+                                    m_CheckOccurence.Clear();
                                 }
                                 else
                                 {
-                                    if(!to_be_delete.Contains(val.Item2.Item2))
+                                    if(!m_CheckOccurence.Contains(val.Item2))
                                     {
-                                        to_be_delete.Add(val.Item2.Item2);
-                                        detelet_me.Add(val.Item2.Item2);
+                                        m_CheckOccurence.Add(val.Item2);
+                                        m_hitBoxDelete.Add(val.Item2);
                                     }
                                 }
                             }
@@ -175,7 +159,7 @@ public class Track : MonoBehaviour
             else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 eneded = true;
-                manger.Insert_Strok(corrdinates, alphbate, detelet_me, stroke_number);
+                manger.Insert_Strok(corrdinates, alphbate, m_hitBoxDelete, stroke_number);
                 manger.InsertAll(corrdinates);
                 manger.InsertPressure(pressure);
             }

@@ -46,16 +46,16 @@ public class Track_manager : MonoBehaviour
             if (objPlane.Raycast(myRay, out rayDistance))
                 start = myRay.GetPoint(rayDistance);
             current = Instantiate(prefabs, start, Quaternion.identity);
-            RaycastHit test_hit;
-            myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(myRay, out test_hit))
-            {
-                if (test_hit.collider != null)
-                {
-                    if (test_hit.collider.GetComponent<Hit_Box>() != null)
-                        test_hit.collider.GetComponent<Hit_Box>().deleteItSelf();
-                }
-            }
+            //RaycastHit test_hit;
+            //myRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //if (Physics.Raycast(myRay, out test_hit))
+            //{
+            //    if (test_hit.collider != null)
+            //    {
+            //        if (test_hit.collider.GetComponent<Hit_Box>() != null)
+            //            test_hit.collider.GetComponent<Hit_Box>().F_GetsInfo();
+            //    }
+            //}
 
         }
         else if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
@@ -114,6 +114,14 @@ public class Track_manager : MonoBehaviour
                 Destroy(current);
                 return;
             }
+            if (!alphabate.Increment_Stroke(current.GetComponent<Track>().Get_Stroke_Number()))
+            {
+                Set_Error_Inactive();
+                Error_Incorrect_Stroke_Order.SetActive(true);
+                tester.Add_Incorrect_Stroke();
+                Destroy(current);
+                return;
+            }
             int status = alphabate.remove_Hit(to_be_delete, stroke_number, input);
             if (status == 1)
             {
@@ -128,14 +136,6 @@ public class Track_manager : MonoBehaviour
                 Set_Error_Inactive();
                 Error_Connections.SetActive(true);
                 tester.ConnectionIssues();
-                Destroy(current);
-                return;
-            }
-            if (!alphabate.Increment_Stroke(current.GetComponent<Track>().Get_Stroke_Number()))
-            {
-                Set_Error_Inactive();
-                Error_Incorrect_Stroke_Order.SetActive(true);
-                tester.Add_Incorrect_Stroke();
                 Destroy(current);
                 return;
             }

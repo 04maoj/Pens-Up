@@ -12,7 +12,7 @@ public class Replay_T : MonoBehaviour
     [SerializeField] string character;
     private GameObject clone;
     private LineRenderer lineRe;
-    public float waitInterval = 0.05f;
+    public float waitInterval = 0.01f;
     public GameObject target;
     // private Track_manager trackmg;
     private List<List<Tuple<float, float>>> coordinates;

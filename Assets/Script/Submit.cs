@@ -252,16 +252,16 @@ public class Submit : MonoBehaviour
         string anaSub = "";
         string contentSub = "";
         float part = 100 / anaString.Length * 100;
-        for (int i = 0; i < anaString.Length; i++)
-        {
-            anaSub = anaString.Substring(i, 1);
-            contentSub = contentString.Substring(i, 1);
-            if (anaSub.Equals(contentSub) == false)
-            {
-                score -= part;
-            }
-            //Debug.Log(score);
-        }
+        //for (int i = 0; i < anaString.Length; i++)
+        //{
+        //    anaSub = anaString.Substring(i, 1);
+        //    contentSub = contentString.Substring(i, 1);
+        //    if (anaSub.Equals(contentSub) == false)
+        //    {
+        //        score -= part;
+        //    }
+        //    //Debug.Log(score);
+        //}
         score = Math.Max(0, score);
         //Debug.Log("anaString: " + anaString);
         //Debug.Log("contentString: " + contentString);

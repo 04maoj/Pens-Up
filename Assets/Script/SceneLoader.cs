@@ -6,10 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
+    #region Singleton Value
+    static SceneLoader _scenceLoader;
+    #endregion
+
+    #region private values
+    private int m_currentScence;
+    #endregion
+    public static SceneLoader GetInstance()
+    {
+        if (_scenceLoader == null)
+            _scenceLoader = new SceneLoader();
+            return _scenceLoader;
+    }
+
     public void LoadScence(int index)
     {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(index);
+        m_currentScence = index;
+        SceneManager.LoadScene(m_currentScence);
     }
+
 }

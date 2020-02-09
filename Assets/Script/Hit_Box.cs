@@ -6,12 +6,15 @@ public class Hit_Box : MonoBehaviour
 {
     [SerializeField] public int index;
     [SerializeField] public List<int> stroke_number = new List<int>();
-    //Return the stroke that this hit box belongs and a tuple of the hit box index and it's parent.
-    public Tuple<List<int>, Tuple<Alphabate_manager, int>> deleteItSelf()
+    /// <summary>
+    /// Return the stroke that this hit box belongs and a tuple of the hit box index and it's parent.
+    /// </summary>
+    /// <returns></returns>
+    public Tuple<Alphabate_manager, int> F_GetsInfo()
     {
         string character = gameObject.GetComponentInParent<Alphabate_manager>().Get_Strok_Name();
         Tuple<Alphabate_manager, int> temp = new Tuple<Alphabate_manager, int>(gameObject.GetComponentInParent<Alphabate_manager>(), index);
-        return new Tuple<List<int>, Tuple<Alphabate_manager, int> >(stroke_number, temp);
+        return temp;
     }
 
 }
